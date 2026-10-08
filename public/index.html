@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Incendies de l'Oregon</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="app-header">
+        <h1>Incendies de l'Oregon</h1>
+        <p>Carte annuelle des incendies et des casernes.</p>
+      </header>
+
+      <section class="controls" aria-label="Filtres de la carte">
+        <label for="year-select">Année</label>
+        <select id="year-select">
+          <option>Chargement des données…</option>
+        </select>
+      </section>
+
+      <section class="visualisation" aria-label="Carte interactive">
+        <svg id="map" role="img" aria-label="Carte des incendies de l'Oregon"></svg>
+        <p id="status" class="status" aria-live="polite">Chargement de la carte…</p>
+      </section>
+
+      <aside id="tooltip" class="tooltip" aria-live="polite" hidden></aside>
+    </main>
+
+    <script src="/lib/d3.min.js"></script>
+    <script src="js/fireData.js"></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>

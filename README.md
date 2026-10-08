@@ -22,6 +22,9 @@ public/
   js/fireData.js              première transformation des données, commune à toutes les visualisations
 ```
 
+Le plan de réalisation et les conventions de données sont documentés dans
+[`docs/guide-technique.md`](docs/guide-technique.md).
+
 ## Première transformation (`js/fireData.js`)
 
 `loadFires(url)` charge un fichier csv et renvoie un tableau de feux. Sans paramètre, le dataset par défaut est chargé

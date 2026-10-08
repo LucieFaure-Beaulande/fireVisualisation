@@ -1,0 +1,22 @@
+:root {
+  font-family: Arial, sans-serif;
+  color: #1f2933;
+  background: #f6f8fa;
+}
+
+body { margin: 0; }
+
+.app-shell { max-width: 1200px; margin: 0 auto; padding: 24px; }
+.app-header h1 { margin: 0; }
+.app-header p { margin-top: 8px; color: #52606d; }
+.controls { display: flex; gap: 12px; align-items: center; margin: 20px 0; }
+.visualisation { position: relative; background: #fff; border: 1px solid #d9e2ec; }
+#map { display: block; width: 100%; min-height: 640px; }
+.status { padding: 16px; color: #52606d; }
+.tooltip { position: fixed; padding: 10px; background: #102a43; color: #fff; border-radius: 4px; pointer-events: none; }
+.district { fill: #e7eef4; stroke: #7b8794; stroke-width: 0.8px; }
+.fire { fill-opacity: 0.78; stroke: #7c2d12; stroke-width: 0.45px; }
+.fire:hover { stroke: #102a43; stroke-width: 1.5px; }
+.legend-layer { font-size: 12px; fill: #243b53; pointer-events: none; }
+.legend-title { font-weight: 700; }
+.size-key { fill: none; stroke: #486581; stroke-width: 1px; }

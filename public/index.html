@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Fire visualisation</title>
+</head>
+<body>
+    <h1>Fire visualisation</h1>
+    <p id="status">Loading data...</p>
+
+    <!-- order matters: d3 first, then fireData.js, then fireStats.js -->
+    <script src="/lib/d3.min.js"></script>
+    <script src="/js/fireData.js"></script>
+    <script src="/js/fireStats.js"></script>
+
+    <script>
+        loadFireStats().then(({ fires, yearlyStats, causePerYear, causePerYearWide }) => {
+            // check the results in the browser console (F12)
+            console.table(yearlyStats)
+            console.table(causePerYear)
+            console.log('wide format', causePerYearWide)
+
+            document.getElementById('status').textContent =
+                `${fires.length} fires loaded, ${yearlyStats.length} years (see the console)`
+        })
+    </script>
+</body>
+</html>

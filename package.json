@@ -1,0 +1,14 @@
+{
+  "name": "fire-visualisation",
+  "version": "1.0.0",
+  "description": "Visualisation of the fire occurrence and cause data (2000 - 2022) in Oregon with D3.js",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "d3": "^7.9.0",
+    "express": "^4.17.1"
+  }
+}

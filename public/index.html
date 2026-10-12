@@ -10,14 +10,12 @@
     <main class="app-shell">
       <header class="app-header">
         <h1>Incendies de l'Oregon</h1>
-        <p>Carte annuelle des incendies et des casernes.</p>
+        <p>Carte annuelle des incendies et des casernes. Déplacer la souris sur la carte pour explorer une zone dense.</p>
       </header>
 
       <section class="controls" aria-label="Filtres de la carte">
-        <label for="year-select">Année</label>
-        <select id="year-select">
-          <option>Chargement des données…</option>
-        </select>
+        <p id="year-instruction">Choisir une année : cliquer ou faire glisser le curseur. Utiliser les flèches gauche et droite au clavier.</p>
+        <svg id="year-ruler" role="slider" tabindex="0" aria-label="Choisir l'année" aria-describedby="year-instruction"></svg>
       </section>
 
       <section class="visualisation" aria-label="Carte interactive">

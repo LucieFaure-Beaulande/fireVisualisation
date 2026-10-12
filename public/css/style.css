@@ -9,14 +9,25 @@ body { margin: 0; }
 .app-shell { max-width: 1200px; margin: 0 auto; padding: 24px; }
 .app-header h1 { margin: 0; }
 .app-header p { margin-top: 8px; color: #52606d; }
-.controls { display: flex; gap: 12px; align-items: center; margin: 20px 0; }
+.controls { margin: 20px 0; }
+.controls p { margin: 0 0 8px; color: #52606d; }
+#year-ruler { display: block; width: 100%; height: 82px; overflow: visible; }
+#year-ruler:focus { outline: 2px solid #1769aa; outline-offset: 4px; }
+#year-ruler .domain, #year-ruler .tick line { stroke: #7b8794; }
+#year-ruler .tick text { fill: #334e68; font-size: 12px; }
 .visualisation { position: relative; background: #fff; border: 1px solid #d9e2ec; }
-#map { display: block; width: 100%; min-height: 640px; }
+#map { display: block; width: 100%; min-height: 640px; cursor: crosshair; }
 .status { padding: 16px; color: #52606d; }
 .tooltip { position: fixed; padding: 10px; background: #102a43; color: #fff; border-radius: 4px; pointer-events: none; }
 .district { fill: #e7eef4; stroke: #7b8794; stroke-width: 0.8px; }
 .fire { fill-opacity: 0.78; stroke: #7c2d12; stroke-width: 0.45px; }
 .fire:hover { stroke: #102a43; stroke-width: 1.5px; }
+.fire-link { fill: none; stroke: #52606d; stroke-width: 0.8px; stroke-opacity: 0.32; }
+.fire-link:hover { stroke: #102a43; stroke-width: 2px; stroke-opacity: 0.9; }
+.station { fill: #1769aa; stroke: #ffffff; stroke-width: 1.2px; }
+.station:hover { fill: #0d3c61; stroke: #102a43; stroke-width: 2px; }
+.fisheye-detail { fill: #102a43; font-size: 12px; font-weight: 700; paint-order: stroke; stroke: #ffffff; stroke-width: 4px; stroke-linejoin: round; pointer-events: none; }
 .legend-layer { font-size: 12px; fill: #243b53; pointer-events: none; }
 .legend-title { font-weight: 700; }
+.legend-subtitle { fill: #52606d; }
 .size-key { fill: none; stroke: #486581; stroke-width: 1px; }

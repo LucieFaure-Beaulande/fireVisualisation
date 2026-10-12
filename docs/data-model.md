@@ -1,15 +1,44 @@
 # Modèle de données de visualisation
 
-## `fires.json`
+## `fires-bubble-map.csv`
 
-Un tableau contenant au minimum : `id`, `year`, `name`, `latitude`, `longitude`,
-`acres`, `sizeClass`, `discoverDateTime`, `controlDateTime` et
-`estimatedControlHours`.
+Le CSV allégé de la première étape conserve : `Serial`, `FireYear`, `FireName`,
+`UnitName`, `DistrictName`, `County`, `Lat_DD`, `Long_DD`, `EstTotalAcres`,
+`Size_class`, `Discover_DateTime` et `Control_DateTime`.
 
-## `stations.json`
+Les deux dates restent sous leur forme source. Une étape ultérieure pourra
+calculer la durée uniquement quand elles sont valides et que `Control_DateTime`
+est postérieure à `Discover_DateTime`.
 
-Un tableau de casernes opérationnelles : `id`, `agency`, `station`, `type`,
-`county`, `latitude` et `longitude`.
+## `fire-stations.csv`
+
+Le CSV des casernes opérationnelles contient `StationId`, `Agency`, `Station`,
+`FacilityType`, `County`, `Longitude` et `Latitude`. Il est séparé des incendies
+pour éviter de dupliquer une caserne sur chaque feu.
+
+## `unit-station-candidates.csv`
+
+Cette table contient les candidats de correspondance entre une `UnitName` et une
+caserne. `CountyMatchesUnit` constitue un contrôle géographique simple.
+Une ligne est `Validée` si le nom correspond et si son comté apparaît dans les
+feux de cette unité. Une ligne est `Rejetée` si le comté ne correspond pas.
+
+## `unit-station-mapping.csv`
+
+Cette table ne contient que les correspondances validées. La carte l'utilise
+pour filtrer les casernes affichées. Cette validation désigne une pertinence
+territoriale, non une intervention historique attestée.
+
+## `fire-station-links.csv`
+
+Cette table contient une liaison par feu lorsqu'une caserne validée existe pour
+sa `UnitName`. Elle garde les coordonnées du feu et de la caserne, la distance
+à vol d'oiseau (`DistanceKm`) et la méthode de sélection. La caserne retenue
+est la plus proche parmi les casernes validées de la même unité. La liaison est
+une estimation de proximité, non une preuve d'intervention ou un itinéraire.
+`Discover_DateTime` et `Control_DateTime` sont conservés ;
+`ControlDurationMinutes` et `ControlDurationHours` mesurent leur écart lorsque
+les deux dates sont valides et chronologiques.
 
 ## `districts.geojson`
 

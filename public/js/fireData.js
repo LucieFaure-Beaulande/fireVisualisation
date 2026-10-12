@@ -2,7 +2,7 @@
 // raw data (csv file, where all values are strings) → data table (array of fire objects)
 
 // the dataset loaded by default, it can be replaced by any csv file with the same columns
-let defaultDataset = '/data/fire-occurence.csv'
+let defaultDataset = '/data/fires-bubble-map.csv'
 
 // the format of the dates in the csv file, e.g. "07/19/2000 01:15:00 PM"
 let parseDateTime = d3.timeParse('%m/%d/%Y %I:%M:%S %p')

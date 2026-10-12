@@ -7,22 +7,9 @@
 <body>
     <h1>Fire visualisation</h1>
     <p id="status">Loading data...</p>
+    <a href="visu5/index.html">Visu5 - Bullet Graph</a>
 
     <!-- order matters: d3 first, then fireData.js, then fireStats.js -->
     <script src="/lib/d3.min.js"></script>
-    <script src="/js/fireData.js"></script>
-    <script src="/js/fireBulletGraph.js"></script>
-
-    <script>
-        loadFireStats().then(({ fires, yearlyStats, causePerYear, causePerYearWide }) => {
-            // check the results in the browser console (F12)
-            console.table(yearlyStats)
-            console.table(causePerYear)
-            console.log('wide format', causePerYearWide)
-
-            document.getElementById('status').textContent =
-                `${fires.length} fires loaded, ${yearlyStats.length} years (see the console)`
-        })
-    </script>
 </body>
 </html>

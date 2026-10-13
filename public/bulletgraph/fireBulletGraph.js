@@ -1,5 +1,5 @@
 // Bullet graph: one year of fires compared to all the other years
-// requires d3 and fireDataBulletGraph.js (loadFireStats) to be loaded first
+// requires d3, theme.js and fireDataBulletGraph.js (loadFireStats) to be loaded first
 //
 // 2 rows: number of fires | burned acres
 // - black bar       : value of the selected year
@@ -18,7 +18,7 @@ const bulletDefaults = {
     margin: { top: 30, right: 270, bottom: 20, left: 150 },   // right margin holds the legend
     rowHeight: 60,
     rowGap: 60,
-    barColor: '#111'           // fill of the bars when the causes are not displayed
+    barColor: theme.text       // fill of the bars when the causes are not displayed (see theme.js)
 }
 
 // one row per metric: key in the yearly stats, label, value format, axis format
@@ -31,13 +31,13 @@ const bulletMetrics = [
 // quartile bands (grey background): colors, short labels and explanations
 // used both by the chart (bands + tooltips) and by the legend
 const bulletQuartiles = [
-    { short: '0–Q1', name: 'Lowest quarter', color: '#c4c4c4',
+    { short: '0–Q1', name: 'Lowest quarter', color: '#c9cddb',
       text: 'The 25 % of years with the smallest values fall in this band.' },
-    { short: 'Q1–Q2', name: 'Lower-middle quarter', color: '#d6d6d6',
+    { short: 'Q1–Q2', name: 'Lower-middle quarter', color: theme.neutralLight,
       text: 'Years between Q1 (25 % of the years are below) and the median Q2.' },
-    { short: 'Q2–Q3', name: 'Upper-middle quarter', color: '#e6e6e6',
+    { short: 'Q2–Q3', name: 'Upper-middle quarter', color: '#e6e8f0',
       text: 'Years between the median Q2 and Q3 (75 % of the years are below).' },
-    { short: 'Q3–max', name: 'Highest quarter', color: '#f3f3f3',
+    { short: 'Q3–max', name: 'Highest quarter', color: '#f1f3f9',
       text: 'The 25 % of years with the largest values fall in this band, up to the maximum.' }
 ]
 
@@ -86,7 +86,7 @@ function createFireBulletGraph(containerSelector, data, userOptions = {}) {
     const causes = data.causePerYearWide
         ? data.causePerYearWide.causes
         : Array.from(new Set(data.fires.map(fire => fire.cause)))
-    const color = d3.scaleOrdinal(d3.schemeTableau10).domain(causes)
+    const color = categoricalScale(causes)   // theme palette, neutral beyond 8 causes
     const causeName = cause => cause ?? 'Unknown'
 
     // statistics of all years, computed once per metric
@@ -121,8 +121,8 @@ function createFireBulletGraph(containerSelector, data, userOptions = {}) {
     const svg = container.append('svg')
         .attr('viewBox', `0 0 ${width} ${totalHeight}`)
         .attr('width', '100%')
-        .style('font-family', 'sans-serif')
         .style('font-size', '12px')
+        .style('fill', 'var(--text)')   // font-family is inherited from theme.css
 
     // hatch pattern (diagonal white lines) used for the largest fire
     const hatchId = 'hatch-' + Math.random().toString(36).slice(2, 8)
@@ -185,7 +185,7 @@ function createFireBulletGraph(containerSelector, data, userOptions = {}) {
                 : 'Black marker: the middle value of all years (half of the years are below, half above).\nUnlike the mean, extreme years barely move it.')
         markerEntry.append('line')
             .attr('x1', 7).attr('x2', 7).attr('y1', 0).attr('y2', 14)
-            .attr('stroke', 'black')
+            .attr('stroke', theme.text)
             .attr('stroke-width', 3)
 
         // quartiles: a small strip with the 4 grey bands, same colors as the chart background
@@ -203,7 +203,7 @@ function createFireBulletGraph(containerSelector, data, userOptions = {}) {
         band.append('rect')
             .attr('width', 35).attr('height', 14)
             .attr('fill', d => d.color)
-            .attr('stroke', '#bbb')
+            .attr('stroke', theme.neutral)
             .attr('stroke-width', 0.5)
         band.append('text')
             .attr('x', 17.5).attr('y', 28)
@@ -214,7 +214,7 @@ function createFireBulletGraph(containerSelector, data, userOptions = {}) {
 
         quartilesG.append('text')
             .attr('y', 62)
-            .attr('fill', '#555')
+            .style('fill', 'var(--text-secondary)')
             .style('font-size', '10px')
             .text('Each band ≈ 25 % of the years')
 
@@ -246,6 +246,7 @@ function createFireBulletGraph(containerSelector, data, userOptions = {}) {
         const labelStep = Math.ceil(years.length / Math.max(1, Math.floor(innerWidth / 36)))
 
         ruler.append('g')
+            .attr('class', 'axis')
             .call(d3.axisBottom(yearScale)
                 .tickValues(years)
                 .tickSizeOuter(0)
@@ -273,8 +274,8 @@ function createFireBulletGraph(containerSelector, data, userOptions = {}) {
         let handleG = ruler.append('g').style('pointer-events', 'none')
         handleG.append('circle')
             .attr('r', 8)
-            .attr('fill', '#222')
-            .attr('stroke', 'white')
+            .attr('fill', theme.text)
+            .attr('stroke', theme.surface)
             .attr('stroke-width', 2)
         handleG.append('text')
             .attr('y', -16)
@@ -376,6 +377,8 @@ function createFireBulletGraph(containerSelector, data, userOptions = {}) {
                 .attr('width', d => x(d.value))
                 .attr('height', barHeight)
                 .attr('fill', d => color(d.cause))
+                .attr('stroke', theme.surface)
+                .attr('stroke-width', 1)
                 .append('title')
                 .text(d => `${causeName(d.cause)}: ${row.format(d.value)} (${d3.format('.1%')(d.value / total)})`)
 
@@ -437,7 +440,7 @@ function createFireBulletGraph(containerSelector, data, userOptions = {}) {
                 .attr('x1', x(row.reference)).attr('x2', x(row.reference))
                 .attr('y1', (rowHeight - markerHeight) / 2)
                 .attr('y2', (rowHeight + markerHeight) / 2)
-                .attr('stroke', 'black')
+                .attr('stroke', theme.text)
                 .attr('stroke-width', 3)
             markerG.append('text')
                 .attr('x', x(row.reference))
@@ -449,6 +452,7 @@ function createFireBulletGraph(containerSelector, data, userOptions = {}) {
 
             // axis + row label
             rowG.append('g')
+                .attr('class', 'axis')
                 .attr('transform', `translate(0,${rowHeight})`)
                 .call(d3.axisBottom(x).ticks(6).tickFormat(row.axisFormat))
             rowG.append('text')

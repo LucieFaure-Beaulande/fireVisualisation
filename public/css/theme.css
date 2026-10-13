@@ -1,0 +1,348 @@
+/* Common theme of the project: colors, font and components shared by all the visualizations
+   Import it in a page with <link rel="stylesheet" type="text/css" href="/css/theme.css"> */
+
+/* the font, with the system font as fallback when there is no internet connection */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+    /* font */
+    --font: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+    /* surfaces */
+    --page: #f6f7fb; /* the background of the page */
+    --surface: #ffffff; /* the background of the cards and of the charts */
+    --surface-hover: #f1f3f9;
+    --border: #e6e8f0;
+
+    /* text */
+    --text: #1f2333;
+    --text-secondary: #5b6178;
+    --text-muted: #9197ab;
+
+    /* accent, for the links and the selected elements */
+    --accent: #6c7ee8;
+    --accent-soft: #e9ecfd;
+
+    /* categorical colors, to use in this order (the order keeps neighbours distinguishable) */
+    --color-1: #6c9ce8; /* blue */
+    --color-2: #f2896b; /* coral */
+    --color-3: #3fbf9f; /* mint */
+    --color-4: #dfa93a; /* amber */
+    --color-5: #e58cb8; /* pink */
+    --color-6: #6fb85a; /* green */
+    --color-7: #9b85e6; /* violet */
+    --color-8: #e0636f; /* red */
+
+    /* neutral colors, for "other", "unknown" and the elements that are not the subject */
+    --neutral: #a9afc0;
+    --neutral-light: #d9dce6;
+
+    /* shapes */
+    --radius: 14px;
+    --radius-small: 8px;
+    --shadow: 0 1px 2px rgba(31, 35, 51, 0.04), 0 4px 16px rgba(31, 35, 51, 0.06);
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: var(--font);
+}
+
+body {
+    padding: 24px 28px;
+    background: var(--page);
+    color: var(--text);
+    font-size: 14px;
+    -webkit-font-smoothing: antialiased;
+}
+
+h1 {
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 4px;
+}
+
+h2 {
+    font-size: 14px;
+    font-weight: 600;
+    margin: 20px 0 8px;
+}
+
+p.subtitle {
+    color: var(--text-secondary);
+    margin-bottom: 16px;
+}
+
+a {
+    color: var(--accent);
+}
+
+/* ---------- card: a white block with rounded corners ---------- */
+
+.card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 16px;
+}
+
+/* ---------- toolbar: the filters, in one row above the chart ---------- */
+
+.toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
+    align-items: center;
+    padding: 10px 14px;
+}
+
+.toolbar label,
+.toolbar .group {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-secondary);
+}
+
+.toolbar .right {
+    margin-left: auto;
+}
+
+select,
+button,
+input[type="number"],
+input[type="text"] {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-small);
+    padding: 6px 10px;
+}
+
+select:hover,
+button:hover {
+    background: var(--surface-hover);
+}
+
+select:focus,
+button:focus-visible,
+input:focus-visible {
+    outline: 2px solid var(--accent-soft);
+    border-color: var(--accent);
+}
+
+button {
+    cursor: pointer;
+}
+
+button.primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #ffffff;
+}
+
+input[type="file"] {
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+
+input[type="file"]::file-selector-button {
+    font-family: var(--font);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-small);
+    padding: 6px 10px;
+    margin-right: 8px;
+    cursor: pointer;
+}
+
+/* segmented control: a group of radio buttons displayed as one button with several choices
+   <span class="segmented"><label><input type="radio" name="x" checked><span>A</span></label>...</span> */
+.segmented {
+    display: inline-flex;
+    padding: 3px;
+    gap: 2px;
+    background: var(--surface-hover);
+    border-radius: var(--radius-small);
+}
+
+.segmented input {
+    position: absolute;
+    opacity: 0;
+}
+
+.segmented label span {
+    display: block;
+    padding: 4px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    cursor: pointer;
+}
+
+.segmented input:checked + span {
+    background: var(--surface);
+    color: var(--text);
+    box-shadow: 0 1px 2px rgba(31, 35, 51, 0.12);
+}
+
+.segmented input:focus-visible + span {
+    outline: 2px solid var(--accent);
+}
+
+/* ---------- stats: a row of key figures ---------- */
+
+.stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.stat {
+    flex: 1;
+    min-width: 110px;
+    padding: 10px 12px;
+    background: var(--page);
+    border-radius: var(--radius-small);
+}
+
+.stat .label {
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.stat .value {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}
+
+/* ---------- table ---------- */
+
+table {
+    border-collapse: collapse;
+    font-size: 13px;
+    width: 100%;
+}
+
+th,
+td {
+    padding: 6px 8px;
+    border-bottom: 1px solid var(--border);
+    text-align: left;
+}
+
+th {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-muted);
+}
+
+td.number,
+th.number {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+}
+
+table.clickable tbody tr {
+    cursor: pointer;
+}
+
+table.clickable tbody tr:hover td {
+    background: var(--surface-hover);
+}
+
+/* a small square of color, for the legends */
+.swatch {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 3px;
+    margin-right: 8px;
+}
+
+/* ---------- breadcrumb: the path to the selected element ---------- */
+
+.breadcrumb {
+    font-size: 13px;
+    min-height: 20px;
+}
+
+.breadcrumb .step {
+    cursor: pointer;
+    color: var(--accent);
+}
+
+.breadcrumb .step:hover {
+    text-decoration: underline;
+}
+
+.breadcrumb .current {
+    font-weight: 600;
+}
+
+.breadcrumb .separator {
+    color: var(--text-muted);
+    margin: 0 6px;
+}
+
+/* ---------- tooltip, as in the course ---------- */
+
+.tooltip {
+    position: absolute;
+    z-index: 1000; /* to be in front of all other elements */
+    display: none; /* initially invisible */
+    pointer-events: none;
+    background: var(--text);
+    color: #ffffff;
+    box-shadow: var(--shadow);
+    border-radius: var(--radius-small);
+    padding: 8px 12px;
+    font-size: 12px;
+    line-height: 1.5;
+    max-width: 320px;
+}
+
+.tooltip .title {
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.tooltip .secondary {
+    color: #b9bfd3;
+}
+
+/* ---------- charts ---------- */
+
+/* the axes created by d3.axisBottom, d3.axisLeft... */
+.axis path,
+.axis line {
+    stroke: var(--border);
+}
+
+.axis text {
+    font-family: var(--font);
+    font-size: 11px;
+    fill: var(--text-muted);
+}
+
+/* an element that is not related to the element under the mouse */
+.dimmed {
+    opacity: 0.25;
+}
+
+.empty {
+    color: var(--text-secondary);
+    padding: 40px 0;
+    text-align: center;
+}

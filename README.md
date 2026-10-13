@@ -20,8 +20,10 @@ server.js                     serveur express
 public/
   data/fire-occurence.csv     dataset brut, à ne pas modifier (23 490 feux, 38 colonnes)
   js/fireData.js              première transformation des données
+  js/theme.js                 chargement du style commum, à utiliser si on le souhaite dans nos pages
   css/theme.css               style commun, à charger si on le souhaite : police, couleurs de la page, composants
   sunburst/                   sunburst des causes des incendies
+  bulletgraph/                bullet graph des totaux de feux et de surface brûlées sur toutes les années, avec causes et médianes
 ```
 
 Chaque visualisation a son dossier dans `public/`, qui contient tous ses fichiers

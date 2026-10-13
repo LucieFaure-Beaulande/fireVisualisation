@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Sunburst - Causes des incendies</title>
+
+	<!-- import the d3 library -->
+    <script type='text/javascript' src='/lib/d3.min.js'></script>
+
+	<!-- colors of the sunburst -->
+    <script type='text/javascript' src='theme.js'></script>
+
+	<!-- loading and transformation of the data -->
+    <script type='text/javascript' src='/js/fireData.js'></script>
+    <script type='text/javascript' src='causes.js'></script>
+
+	<!-- style sheets: common theme, then the styles of this visualization -->
+	<link rel="stylesheet" type="text/css" href="/css/theme.css">
+	<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body>
+    <h1>Causes des incendies en Oregon</h1>
+    <p class="subtitle">Du centre vers l'extérieur : origine, cause générale, cause spécifique. Cliquer sur un arc pour zoomer, sur le centre pour revenir.</p>
+
+    <div id="filters" class="card toolbar">
+        <span class="group">Taille des arcs
+            <span class="segmented">
+                <label><input type="radio" name="measure" value="count" checked><span>Nombre de feux</span></label>
+                <label><input type="radio" name="measure" value="acres"><span>Surface brûlée</span></label>
+            </span>
+        </span>
+        <label>Comté <select id="county"></select></label>
+        <span class="group">
+            <label>Années <select id="year-min"></select></label>
+            <label>à <select id="year-max"></select></label>
+        </span>
+        <label>Mois <select id="month"></select></label>
+        <label>Propriétaire du terrain <select id="owner"></select></label>
+        <button id="reset" type="button">Réinitialiser</button>
+    </div>
+
+    <div id="content">
+        <!-- overview: the sunburst of all the causes -->
+        <div id="overview" class="card">
+            <div id="breadcrumb" class="breadcrumb"></div>
+            <div id="scope"></div>
+            <svg id="sunburst">
+                <g id="chart">
+                    <g id="arcs"></g>
+                    <g id="labels"></g>
+                    <g id="center"></g>
+                </g>
+            </svg>
+            <p id="empty" class="empty">Aucun feu ne correspond aux filtres.</p>
+        </div>
+
+        <!-- details: the selected cause and its fires -->
+        <div id="details" class="card">
+            <h2 id="selection-title"></h2>
+            <div id="stats" class="stats"></div>
+
+            <h2 id="legend-title"></h2>
+            <table id="legend" class="clickable">
+                <thead>
+                    <tr><th>Cause</th><th class="number">Feux</th><th class="number share">% des feux</th><th class="number">Surface (acres)</th><th class="number share">% de la surface</th></tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+
+            <h2 id="fires-title"></h2>
+            <table id="fires">
+                <thead>
+                    <tr><th>Feu</th><th>Année</th><th>Comté</th><th>Cause spécifique</th><th class="number">Surface (acres)</th></tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="tooltip"></div>
+
+    <script>
+        let margin = { left: 10, top: 10, bottom: 10, right: 10 }, // the margins of the chart
+            width = 640, // the width of the chart
+            height = 640, // the height of the chart
+            radius = width / 8, // the width of a ring: the center + 3 rings on each side
+            svg = d3.select('#sunburst')
+                .attr('width', width + margin.left + margin.right)
+                .attr('height', height + margin.top + margin.bottom)
+                // the viewBox lets the chart shrink on a small screen
+                .attr('viewBox', `0 0 ${width + margin.left + margin.right} ${height + margin.top + margin.bottom}`),
+            chartGroup = svg.select('#chart')
+                .attr('transform', `translate(${margin.left + width / 2}, ${margin.top + height / 2})`)
+
+        // numbers written in French: 23 490 and 20,3 %
+        let locale = d3.formatLocale({ decimal: ',', thousands: '\u202f', grouping: [3], currency: ['', '\u00a0€'], percent: '\u00a0%' }),
+            formatNumber = locale.format(',.0f'),
+            formatPercent = locale.format('.1%'),
+            duration = theme.duration // the duration of the transitions in milliseconds
+
+        // the colors come from theme.js: one color per general cause,
+        // the specific causes have a lighter shade of the color of their general cause
+        // the causes that are not a real cause are neutral
+        let neutralCauses = ['Miscellaneous', 'Under Invest', unspecified]
+
+        // the two measures of a cause, with the words used to describe a share of each measure
+        let measures = {
+            count: { label: 'feux', of: 'des feux', total: 'de tous les feux' },
+            acres: { label: 'acres brûlés', of: 'de la surface brûlée', total: 'de toute la surface brûlée' }
+        }
+
+        // the value used to sort each column of the table of the causes
+        // the columns of percentages are not sortable: they have the same order as the column on their left
+        let sortColumns = ['name', 'count', null, 'acres', null]
+
+        let monthNames = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre',
+            'Octobre', 'Novembre', 'Décembre']
+
+        // the state of the visualization
+        let allFires = [], // the complete dataset
+            ranks = [], // the order of the causes, see rankCauses
+            colorScale = null,
+            measure = 'count', // the size of the arcs: 'count' or 'acres'
+            filters = { county: null, years: null, month: null, owner: null },
+            focusId = '', // the selected cause, '' = all the fires
+            root = null,
+            sort = { column: null, ascending: false }, // the sort of the table of the causes, null = the measure of the sunburst
+            focus = null, // the selected cause, described in the details
+            zoom = null // the cause at the center of the sunburst: the selected cause, or its parent for a specific cause
+
+        let separator = ' › '
+
+        // ---------- shares ----------
+        // in the sunburst, the main share of a cause is its part of the circle (the cause at the center),
+        // its part of all the fires matching the filters is given in addition
+
+        let share = (value, total) => total ? formatPercent(value / total) : '-'
+
+        // e.g. "17,4 % des feux de « Equipment Use »", or "20,3 % de tous les feux" when all the fires are at the center
+        function shareOfCircle(value, name) {
+            return zoom === root
+                ? `${share(value, root.data[name])} ${measures[name].total}`
+                : `${share(value, zoom.data[name])} ${measures[name].of} de « ${zoom.data.name} »`
+        }
+
+        // e.g. "3,5 % de tous les feux"
+        let shareOfTotal = (value, name) => `${share(value, root.data[name])} ${measures[name].total}`
+
+        // the active filters, e.g. ['comté de Jackson', '2015 à 2022']
+        function describeFilters() {
+            let years = d3.extent(allFires, d => d.FireYear),
+                description = []
+            if (filters.county) description.push(`comté de ${filters.county}`)
+            if (filters.years && (filters.years[0] !== years[0] || filters.years[1] !== years[1]))
+                description.push(filters.years[0] === filters.years[1] ? `${filters.years[0]}` : `${filters.years[0]} à ${filters.years[1]}`)
+            if (filters.month !== null) description.push(monthNames[filters.month].toLowerCase())
+            if (filters.owner) description.push(`terrain : ${filters.owner}`)
+            return description
+        }
+
+        // ---------- scales and shapes ----------
+
+        function createColorScale() {
+            // ranks[1] gives the general causes, from the most frequent to the least frequent
+            let causes = Array.from(ranks[1].keys()).filter(name => !neutralCauses.includes(name))
+            colorScale = categoricalScale(causes)
+        }
+
+        // the color of a node of the hierarchy
+        function color(d) {
+            if (d.depth === 1) return theme.neutralLight // the inner ring
+            if (d.depth === 2) return colorScale(d.data.name)
+            return lighten(colorScale(d.parent.data.name), 0.45)
+        }
+
+        let shorten = (name, length) => name.length > length ? name.slice(0, length - 1) + '…' : name
+
+        // the position of a node when the node p is at the center of the sunburst
+        // x0, x1: angles in radians, y0, y1: distance from the center, in number of rings (0 to 1 = center)
+        function position(d, p) {
+            let levels = Math.max(1, root.height - p.depth), // the number of levels drawn around the center
+                angle = x => Math.max(0, Math.min(1, (x - p.x0) / (p.x1 - p.x0))) * 2 * Math.PI,
+                // the levels share the space of the 3 rings: the fewer levels, the wider the rings
+                ring = y => y - p.depth <= 1 ? Math.max(0, y - p.depth) : 1 + (y - p.depth - 1) * 3 / levels
+            return {
+                x0: angle(d.x0),
+                x1: angle(d.x1),
+                y0: ring(d.y0),
+                y1: ring(d.y1)
+            }
+        }
+
+        let arcGenerator = d3.arc()
+            .startAngle(d => d.x0)
+            .endAngle(d => d.x1)
+            .padAngle(d => Math.min((d.x1 - d.x0) / 2, 0.005))
+            .padRadius(radius * 1.5)
+            .innerRadius(d => d.y0 * radius)
+            .outerRadius(d => Math.max(d.y0 * radius, d.y1 * radius - 2))
+
+        // only the arcs around the center are visible
+        let arcVisible = d => d.y1 <= 4.001 && d.y0 >= 1 && d.x1 > d.x0
+
+        // the number of characters that fit in the width of a ring
+        let labelLength = d => Math.floor((d.y1 - d.y0) * radius / 6.5)
+
+        // a label is visible when the arc is long enough to contain a line of text
+        let labelVisible = d => arcVisible(d) && (d.x1 - d.x0) * (d.y0 + d.y1) / 2 * radius > 14
+
+        function labelTransform(d) {
+            let angle = (d.x0 + d.x1) / 2 * 180 / Math.PI,
+                distance = (d.y0 + d.y1) / 2 * radius
+            return `rotate(${angle - 90}) translate(${distance}, 0) rotate(${angle < 180 ? 0 : 180})`
+        }
+
+        // ---------- drawing ----------
+
+        // transform the data according to the filters and the measure, then draw everything
+        function update() {
+            let fires = filterFires(allFires, filters)
+
+            root = d3.hierarchy(buildCauseHierarchy(fires))
+                .sum(d => d.children ? 0 : d[measure])
+                .sort((a, b) => ranks[a.depth - 1].get(a.data.name) - ranks[b.depth - 1].get(b.data.name))
+
+            d3.partition().size([2 * Math.PI, root.height + 1])(root)
+
+            root.each(d => {
+                d.path = d.ancestors().reverse().slice(1).map(a => a.data.name)
+                d.id = d.path.join(separator)
+            })
+
+            // keep the same cause selected if it still exists with the new data
+            focus = root.descendants().find(d => d.id === focusId)
+            if (!focus || focus.x1 === focus.x0) focus = root
+            focusId = focus.id
+
+            // a specific cause has no children to draw around it: its parent stays at the center
+            zoom = focus.children || !focus.parent ? focus : focus.parent
+
+            root.each(d => d.target = position(d, zoom))
+
+            let empty = !root.value
+            d3.select('#empty').style('display', empty ? 'block' : 'none')
+            svg.style('display', empty ? 'none' : 'block')
+
+            let nodes = empty ? [] : root.descendants().slice(1)
+
+            drawArcs(nodes)
+            drawLabels(nodes)
+            drawCenter()
+            drawBreadcrumb()
+            drawScope()
+            drawDetails(fires)
+        }
+
+        function drawArcs(nodes) {
+            chartGroup.select('#arcs')
+                .selectAll('path.arc')
+                .data(nodes, d => d.id)
+                .join(
+                    enter => enter.append('path')
+                        .attr('class', 'arc')
+                        .attr('opacity', d => arcVisible(d.target) ? 1 : 0)
+                        // a new arc grows from its start angle
+                        .each(function(d) { this._current = { x0: d.target.x0, x1: d.target.x0, y0: d.target.y0, y1: d.target.y1 } })
+                        .on('click', (event, d) => setFocus(d.id))
+                        .on('mouseover', (event, d) => highlight(d))
+                        .on('mousemove', (event, d) => showTooltip(event, d))
+                        .on('mouseout', () => { highlight(null); hideTooltip() }),
+                    update => update,
+                    exit => exit.remove()
+                )
+                .attr('fill', d => color(d))
+                .classed('selected', d => d === focus)
+                .attr('pointer-events', d => arcVisible(d.target) ? 'auto' : 'none')
+                .transition()
+                .duration(duration)
+                .attr('opacity', d => arcVisible(d.target) ? 1 : 0)
+                .attrTween('d', function(d) {
+                    let interpolate = d3.interpolate(this._current, d.target)
+                    return t => arcGenerator(this._current = interpolate(t))
+                })
+
+            // draw the selected arc last, to see its whole outline
+            chartGroup.selectAll('path.arc.selected').raise()
+        }
+
+        function drawLabels(nodes) {
+            chartGroup.select('#labels')
+                .selectAll('text.arc-label')
+                .data(nodes, d => d.id)
+                .join(
+                    enter => enter.append('text')
+                        .attr('class', 'arc-label')
+                        .attr('dy', '0.35em')
+                        .attr('text-anchor', 'middle')
+                        .attr('fill-opacity', 0)
+                        .each(function(d) { this._current = d.target }),
+                    update => update,
+                    exit => exit.remove()
+                )
+                .text(d => shorten(d.data.name, labelLength(d.target)))
+                .attr('fill', d => textOn(color(d)))
+                .transition()
+                .duration(duration)
+                .attr('fill-opacity', d => labelVisible(d.target) ? 1 : 0)
+                .attrTween('transform', function(d) {
+                    let interpolate = d3.interpolate(this._current, d.target)
+                    return t => labelTransform(this._current = interpolate(t))
+                })
+        }
+
+        // the center shows the cause around which the sunburst is drawn, a click goes back one level
+        function drawCenter() {
+            let center = chartGroup.select('#center'),
+                back = focus !== zoom ? zoom : zoom.parent // where a click on the center goes
+
+            center.selectAll('circle')
+                .data([zoom])
+                .join('circle')
+                .attr('class', 'center')
+                .classed('clickable', back)
+                .attr('r', radius - 2)
+                .on('click', () => { if (back) setFocus(back.id) })
+
+            let lines = [
+                { class: 'center-name', y: -30, text: shorten(zoom.data.name, 20) },
+                { class: 'center-value', y: -4, text: formatNumber(zoom.value) },
+                { class: 'center-hint', y: 14, text: measures[measure].label },
+                { class: 'center-hint', y: 32, text: zoom === root ? '' : shareOfTotal(zoom.value, measure) },
+                { class: 'center-hint', y: 52, text: back ? '← retour' : '' }
+            ]
+
+            center.selectAll('text')
+                .data(lines)
+                .join('text')
+                .attr('class', d => d.class)
+                .attr('text-anchor', 'middle')
+                .attr('y', d => d.y)
+                .text(d => d.text)
+        }
+
+        // the path from all the fires to the selected cause, each step is clickable
+        function drawBreadcrumb() {
+            let steps = focus.ancestors().reverse()
+
+            d3.select('#breadcrumb')
+                .selectAll('span.item')
+                .data(steps, d => d.id)
+                .join('span')
+                .attr('class', 'item')
+                .html((d, i) => (i > 0 ? '<span class="separator">›</span>' : '')
+                    + `<span class="${d === focus ? 'current' : 'step'}"></span>`)
+                .each(function(d) {
+                    d3.select(this).select('span:last-child')
+                        .text(d.data.name)
+                        .on('click', () => { if (d !== focus) setFocus(d.id) })
+                })
+        }
+
+        // the active filters, written under the breadcrumb: "all the fires" means all the fires matching these filters
+        function drawScope() {
+            let description = describeFilters()
+            d3.select('#scope')
+                .text(description.length ? 'Filtres : ' + description.join(' · ') : '')
+        }
+
+        // the details of the selected cause: statistics, causes of the circle and largest fires
+        function drawDetails(fires) {
+            let selection = firesOfCause(fires, focus.path)
+
+            d3.select('#selection-title')
+                .text(focus.data.name)
+
+            // one card per measure: the value, the share of the circle, and in small the share of all the fires
+            let stats = [
+                { label: 'Feux', name: 'count' },
+                { label: 'Surface brûlée (acres)', name: 'acres' }
+            ]
+
+            d3.select('#stats')
+                .selectAll('div.stat')
+                .data(stats)
+                .join('div')
+                .attr('class', 'stat')
+                .html('<div class="label"></div><div class="value"></div><div class="main-share"></div><div class="total-share"></div>')
+                .each(function(d) {
+                    let card = d3.select(this),
+                        value = focus.data[d.name]
+                    card.select('.label').text(d.label)
+                    card.select('.value').text(formatNumber(value))
+                    // the selected cause is either the center of the circle, or a specific cause inside the circle
+                    card.select('.main-share').text(focus === zoom ? '' : shareOfCircle(value, d.name))
+                    card.select('.total-share').text(focus === root ? '' : shareOfTotal(value, d.name))
+                })
+
+            // the causes drawn around the center of the sunburst, also used as the legend of the colors:
+            // the general causes for all the fires or for an origin, the specific causes for a general cause
+            // sorted by the column chosen in the table, by default the measure of the sunburst from the largest
+            let column = sort.column === null ? sortColumns.indexOf(measure) : sort.column,
+                key = sortColumns[column],
+                compare = key === 'name'
+                    ? (a, b) => d3.ascending(a.data.name.toLowerCase(), b.data.name.toLowerCase())
+                    : (a, b) => d3.ascending(a.data[key], b.data[key])
+
+            let causes = (zoom === root ? root.descendants().filter(d => d.depth === 2) : (zoom.children || []))
+                    .slice()
+                    .sort((a, b) => sort.ascending ? compare(a, b) : compare(b, a)),
+                names = causes.map(d => d.data.name),
+                isDuplicated = d => names.indexOf(d.data.name) !== names.lastIndexOf(d.data.name)
+
+            d3.select('#legend-title')
+                .text(zoom === root ? 'Causes générales'
+                    : (zoom.depth === 1 ? 'Causes générales de « ' : 'Causes spécifiques de « ') + zoom.data.name + ' »')
+
+            // the explanation of the percentages, shown when the mouse is over their column headers
+            let shareInfo = `Les pourcentages sont calculés sur le total du cercle : ${formatNumber(zoom.data.count)} feux `
+                + `et ${formatNumber(zoom.data.acres)} acres brûlés.`
+
+            // the headers of the table: a click sorts the table, an arrow shows the sorted column
+            d3.selectAll('#legend th')
+                .classed('sortable', (d, i) => sortColumns[i])
+                .attr('data-sort', (d, i) => i === column ? (sort.ascending ? 'ascending' : 'descending') : null)
+                .on('click', function() {
+                    let clicked = d3.selectAll('#legend th').nodes().indexOf(this)
+                    if (!sortColumns[clicked]) return
+
+                    // a second click on the same column reverses the order
+                    // the first click sorts the names from A to Z, and the numbers from the largest
+                    sort = {
+                        column: clicked,
+                        ascending: clicked === column ? !sort.ascending : sortColumns[clicked] === 'name'
+                    }
+                    update()
+                })
+
+            d3.selectAll('#legend th.share')
+                .classed('has-info', true)
+                .on('mousemove', event => showInfo(event, shareInfo))
+                .on('mouseout', hideTooltip)
+
+            d3.select('#legend tbody')
+                .selectAll('tr')
+                .data(causes, d => d.id)
+                .join('tr')
+                .classed('selected', d => d === focus)
+                .on('click', (event, d) => setFocus(d.id))
+                .on('mouseover', (event, d) => highlight(d))
+                .on('mouseout', () => highlight(null))
+                .html(d => `<td><span class="swatch" style="background:${color(d)}"></span></td>`
+                    + `<td class="number">${formatNumber(d.data.count)}</td>`
+                    + `<td class="number">${share(d.data.count, zoom.data.count)}</td>`
+                    + `<td class="number">${formatNumber(d.data.acres)}</td>`
+                    + `<td class="number">${share(d.data.acres, zoom.data.acres)}</td>`)
+                .each(function(d) {
+                    d3.select(this).select('td')
+                        .append('span')
+                        .text(d.data.name + (isDuplicated(d) ? ` (${d.parent.data.name})` : ''))
+                })
+                .order()
+
+            // the 5 largest fires of the selected cause
+            let largest = selection.slice()
+                .sort((a, b) => d3.descending(a.EstTotalAcres, b.EstTotalAcres))
+                .slice(0, 5)
+
+            d3.select('#fires-title')
+                .text(largest.length ? `Les ${largest.length} plus grands feux` + (focus === root ? '' : ` de « ${focus.data.name} »`) : '')
+
+            d3.select('#fires tbody')
+                .selectAll('tr')
+                .data(largest, d => d.Serial)
+                .join('tr')
+                .html('<td></td><td></td><td></td><td></td><td class="number"></td>')
+                .each(function(d) {
+                    let values = [d.FireName, d.FireYear, d.County, d.SpecificCause,
+                        d.EstTotalAcres === null ? '-' : formatNumber(d.EstTotalAcres)]
+                    d3.select(this).selectAll('td').data(values).text(value => value)
+                })
+                .order()
+        }
+
+        // ---------- interactions ----------
+
+        // put a cause at the center of the sunburst
+        function setFocus(id) {
+            focusId = id
+            hideTooltip()
+            update()
+        }
+
+        // highlight a cause, its ancestors and its descendants, null to highlight nothing
+        // in the sunburst the other arcs are dimmed, in the table the rows of the highlighted causes are marked
+        function highlight(d) {
+            let related = d ? new Set(d.ancestors().concat(d.descendants())) : null
+            chartGroup.selectAll('path.arc')
+                .classed('dimmed', node => related && arcVisible(node.target) && !related.has(node))
+            d3.selectAll('#legend tbody tr')
+                .classed('highlighted', node => related && related.has(node))
+        }
+
+        function showTooltip(event, d) {
+            let x = event.pageX, y = event.pageY // get the mouse coordinates
+
+            d3.select('div.tooltip')
+                .style('display', 'block')
+                .style('left', (x + 14) + 'px')
+                .style('top', (y + 14) + 'px') // place the tooltip next to the mouse position
+                .html('<div class="secondary path"></div><div class="title"></div><div class="values"></div>'
+                    + '<div class="main-share"></div><div class="secondary total-share"></div>')
+
+            let tooltip = d3.select('div.tooltip')
+            tooltip.select('.path').text(d.path.slice(0, -1).join(separator))
+            tooltip.select('.title').text(d.data.name)
+            tooltip.select('.values').text(`${formatNumber(d.data.count)} feux · ${formatNumber(d.data.acres)} acres brûlés`)
+            // the share of the circle, then in addition the share of all the fires
+            tooltip.select('.main-share').text(shareOfCircle(d.value, measure))
+            tooltip.select('.total-share').text(zoom === root ? '' : shareOfTotal(d.value, measure))
+        }
+
+        // show a text in the tooltip, on the left of the mouse to stay inside the page
+        function showInfo(event, text) {
+            d3.select('div.tooltip')
+                .style('display', 'block')
+                .style('left', Math.max(8, event.pageX - 300) + 'px')
+                .style('top', (event.pageY + 16) + 'px')
+                .text(text)
+        }
+
+        function hideTooltip() {
+            d3.select('div.tooltip').style('display', 'none')
+        }
+
+        // ---------- filters ----------
+
+        // fill a list with options, the first option means "no filter"
+        function fillList(selector, values, all, text) {
+            d3.select(selector)
+                .selectAll('option')
+                .data([''].concat(values))
+                .join('option')
+                .attr('value', d => d)
+                .text(d => d === '' ? all : (text ? text(d) : d))
+        }
+
+        // fill the lists of the filters with the values of the dataset
+        function createFilters() {
+            let counties = Array.from(new Set(allFires.map(d => d.County))).sort(),
+                owners = Array.from(new Set(allFires.map(d => d.FO_LandOwnType))).sort(),
+                years = d3.range(d3.min(allFires, d => d.FireYear), d3.max(allFires, d => d.FireYear) + 1)
+
+            fillList('#county', counties, 'Tous les comtés')
+            fillList('#month', d3.range(12), "Toute l'année", d => monthNames[d])
+            fillList('#owner', owners, 'Tous les terrains')
+
+            d3.selectAll('#year-min, #year-max')
+                .each(function() {
+                    d3.select(this)
+                        .selectAll('option')
+                        .data(years)
+                        .join('option')
+                        .attr('value', d => d)
+                        .text(d => d)
+                })
+
+            resetFilters()
+        }
+
+        function resetFilters() {
+            let years = d3.extent(allFires, d => d.FireYear)
+            d3.selectAll('#county, #month, #owner').property('value', '')
+            d3.select('#year-min').property('value', years[0])
+            d3.select('#year-max').property('value', years[1])
+            filters = { county: null, years: null, month: null, owner: null }
+            sort = { column: null, ascending: false }
+            focusId = ''
+        }
+
+        function readFilters() {
+            let years = [+d3.select('#year-min').property('value'), +d3.select('#year-max').property('value')],
+                month = d3.select('#month').property('value')
+            years = [d3.min(years), d3.max(years)]
+
+            // put the years back in order in the lists when the first one is after the second one
+            d3.select('#year-min').property('value', years[0])
+            d3.select('#year-max').property('value', years[1])
+
+            filters = {
+                county: d3.select('#county').property('value') || null,
+                years: years,
+                month: month === '' ? null : +month,
+                owner: d3.select('#owner').property('value') || null
+            }
+            update()
+        }
+
+        d3.selectAll('#county, #year-min, #year-max, #month, #owner').on('change', readFilters)
+
+        d3.selectAll('input[name="measure"]').on('change', function() {
+            measure = this.value
+            update()
+        })
+
+        d3.select('#reset').on('click', () => {
+            resetFilters()
+            update()
+        })
+
+        // ---------- start ----------
+
+        function start(fires) {
+            allFires = fires
+            ranks = rankCauses(allFires)
+            createColorScale()
+            createFilters()
+            update()
+        }
+
+        loadFires().then(start)
+    </script>
+
+</body>
+</html>

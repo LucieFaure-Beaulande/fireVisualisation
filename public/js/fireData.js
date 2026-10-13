@@ -26,6 +26,9 @@ let ignoredColumns = ['FireCategory']
 
 // all the other columns (names, codes, comments) are kept as text, null when the cell is empty
 
+// the values of the csv file that are errors of the source, they are processed as empty cells
+let errorValues = ['ERROR: #N/A']
+
 // transform a row of the csv file into a fire object
 function parseFire(d) {
     let fire = {}
@@ -34,6 +37,7 @@ function parseFire(d) {
         let value = d[column].trim()
 
         if (ignoredColumns.includes(column)) return
+        if (errorValues.includes(value)) value = ''
 
         if (numberColumns.includes(column)) fire[column] = value === '' ? null : +value
         else if (dateColumns.includes(column)) fire[column] = parseDateTime(value)
@@ -44,7 +48,12 @@ function parseFire(d) {
     return fire
 }
 
+// the datasets already loaded, to download and transform each csv file only once
+let loadedDatasets = {}
+
 // load a csv file of fires, returns a promise of an array of fire objects
 function loadFires(url) {
-    return d3.csv(url || defaultDataset, parseFire)
+    url = url || defaultDataset
+    if (!loadedDatasets[url]) loadedDatasets[url] = d3.csv(url, parseFire)
+    return loadedDatasets[url]
 }

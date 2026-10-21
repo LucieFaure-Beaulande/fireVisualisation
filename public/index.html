@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Fires in Oregon — visualizations</title>
+    <link rel="stylesheet" href="/css/theme.css">
+    <link rel="stylesheet" href="/css/accessibility.css">
+    <style>
+        .viz-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr)); gap: 1rem; padding: 0; list-style: none; }
+        .viz-card { display: block; height: 100%; box-sizing: border-box; color: inherit; text-decoration: none; }
+        .viz-card:hover { border-color: var(--color-accent); box-shadow: 0 4px 16px var(--color-shadow); }
+        .viz-card h2 { margin: 0 0 0.35rem; font-size: 1.1rem; color: var(--color-accent); }
+        .viz-card p { margin: 0; color: var(--color-text-muted); font-size: 0.9375rem; }
+    </style>
+</head>
+<body>
+    <main class="page">
+        <header class="page-header">
+            <h1>Fires in Oregon (2000-2022)</h1>
+            <p>Visualizations of the <a href="https://www.kaggle.com/datasets/mattop/fire-occurrence-and-cause-data-2000-2022">Fire Occurrence and Cause Data</a> dataset.</p>
+        </header>
+
+        <!-- One card per visualization: each page is in its own folder of public/ -->
+        <ul class="viz-list">
+            <li>
+                <a class="viz-card card" href="/heatmap/">
+                    <h2>Heatmap counties × months</h2>
+                    <p>Number of fires per county and month, costs, trails and public share of the burned area;
+                        causes of each month in parallel coordinates.</p>
+                </a>
+            </li>
+            <li>
+                <a class="viz-card card" href="/sunburst/">
+                    <h2>Sunburst of the causes</h2>
+                    <p>Hierarchy of the causes of the fires: origin, general cause, specific cause.</p>
+                </a>
+            </li>
+            <!--
+            <li>
+                <a class="viz-card card" href="/folder-name/">
+                    <h2>Title of the visualization</h2>
+                    <p>One sentence of description.</p>
+                </a>
+            </li>
+            -->
+        </ul>
+    </main>
+
+    <script src="/js/accessibility.js"></script>
+    <script>FireAccessibility.init()</script>
+</body>
+</html>

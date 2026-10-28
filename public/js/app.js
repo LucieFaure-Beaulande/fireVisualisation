@@ -6,7 +6,18 @@ const fisheyeSettings = {
   radius: 115,
   distortion: 0.35,
   maxScale: 4,
-  detailThreshold: 1.8
+  detailThreshold: 1.8,
+  dwellDelay: 700,
+  openDuration: 400,
+  closeDuration: 200,
+  closeupDelay: 1000,
+  closeupDuration: 500,
+  closeupScale: 3,
+  overviewDuration: 400,
+  closeupFireScale: 2,
+  closeupStationScale: 1.5,
+  movementTolerance: 8,
+  outsideOpacity: 0.3
 };
 
 const svg = d3.select("#map")
@@ -14,14 +25,39 @@ const svg = d3.select("#map")
   .attr("preserveAspectRatio", "xMidYMid meet");
 
 svg.append("title").text("Incendies annuels de l'Oregon");
-const mapContent = svg.append("g").attr("class", "map-content");
+const defs = svg.append("defs");
+const focusGradient = defs.append("radialGradient")
+  .attr("id", "fisheye-opacity")
+  .attr("gradientUnits", "userSpaceOnUse")
+  .attr("r", fisheyeSettings.radius);
+focusGradient.append("stop").attr("offset", "0%").attr("stop-color", "white");
+focusGradient.append("stop").attr("offset", "70%").attr("stop-color", "white");
+const outsideStop = focusGradient.append("stop")
+  .attr("offset", "100%")
+  .attr("stop-color", "white")
+  .attr("stop-opacity", 1);
+defs.append("mask")
+  .attr("id", "fisheye-mask")
+  .attr("maskUnits", "userSpaceOnUse")
+  .attr("maskContentUnits", "userSpaceOnUse")
+  .attr("x", 0).attr("y", 0).attr("width", width).attr("height", height)
+  .style("mask-type", "alpha")
+  .append("rect")
+  .attr("width", width).attr("height", height)
+  .attr("fill", "url(#fisheye-opacity)");
+defs.append("clipPath").attr("id", "map-clip")
+  .append("rect").attr("width", width).attr("height", height);
+const mapViewport = svg.append("g").attr("clip-path", "url(#map-clip)");
+const mapContent = mapViewport.append("g").attr("class", "map-content");
 
 const layers = {
   districts: mapContent.append("g").attr("class", "districts-layer"),
   links: mapContent.append("g").attr("class", "links-layer"),
   fires: mapContent.append("g").attr("class", "fires-layer"),
   stations: mapContent.append("g").attr("class", "stations-layer"),
-  details: mapContent.append("g").attr("class", "fisheye-details-layer"),
+  indicators: mapViewport.append("g").attr("class", "fisheye-indicators-layer")
+    .attr("aria-hidden", "true").style("pointer-events", "none"),
+  details: svg.append("g").attr("class", "fisheye-details-layer"),
   legend: svg.append("g").attr("class", "legend-layer")
 };
 
@@ -30,6 +66,7 @@ const rulerSvg = d3.select("#year-ruler")
   .attr("preserveAspectRatio", "xMidYMid meet");
 const status = d3.select("#status");
 const tooltip = d3.select("#tooltip");
+const returnButton = d3.select("#return-overview");
 
 // Règle temporelle : clic ou glissement pour sélectionner une année.
 function drawRuler(years, getCurrentYear, update) {
@@ -170,18 +207,21 @@ function formatControlDuration(minutes) {
   return parts.join(" ");
 }
 
-function fisheyePoint(baseX, baseY, focus) {
-  if (!focus) return { x: baseX, y: baseY, scale: 1 };
+function fisheyePoint(baseX, baseY, focus, intensity = 1) {
+  if (!focus || intensity === 0) return { x: baseX, y: baseY, scale: 1 };
 
   const deltaX = baseX - focus.x;
   const deltaY = baseY - focus.y;
   const distance = Math.hypot(deltaX, deltaY);
-  if (distance === 0) return { x: baseX, y: baseY, scale: fisheyeSettings.maxScale };
+  if (distance === 0) return {
+    x: baseX, y: baseY,
+    scale: 1 + (Math.min((fisheyeSettings.distortion + 1) / fisheyeSettings.distortion, fisheyeSettings.maxScale) - 1) * intensity
+  };
   if (distance >= fisheyeSettings.radius) return { x: baseX, y: baseY, scale: 1 };
 
   const distortedDistance = (fisheyeSettings.distortion + 1) * fisheyeSettings.radius * distance /
     (fisheyeSettings.distortion * fisheyeSettings.radius + distance);
-  const scale = Math.min(distortedDistance / distance, fisheyeSettings.maxScale);
+  const scale = 1 + (Math.min(distortedDistance / distance, fisheyeSettings.maxScale) - 1) * intensity;
 
   return {
     x: focus.x + deltaX * scale,
@@ -203,11 +243,28 @@ function connectionPathFromPoints(start, end) {
   return `M${startX},${startY}Q${controlX},${controlY} ${endX},${endY}`;
 }
 
-function fisheyeGeoPath(projection, focus) {
+// Projection et subdivision géographique effectuées une seule fois, avant l'animation.
+function projectDistrict(feature, projection) {
+  const polygons = [];
+  let polygon;
+  let ring;
+  d3.geoStream(feature, projection.stream({
+    polygonStart() { polygon = []; },
+    polygonEnd() { polygons.push(polygon); },
+    lineStart() { ring = []; },
+    lineEnd() {
+      if (ring.length) ring.push([...ring[0]]);
+      polygon.push(ring);
+    },
+    point(x, y) { ring.push([x, y]); }
+  }));
+  return { type: "MultiPolygon", coordinates: polygons };
+}
+
+function fisheyeGeoPath(focus, intensity) {
   const transform = d3.geoTransform({
-    point(longitude, latitude) {
-      const [baseX, baseY] = projection([longitude, latitude]);
-      const point = fisheyePoint(baseX, baseY, focus);
+    point(baseX, baseY) {
+      const point = fisheyePoint(baseX, baseY, focus, intensity);
       this.stream.point(point.x, point.y);
     }
   });
@@ -269,7 +326,8 @@ async function initialise() {
 
     const projection = d3.geoMercator()
       .fitExtent([[margin, margin], [width - margin, height - margin]], districts);
-    const geoPath = d3.geoPath(projection);
+    const projectedDistricts = districts.features.map(feature => projectDistrict(feature, projection));
+    const geoPath = d3.geoPath();
     const colorScale = d3.scaleOrdinal()
       .domain(sizeClasses)
       .range(d3.schemeYlOrRd[7]);
@@ -278,7 +336,7 @@ async function initialise() {
       .range([2, 26]);
 
     layers.districts.selectAll("path")
-      .data(districts.features)
+      .data(projectedDistricts)
       .join("path")
       .attr("d", geoPath)
       .attr("class", "district");
@@ -304,10 +362,12 @@ async function initialise() {
     let linksForYear = [];
     let fireSelection = layers.fires.selectAll("circle.fire");
     let linkSelection = layers.links.selectAll("path.fire-link");
-    let animationFrame = null;
-    let queuedFocus = null;
+    let lastGeometryFrame = null;
+    let fisheyeEnabled = true;
+    const fisheyeToggle = d3.select("#fisheye-toggle");
+    const fisheyeState = d3.select("#fisheye-state");
 
-    function renderSemanticDetail(focus, firePoints) {
+    function renderSemanticDetail(focus, firePoints, view, closeupProgress) {
       const detail = focus ? firesForYear
         .map(fire => ({ fire, point: firePoints.get(fire.Serial) }))
         .filter(item => item.point.scale >= fisheyeSettings.detailThreshold)
@@ -318,8 +378,9 @@ async function initialise() {
         .data(detail, d => d.fire.Serial)
         .join("text")
         .attr("class", "fisheye-detail")
-        .attr("x", d => d.point.x + 12)
-        .attr("y", d => d.point.y - 12)
+        .attr("opacity", d => Math.min(1, (d.point.scale - fisheyeSettings.detailThreshold) / 0.4) * (1 - closeupProgress))
+        .attr("x", d => view.k * d.point.x + view.x + 12)
+        .attr("y", d => view.k * d.point.y + view.y - 12)
         .text(d => {
           const station = d.fire.stationLink?.Station ?? "Aucune caserne associée";
           const duration = d.fire.stationLink
@@ -329,71 +390,136 @@ async function initialise() {
         });
     }
 
-    function renderFisheye(focus = null, withTransition = false) {
-      const districtPath = focus ? fisheyeGeoPath(projection, focus) : geoPath;
+    function renderFisheye(focus = null, intensity = 0, frame = {}) {
+      const closeupProgress = frame.closeupProgress ?? 0;
+      const view = getCloseupTransform(focus, closeupProgress, width, height, fisheyeSettings.closeupScale);
+      svg.attr("data-exploration-phase", frame.phase ?? "repos")
+        .classed("closeup-active", ["rapprochement", "vue-rapprochée", "retour-carte"].includes(frame.phase));
+      const showReturn = ["rapprochement", "vue-rapprochée"].includes(frame.phase) || closeupProgress > 0;
+      // Le bouton disparaît au retour ; déplacer le focus clavier vers le contrôle voisin.
+      if (!showReturn && document.activeElement === returnButton.node()) {
+        fisheyeToggle.node().focus();
+      }
+      returnButton.property("hidden", !showReturn);
+      const stateLabel = !fisheyeEnabled ? "Fisheye désactivé"
+        : frame.phase === "attente-rapprochement" ? "Patientez pour ouvrir une vue rapprochée…"
+          : ["rapprochement", "vue-rapprochée"].includes(frame.phase) ? "Vue rapprochée ×3 — Échap pour revenir"
+            : frame.phase === "retour-carte" ? "Retour à la carte…" : "Fisheye activé";
+      if (fisheyeState.text() !== stateLabel) fisheyeState.text(stateLabel);
+      renderWaitIndicator(focus, frame);
+      const geometryKey = `${focus?.x},${focus?.y},${intensity},${closeupProgress}`;
+      // Pendant le compte à rebours, seul l'anneau change ; les milliers de tracés restent en cache.
+      if (lastGeometryFrame === geometryKey) return;
+      lastGeometryFrame = geometryKey;
+      mapContent.attr("transform", `translate(${view.x},${view.y}) scale(${view.k})`);
+      const active = focus && intensity > 0;
+      const districtPath = active ? fisheyeGeoPath(focus, intensity) : geoPath;
+      mapContent.attr("mask", active ? "url(#fisheye-mask)" : null);
+      if (active) {
+        focusGradient.attr("cx", focus.x).attr("cy", focus.y)
+          .attr("fx", focus.x).attr("fy", focus.y);
+        outsideStop.attr("stop-opacity", 1 - (1 - fisheyeSettings.outsideOpacity) * intensity);
+      } else {
+        outsideStop.attr("stop-opacity", 1);
+      }
       const stationPoints = new Map(stations.map(station => [
         station.StationId,
-        fisheyePoint(station.baseX, station.baseY, focus)
+        fisheyePoint(station.baseX, station.baseY, focus, intensity)
       ]));
       const firePoints = new Map(firesForYear.map(fire => [
         fire.Serial,
-        fisheyePoint(fire.baseX, fire.baseY, focus)
+        fisheyePoint(fire.baseX, fire.baseY, focus, intensity)
       ]));
-      const stationTarget = withTransition ? stationSelection.transition().duration(180) : stationSelection;
-      const fireTarget = withTransition ? fireSelection.transition().duration(180) : fireSelection;
-      const linkTarget = withTransition ? linkSelection.transition().duration(180) : linkSelection;
-      const districtTarget = withTransition
-        ? layers.districts.selectAll("path").transition().duration(180)
-        : layers.districts.selectAll("path");
+      layers.districts.selectAll("path").attr("d", districtPath);
 
-      districtTarget.attr("d", districtPath);
-
-      stationTarget
+      stationSelection
         .attr("transform", d => {
           const point = stationPoints.get(d.StationId);
           return `translate(${point.x}, ${point.y})`;
         })
         .attr("d", d => {
           const point = stationPoints.get(d.StationId);
-          return d3.symbol().type(d3.symbolSquare).size(82 * point.scale ** 2)();
+          const targetScale = Math.min(view.k, fisheyeSettings.closeupStationScale);
+          const symbolScale = (point.scale * (1 - closeupProgress) + targetScale * closeupProgress) / view.k;
+          return d3.symbol().type(d3.symbolSquare).size(82 * symbolScale ** 2)();
         });
 
-      fireTarget
+      fireSelection
         .attr("cx", d => firePoints.get(d.Serial).x)
         .attr("cy", d => firePoints.get(d.Serial).y)
-        .attr("r", d => d.baseRadius * firePoints.get(d.Serial).scale);
+        .attr("r", d => {
+          const localScale = firePoints.get(d.Serial).scale;
+          const targetScale = Math.min(view.k, fisheyeSettings.closeupFireScale);
+          return d.baseRadius * (localScale * (1 - closeupProgress) + targetScale * closeupProgress) / view.k;
+        });
 
-      linkTarget.attr("d", d => connectionPathFromPoints(
+      linkSelection.attr("d", d => connectionPathFromPoints(
         stationPoints.get(d.StationId),
         firePoints.get(d.FireSerial)
       ));
 
-      renderSemanticDetail(focus, firePoints);
+      renderSemanticDetail(active ? focus : null, firePoints, view, closeupProgress);
     }
 
-    function scheduleFisheye(event) {
-      queuedFocus = (() => {
-        const [x, y] = d3.pointer(event, svg.node());
-        return { x, y };
-      })();
-      if (animationFrame !== null) return;
+    const ringRadius = 16;
+    const ringLength = 2 * Math.PI * ringRadius;
+    const waitIndicator = layers.indicators.append("g").attr("class", "fisheye-progress").attr("display", "none");
+    waitIndicator.append("circle").attr("class", "fisheye-progress-track").attr("r", ringRadius);
+    const waitArc = waitIndicator.append("circle")
+      .attr("class", "fisheye-progress-fill").attr("r", ringRadius)
+      .attr("stroke-dasharray", ringLength).attr("transform", "rotate(-90)");
+    waitIndicator.append("text").attr("y", 32).attr("text-anchor", "middle").text("Vue rapprochée…");
 
-      animationFrame = requestAnimationFrame(() => {
-        renderFisheye(queuedFocus);
-        animationFrame = null;
-      });
+    function renderWaitIndicator(focus, frame) {
+      const waiting = focus && frame.phase === "attente-rapprochement";
+      waitIndicator.attr("display", waiting ? null : "none");
+      if (!waiting) return;
+      waitIndicator.attr("transform", `translate(${focus.x},${focus.y})`);
+      waitArc.attr("stroke-dashoffset", frame.reducedMotion ? 0 : ringLength * (1 - frame.waitProgress));
     }
 
-    function resetFisheye() {
-      queuedFocus = null;
-      if (animationFrame !== null) {
-        cancelAnimationFrame(animationFrame);
-        animationFrame = null;
+    const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const fisheyeController = createFisheyeController({
+      render: renderFisheye,
+      settings: fisheyeSettings,
+      reducedMotion: motionPreference.matches
+    });
+    motionPreference.addEventListener("change", event => {
+      fisheyeController.setReducedMotion(event.matches);
+    });
+
+    function trackPointer(event) {
+      if (event.pointerType === "touch") return;
+      const [x, y] = d3.pointer(event, svg.node());
+      fisheyeController.move({ x, y, clientX: event.clientX, clientY: event.clientY, entered: event.type === "pointerenter" });
+    }
+
+    function returnToOverview() {
+      fisheyeController.returnToOverview();
+      hideTooltip();
+    }
+
+    returnButton.on("click", returnToOverview);
+    d3.select(window).on("keydown.exploration", event => {
+      if (event.key === "Escape" && fisheyeController.returnToOverview()) {
+        event.preventDefault();
+        hideTooltip();
       }
-      renderFisheye(null, true);
-    }
+    });
+
+    fisheyeToggle.on("click", () => {
+      fisheyeEnabled = !fisheyeEnabled;
+      fisheyeToggle
+        .attr("aria-pressed", String(fisheyeEnabled))
+        .text(fisheyeEnabled ? "Désactiver le fisheye" : "Activer le fisheye");
+      fisheyeState.text(fisheyeEnabled ? "Fisheye activé" : "Fisheye désactivé");
+      svg.classed("fisheye-enabled", fisheyeEnabled);
+      fisheyeController.setEnabled(fisheyeEnabled);
+      hideTooltip();
+    });
 
     function updateMap(year) {
+      lastGeometryFrame = null;
       currentYear = +year;
       firesForYear = fires
         .filter(d => d.FireYear === currentYear)
@@ -420,7 +546,8 @@ async function initialise() {
         .on("pointermove", showTooltip)
         .on("pointerleave", hideTooltip);
 
-      resetFisheye();
+      fisheyeController.reset();
+      hideTooltip();
 
       rulerControl?.move(currentYear);
       rulerSvg.attr("aria-valuemin", years[0])
@@ -430,11 +557,21 @@ async function initialise() {
       status.text(`${firesForYear.length} incendies, ${linksForYear.length} liaisons estimées et ${stations.length} casernes pertinentes affichés pour ${currentYear}.`);
     }
 
-    svg.on("pointermove.fisheye", scheduleFisheye)
-      .on("pointerleave.fisheye", resetFisheye);
+    svg.on("pointerenter.fisheye", trackPointer)
+      .on("pointermove.fisheye", trackPointer)
+      .on("pointerleave.fisheye", () => {
+        fisheyeController.leave();
+        hideTooltip();
+      })
+      .on("pointercancel.fisheye", () => {
+        fisheyeController.reset();
+        hideTooltip();
+      })
+      .classed("fisheye-enabled", fisheyeEnabled);
 
     rulerControl = drawRuler(years, () => currentYear, updateMap);
     updateMap(currentYear);
+    fisheyeToggle.property("disabled", false);
   } catch (error) {
     console.error(error);
     status.text("La carte n'a pas pu charger les données.");

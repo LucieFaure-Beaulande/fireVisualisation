@@ -20,12 +20,43 @@ affiche le temps avant maîtrise lorsqu'il est disponible.
 
 ## Lentille fisheye
 
-Le déplacement de la souris applique une lentille locale à l'affichage : les
-districts, feux, casernes et extrémités des liaisons proches du curseur sont
-écartés et agrandis. Les coordonnées des jeux de données ne sont pas modifiées.
-À la sortie de la carte, l'affichage revient à sa géographie initiale. Le feu
-le plus agrandi affiche temporairement son nom, sa caserne associée et la durée
-avant maîtrise.
+Lorsque le fisheye est activé, une pause du curseur de 700 ms déclenche une
+ouverture progressive de 400 ms. Les districts, feux, casernes et extrémités
+des liaisons suivent la même déformation, dans un rayon de 115 unités SVG.
+La périphérie de la lentille s'atténue progressivement et l'extérieur conserve
+30 % de sa visibilité. La légende et les commandes restent lisibles.
+
+Les petits mouvements sont tolérés jusqu'à 8 pixels écran par rapport au
+point d'ancrage. Au-delà, la lentille se ferme en 200 ms et une nouvelle
+attente commence. Le bouton de désactivation et le changement d'année
+réinitialisent immédiatement la vue. Les coordonnées des jeux de données
+ne sont pas modifiées.
+
+Le feu le plus agrandi affiche progressivement son nom, sa caserne associée
+et la durée avant maîtrise. Les infobulles restent disponibles.
+
+## Vue rapprochée
+
+Après la stabilisation du fisheye, une seconde supplémentaire d'immobilité
+déclenche une vue rapprochée ×3. Un anneau indique cette seconde attente.
+Le rapprochement commence vers 2,1 secondes et se termine vers 2,6 secondes
+après le début de l'immobilité. Pendant la transition de 500 ms, la déformation
+et l'atténuation du fisheye disparaissent progressivement, puis la carte garde
+ses formes géographiques normales.
+
+La vue rapprochée reste fixe quand la souris se déplace ou quitte la carte,
+ce qui permet de consulter les infobulles. Les bulles sont limitées à ×2 de
+leur rayon initial et les casernes à ×1,5 de leur taille initiale. Les
+liaisons restent attachées à leurs extrémités. La légende reste fixe.
+
+Le bouton « Revenir à la carte » ou Échap restaure la vue d'ensemble en
+400 ms, même au milieu du rapprochement. Une nouvelle exploration nécessite
+un nouveau déplacement ou une nouvelle entrée du curseur. La désactivation
+du fisheye et le changement d'année restaurent immédiatement la carte.
+
+Les préférences système de réduction des animations sont respectées : les
+deux délais sont conservés, l'anneau reste statique et les changements de vue
+sont appliqués directement.
 
 ## Limite
 

@@ -4,6 +4,7 @@
   "description": "Visualisation of the fire occurrence and cause data (2000 - 2022) in Oregon with D3.js",
   "main": "server.js",
   "scripts": {
+    "test": "node --test tests/*.test.cjs",
     "start": "node server.js",
     "prepare-data": "node scripts/prepare-data.mjs"
   },

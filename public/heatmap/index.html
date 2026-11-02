@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Fire heatmap — Oregon</title>
+    <link rel="stylesheet" href="/css/theme.css">
+    <link rel="stylesheet" href="/css/accessibility.css">
+    <link rel="stylesheet" href="css/heatmap.css">
+</head>
+<body>
+    <main class="page">
+        <header class="page-header">
+            <a class="back-link" href="/">← All the visualizations</a>
+            <h1>Fires in Oregon by county and month (2000-2022)</h1>
+            <p>Cell color: number of fires. Choose a second layer, then click a cell for the details of its fires.</p>
+        </header>
+
+        <section class="toolbar" aria-label="Heatmap filters">
+            <label class="field"><span class="field-label">Year</span>
+                <select id="yearSelect" class="select"></select>
+            </label>
+            <label class="field"><span class="field-label">Second layer</span>
+                <select id="layerSelect" class="select">
+                    <option value="none">None (fires only)</option>
+                    <option value="costs">Suppression costs</option>
+                    <option value="trails">Trails with a seasonal restriction</option>
+                    <option value="public_burned">% of the burned area on public land</option>
+                </select>
+            </label>
+        </section>
+
+        <section class="card">
+            <div id="heatmapLegend" class="legend"></div>
+            <p class="hint">Hover a cell for its information, click it for the fire details.
+                With the keyboard: Tab to enter the heatmap, arrow keys to move, Enter to open the details.</p>
+            <div id="heatmap" class="chart-card"></div>
+        </section>
+        <div id="srLive" class="sr-only" aria-live="polite"></div>
+    </main>
+
+    <!-- Details dialog: parallel coordinates of the fires of a cell -->
+    <div id="pcBackdrop" class="dialog-backdrop" hidden></div>
+    <div id="pcDialog" class="dialog" role="dialog" aria-modal="true" aria-labelledby="pcTitle" hidden>
+        <div class="dialog-header">
+            <h2 id="pcTitle"></h2>
+            <button type="button" id="pcClose" class="dialog-close">Close ✕</button>
+        </div>
+        <div class="toolbar compact">
+            <label class="field">Thickness
+                <select id="weightBy" class="select">
+                    <option value="acres">Burned area</option>
+                    <option value="count">Number of fires</option>
+                </select>
+            </label>
+            <button type="button" id="resetBrush" class="btn">Clear the filters</button>
+            <div id="pcLegend" class="pc-legend"></div>
+        </div>
+        <div id="pcSummary" class="summary" aria-live="polite"></div>
+        <div id="pcInfo" class="info" aria-live="polite" hidden></div>
+        <div id="pcChart"></div>
+        <p class="hint">
+            The fires with the same path form a ribbon, colored by land; its thickness and the values of the categories follow the chosen measure ("Thickness").
+            By burned area, the very small fires and categories keep a minimum size to stay visible.
+            Click a category to filter, a ribbon for its details. Keyboard: Tab, Enter, Escape.
+        </p>
+    </div>
+
+    <script src="/lib/d3.min.js"></script>
+    <script src="/js/palette.js"></script>
+    <script src="/js/tooltip.js"></script>
+    <script src="/js/accessibility.js"></script>
+    <script type="module" src="js/main.js"></script>
+</body>
+</html>

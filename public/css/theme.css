@@ -1,27 +1,103 @@
 /* Common theme of the project: colors, font and components shared by all the visualizations
-   Import it in a page with <link rel="stylesheet" type="text/css" href="/css/theme.css"> */
+ * Import it in a page with <link rel="stylesheet" href="/css/theme.css">
+ *
+ * All the colors come from published palettes:
+ *   - interface             : Tailwind CSS "slate" and "blue"        https://tailwindcss.com/docs/customizing-colors
+ *   - data, default         : Tableau 10 (d3.schemeTableau10)       https://www.tableau.com/blog/colors-upgrade-tableau-10-56782
+ *   - data, colour-blind    : Okabe & Ito                           https://jfly.uni-koeln.de/color/
+ *   - data, sequential      : ColorBrewer Oranges (d3.interpolateOranges)   https://colorbrewer2.org
+ *
+ * The data colors are CSS variables (--data-*), read in JavaScript with FirePalette.token('--data-public').
+ * The accessibility panel (/js/accessibility.js) switches the palette with <html data-palette="cvd">
+ * and the text size with --text-scale: use rem units for the font sizes so that they follow it.
+ */
 
 /* the font, with the system font as fallback when there is no internet connection */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
+/* ---------- Tokens ---------- */
+
+:root,
+[data-palette="standard"] {
+    /* data colors, Tableau 10 */
+    --data-public: #59a14f;        /* green  */
+    --data-private: #f28e2b;       /* orange */
+    --data-human: #e15759;         /* red    */
+    --data-lightning: #4e79a7;     /* blue   */
+    --data-unknown: #bab0ac;       /* grey   */
+    --data-cost: #4e79a7;          /* blue   */
+    --data-trail-open: #76b7b2;    /* teal   */
+    --data-trail-closed: #e15759;  /* red    */
+}
+
+[data-palette="cvd"] {
+    /* data colors, Okabe & Ito: distinguishable with the common forms of colour blindness */
+    --data-public: #0072b2;        /* blue        */
+    --data-private: #e69f00;       /* orange      */
+    --data-human: #d55e00;         /* vermillion  */
+    --data-lightning: #56b4e9;     /* sky blue    */
+    --data-unknown: #999999;       /* grey        */
+    --data-cost: #0072b2;          /* blue        */
+    --data-trail-open: #56b4e9;    /* sky blue    */
+    --data-trail-closed: #000000;  /* black       */
+}
+
 :root {
+    /* text size factor, set by the accessibility panel (1 = 100%) */
+    --text-scale: 1;
+
     /* font */
     --font: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
 
-    /* surfaces */
-    --page: #f6f7fb; /* the background of the page */
-    --surface: #ffffff; /* the background of the cards and of the charts */
-    --surface-hover: #f1f3f9;
-    --border: #e6e8f0;
+    /* interface, Tailwind slate / blue / red */
+    --color-bg: #f8fafc;           /* slate-50  */
+    --color-surface: #ffffff;
+    --color-surface-alt: #f1f5f9;  /* slate-100 */
+    --color-border: #cbd5e1;       /* slate-300 */
+    --color-border-soft: #e2e8f0;  /* slate-200 */
+    --color-text: #0f172a;         /* slate-900 */
+    --color-text-muted: #475569;   /* slate-600 */
+    --color-text-faint: #94a3b8;   /* slate-400 */
+    --color-accent: #1d4ed8;       /* blue-700  */
+    --color-accent-soft: #dbeafe;  /* blue-100  */
+    --color-danger: #b91c1c;       /* red-700   */
+    --color-focus: #1d4ed8;        /* blue-700  */
+    --color-shadow: rgba(15, 23, 42, 0.18);
 
-    /* text */
-    --text: #1f2333;
-    --text-secondary: #5b6178;
-    --text-muted: #9197ab;
+    /* soft blue accents, Tailwind blue */
+    --color-soft-50: #eff6ff;      /* blue-50  */
+    --color-soft-100: #dbeafe;     /* blue-100 */
+    --color-soft-200: #bfdbfe;     /* blue-200 */
+    --color-soft-300: #93c5fd;     /* blue-300 */
+    --color-soft-600: #2563eb;     /* blue-600 */
+    --color-soft-800: #1e40af;     /* blue-800 */
 
-    /* accent, for the links and the selected elements */
-    --accent: #6c7ee8;
-    --accent-soft: #e9ecfd;
+    /* data colors that do not depend on the palette */
+    --data-sequential: Oranges;    /* name of the d3 interpolator, see FirePalette.sequential() */
+    --data-sequential-light: #fee6ce; /* ColorBrewer Oranges, 2nd class */
+    --data-empty: #e2e8f0;         /* slate-200: no value */
+    --data-hatch: #000000;         /* hatching pattern */
+    --data-neutral: #94a3b8;       /* slate-400: axes, category blocks */
+    --data-filtered: #cbd5e1;      /* slate-300: filtered out elements */
+
+    /* shapes */
+    --radius: 14px;
+    --radius-small: 8px;
+    --shadow: 0 1px 2px rgba(31, 35, 51, 0.04), 0 4px 16px rgba(31, 35, 51, 0.06);
+
+    /* short names used by some visualizations (sunburst): they follow the colors above,
+       so that the accessibility settings (high contrast) apply to them too */
+    --page: var(--color-bg);
+    --surface: var(--color-surface);
+    --surface-hover: var(--color-surface-alt);
+    --border: var(--color-border-soft);
+    --text: var(--color-text);
+    --text-secondary: var(--color-text-muted);
+    --text-muted: var(--color-text-faint);
+    --accent: var(--color-accent);
+    --accent-soft: var(--color-accent-soft);
+    --neutral: #a9afc0;
+    --neutral-light: #d9dce6;
 
     /* categorical colors, to use in this order (the order keeps neighbours distinguishable) */
     --color-1: #6c9ce8; /* blue */
@@ -32,16 +108,11 @@
     --color-6: #6fb85a; /* green */
     --color-7: #9b85e6; /* violet */
     --color-8: #e0636f; /* red */
-
-    /* neutral colors, for "other", "unknown" and the elements that are not the subject */
-    --neutral: #a9afc0;
-    --neutral-light: #d9dce6;
-
-    /* shapes */
-    --radius: 14px;
-    --radius-small: 8px;
-    --shadow: 0 1px 2px rgba(31, 35, 51, 0.04), 0 4px 16px rgba(31, 35, 51, 0.06);
 }
+
+/* ---------- Base ---------- */
+
+html { font-size: calc(100% * var(--text-scale)); }
 
 * {
     padding: 0;
@@ -52,71 +123,72 @@
 
 body {
     padding: 24px 28px;
-    background: var(--page);
-    color: var(--text);
-    font-size: 14px;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--color-text);
+    background: var(--color-bg);
     -webkit-font-smoothing: antialiased;
 }
 
-h1 {
-    font-size: 24px;
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    margin-bottom: 4px;
+h1 { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.02em; line-height: 1.2; margin-bottom: 4px; }
+h2 { font-size: 0.875rem; font-weight: 600; line-height: 1.2; margin: 20px 0 8px; }
+h3 { line-height: 1.2; }
+p.subtitle { color: var(--text-secondary); margin-bottom: 16px; }
+a { color: var(--color-accent); }
+
+:focus-visible { outline: 3px solid var(--color-focus); outline-offset: 2px; }
+
+.sr-only {
+    position: absolute; width: 1px; height: 1px; overflow: hidden;
+    clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap;
 }
 
-h2 {
-    font-size: 14px;
-    font-weight: 600;
-    margin: 20px 0 8px;
-}
+[hidden] { display: none !important; }
 
-p.subtitle {
-    color: var(--text-secondary);
-    margin-bottom: 16px;
-}
+/* ---------- Page layout ---------- */
 
-a {
-    color: var(--accent);
-}
+.page { max-width: 1240px; margin: 0 auto; padding-bottom: 5rem; font-size: 1rem; }
 
-/* ---------- card: a white block with rounded corners ---------- */
+.page-header { margin-bottom: 1rem; }
+.page-header h1 { font-size: 1.75rem; margin: 0.25rem 0; }
+.page-header p { margin: 0; color: var(--color-text-muted); }
+.back-link { font-size: 0.875rem; text-decoration: none; }
+.back-link:hover { text-decoration: underline; }
 
+/* card: a white block with rounded corners */
 .card {
-    background: var(--surface);
-    border: 1px solid var(--border);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border-soft);
     border-radius: var(--radius);
     box-shadow: var(--shadow);
-    padding: 16px;
+    padding: 1rem;
 }
 
-/* ---------- toolbar: the filters, in one row above the chart ---------- */
+.hint { font-size: 0.875rem; color: var(--color-text-muted); margin: 0.5rem 0; }
 
+/* ---------- Controls ---------- */
+
+/* toolbar: the filters, in one row above the chart */
 .toolbar {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 18px;
-    align-items: center;
-    padding: 10px 14px;
+    display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem 1.5rem;
+    padding: 0.625rem 0.875rem;
 }
-
 .toolbar label,
-.toolbar .group {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    color: var(--text-secondary);
+.toolbar .group { display: inline-flex; align-items: center; gap: 8px; color: var(--text-secondary); }
+.toolbar .right { margin-left: auto; }
+.page > .toolbar {
+    margin: 1rem 0;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border-soft);
+    border-radius: var(--radius);
 }
-
-.toolbar .right {
-    margin-left: auto;
-}
+.toolbar.compact { padding: 0.5rem 0; margin: 0.5rem 0; border: none; background: none; }
 
 select,
 button,
 input[type="number"],
 input[type="text"] {
-    font-size: 13px;
+    font-size: 0.8125rem;
     font-weight: 500;
     color: var(--text);
     background: var(--surface);
@@ -124,183 +196,95 @@ input[type="text"] {
     border-radius: var(--radius-small);
     padding: 6px 10px;
 }
+select:hover, button:hover { background: var(--surface-hover); }
+select:focus, button:focus-visible, input:focus-visible { outline: 2px solid var(--accent-soft); border-color: var(--accent); }
+button { cursor: pointer; }
+button.primary { background: var(--accent); border-color: var(--accent); color: #ffffff; }
 
-select:hover,
-button:hover {
-    background: var(--surface-hover);
-}
-
-select:focus,
-button:focus-visible,
-input:focus-visible {
-    outline: 2px solid var(--accent-soft);
-    border-color: var(--accent);
-}
-
-button {
-    cursor: pointer;
-}
-
-button.primary {
-    background: var(--accent);
-    border-color: var(--accent);
-    color: #ffffff;
-}
-
-input[type="file"] {
-    font-size: 13px;
-    color: var(--text-secondary);
-}
-
+input[type="file"] { font-size: 0.8125rem; color: var(--text-secondary); }
 input[type="file"]::file-selector-button {
-    font-family: var(--font);
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--text);
-    background: var(--surface);
-    border: 1px solid var(--border);
+    font-family: var(--font); font-size: 0.8125rem; font-weight: 500;
+    color: var(--text); background: var(--surface);
+    border: 1px solid var(--border); border-radius: var(--radius-small);
+    padding: 6px 10px; margin-right: 8px; cursor: pointer;
+}
+
+.field { display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.9375rem; color: var(--color-text); }
+.field-label { font-weight: 600; }
+
+.select {
+    font-size: inherit;
+    padding: 0.35rem 2rem 0.35rem 0.65rem;
+    border: 1px solid var(--color-border);
     border-radius: var(--radius-small);
-    padding: 6px 10px;
-    margin-right: 8px;
+    background: var(--color-surface);
+}
+
+.btn {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    font-size: inherit;
+    padding: 0.4rem 0.85rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-small);
+    background: var(--color-surface);
     cursor: pointer;
 }
+.btn:hover { background: var(--color-surface-alt); }
+.btn-primary { background: var(--color-accent); border-color: var(--color-accent); color: #fff; }
+.btn-primary:hover { background: var(--color-accent); filter: brightness(1.1); }
+
+.checkbox { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.9375rem; cursor: pointer; }
+.checkbox input { width: 1.1em; height: 1.1em; accent-color: var(--color-accent); }
 
 /* segmented control: a group of radio buttons displayed as one button with several choices
    <span class="segmented"><label><input type="radio" name="x" checked><span>A</span></label>...</span> */
-.segmented {
-    display: inline-flex;
-    padding: 3px;
-    gap: 2px;
-    background: var(--surface-hover);
-    border-radius: var(--radius-small);
-}
-
-.segmented input {
-    position: absolute;
-    opacity: 0;
-}
-
+.segmented { display: inline-flex; padding: 3px; gap: 2px; background: var(--surface-hover); border-radius: var(--radius-small); }
+.segmented input { position: absolute; opacity: 0; }
 .segmented label span {
-    display: block;
-    padding: 4px 12px;
-    border-radius: 6px;
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--text-secondary);
-    cursor: pointer;
+    display: block; padding: 4px 12px; border-radius: 6px;
+    font-size: 0.8125rem; font-weight: 500; color: var(--text-secondary); cursor: pointer;
 }
+.segmented input:checked + span { background: var(--surface); color: var(--text); box-shadow: 0 1px 2px rgba(31, 35, 51, 0.12); }
+.segmented input:focus-visible + span { outline: 2px solid var(--accent); }
 
-.segmented input:checked + span {
-    background: var(--surface);
-    color: var(--text);
-    box-shadow: 0 1px 2px rgba(31, 35, 51, 0.12);
-}
+/* ---------- Key figures, tables, breadcrumb ---------- */
 
-.segmented input:focus-visible + span {
-    outline: 2px solid var(--accent);
-}
+.stats { display: flex; flex-wrap: wrap; gap: 10px; }
+.stat { flex: 1; min-width: 110px; padding: 10px 12px; background: var(--page); border-radius: var(--radius-small); }
+.stat .label { font-size: 0.75rem; color: var(--text-secondary); }
+.stat .value { font-size: 1.25rem; font-weight: 700; letter-spacing: -0.01em; }
 
-/* ---------- stats: a row of key figures ---------- */
-
-.stats {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-}
-
-.stat {
-    flex: 1;
-    min-width: 110px;
-    padding: 10px 12px;
-    background: var(--page);
-    border-radius: var(--radius-small);
-}
-
-.stat .label {
-    font-size: 12px;
-    color: var(--text-secondary);
-}
-
-.stat .value {
-    font-size: 20px;
-    font-weight: 700;
-    letter-spacing: -0.01em;
-}
-
-/* ---------- table ---------- */
-
-table {
-    border-collapse: collapse;
-    font-size: 13px;
-    width: 100%;
-}
-
-th,
-td {
-    padding: 6px 8px;
-    border-bottom: 1px solid var(--border);
-    text-align: left;
-}
-
-th {
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--text-muted);
-}
-
-td.number,
-th.number {
-    text-align: right;
-    font-variant-numeric: tabular-nums;
-}
-
-table.clickable tbody tr {
-    cursor: pointer;
-}
-
-table.clickable tbody tr:hover td {
-    background: var(--surface-hover);
-}
+table { border-collapse: collapse; font-size: 0.8125rem; width: 100%; }
+th, td { padding: 6px 8px; border-bottom: 1px solid var(--border); text-align: left; }
+th { font-size: 0.75rem; font-weight: 500; color: var(--text-muted); }
+td.number, th.number { text-align: right; font-variant-numeric: tabular-nums; }
+table.clickable tbody tr { cursor: pointer; }
+table.clickable tbody tr:hover td { background: var(--surface-hover); }
 
 /* a small square of color, for the legends */
-.swatch {
-    display: inline-block;
-    width: 10px;
-    height: 10px;
-    border-radius: 3px;
-    margin-right: 8px;
-}
+.swatch { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 8px; }
 
-/* ---------- breadcrumb: the path to the selected element ---------- */
+/* breadcrumb: the path to the selected element */
+.breadcrumb { font-size: 0.8125rem; min-height: 20px; }
+.breadcrumb .step { cursor: pointer; color: var(--accent); }
+.breadcrumb .step:hover { text-decoration: underline; }
+.breadcrumb .current { font-weight: 600; }
+.breadcrumb .separator { color: var(--text-muted); margin: 0 6px; }
 
-.breadcrumb {
-    font-size: 13px;
-    min-height: 20px;
-}
+/* ---------- Legend ---------- */
 
-.breadcrumb .step {
-    cursor: pointer;
-    color: var(--accent);
-}
+.legend { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 0.75rem 2rem; font-size: 0.8125rem; margin: 0.5rem 0; }
+.legend-item { display: flex; flex-direction: column; gap: 0.25rem; }
+.legend-title { font-weight: 600; }
+.legend-row { display: flex; flex-wrap: wrap; align-items: center; gap: 0.35rem 0.9rem; }
+.legend-swatch { display: inline-block; width: 0.9em; height: 0.9em; border-radius: 2px; vertical-align: -0.1em; margin-right: 0.3em; border: 1px solid var(--color-border); }
 
-.breadcrumb .step:hover {
-    text-decoration: underline;
-}
+/* ---------- Tooltips ---------- */
 
-.breadcrumb .current {
-    font-weight: 600;
-}
-
-.breadcrumb .separator {
-    color: var(--text-muted);
-    margin: 0 6px;
-}
-
-/* ---------- tooltip, as in the course ---------- */
-
+/* tooltip as in the course: an element positioned and shown by the page */
 .tooltip {
     position: absolute;
-    z-index: 1000; /* to be in front of all other elements */
+    z-index: 1000; /* in front of all the other elements */
     display: none; /* initially invisible */
     pointer-events: none;
     background: var(--text);
@@ -308,41 +292,65 @@ table.clickable tbody tr:hover td {
     box-shadow: var(--shadow);
     border-radius: var(--radius-small);
     padding: 8px 12px;
-    font-size: 12px;
+    font-size: 0.75rem;
     line-height: 1.5;
     max-width: 320px;
 }
+.tooltip .title { font-size: 0.8125rem; font-weight: 600; }
+.tooltip .secondary { color: #b9bfd3; }
 
-.tooltip .title {
-    font-size: 13px;
-    font-weight: 600;
+/* tooltip of FireTooltip (/js/tooltip.js): white, next to the mouse */
+.fire-tooltip {
+    position: fixed; z-index: 2000; pointer-events: none;
+    max-width: 20rem; padding: 0.5rem 0.7rem;
+    font-size: 0.8125rem; line-height: 1.4;
+    color: var(--color-text); background: var(--color-surface);
+    border: 1px solid var(--color-border); border-radius: var(--radius-small);
+    box-shadow: 0 3px 12px var(--color-shadow);
 }
+.fire-tooltip .tt-head { font-weight: 700; font-size: 0.875rem; }
+.fire-tooltip .tt-big { font-size: 1.5rem; font-weight: 700; line-height: 1.15; margin-top: 0.25rem; }
+.fire-tooltip .tt-big.tt-none { color: var(--color-text-muted); }
+.fire-tooltip .tt-unit { font-size: 0.875rem; font-weight: 400; color: var(--color-text-muted); }
+.fire-tooltip .tt-line { margin-top: 0.2rem; }
+.fire-tooltip .tt-foot { margin-top: 0.4rem; padding-top: 0.3rem; border-top: 1px solid var(--color-border-soft); font-size: 0.75rem; color: var(--color-text-muted); }
 
-.tooltip .secondary {
-    color: #b9bfd3;
+/* ---------- Dialog ---------- */
+
+.dialog-backdrop { position: fixed; inset: 0; z-index: 999; background: rgba(15, 23, 42, 0.4); }
+
+.dialog {
+    position: fixed; top: 50%; left: 50%; z-index: 1000; transform: translate(-50%, -50%);
+    width: min(1150px, 94vw); max-height: 92vh; overflow: auto;
+    padding: 1rem 1.25rem;
+    font-size: 1rem;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    box-shadow: 0 10px 40px var(--color-shadow);
 }
+.dialog-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; }
+.dialog-header h2 { font-size: 1.2rem; margin: 0; }
+.dialog-close {
+    flex-shrink: 0; padding: 0.25rem 0.6rem; cursor: pointer;
+    font-size: 1rem; font-weight: 700; color: var(--color-danger);
+    background: none; border: 1px solid transparent; border-radius: var(--radius-small);
+}
+.dialog-close:hover { border-color: var(--color-danger); background: none; }
 
-/* ---------- charts ---------- */
+/* ---------- Charts ---------- */
 
 /* the axes created by d3.axisBottom, d3.axisLeft... */
-.axis path,
-.axis line {
-    stroke: var(--border);
-}
+.axis path, .axis line { stroke: var(--border); }
+.axis text { font-family: var(--font); font-size: 0.6875rem; fill: var(--text-muted); }
 
-.axis text {
-    font-family: var(--font);
-    font-size: 11px;
-    fill: var(--text-muted);
-}
+/* d3 axes set font-family / font-size attributes: let the svg text follow the page font instead */
+svg g[font-family] { font-family: inherit; }
+
+/* white outline around svg labels drawn over the data */
+.halo { paint-order: stroke; stroke: var(--color-surface); stroke-width: 3px; stroke-linejoin: round; }
 
 /* an element that is not related to the element under the mouse */
-.dimmed {
-    opacity: 0.25;
-}
+.dimmed { opacity: 0.25; }
 
-.empty {
-    color: var(--text-secondary);
-    padding: 40px 0;
-    text-align: center;
-}
+.empty { color: var(--text-secondary); padding: 40px 0; text-align: center; }

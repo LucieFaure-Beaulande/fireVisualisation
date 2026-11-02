@@ -1,6 +1,6 @@
 const { test } = require("node:test");
 const assert = require("node:assert/strict");
-const { createFisheyeController, getCloseupTransform } = require("../public/js/fisheye-controller.js");
+const { createFisheyeController, getCloseupTransform } = require("../public/bubblemap/fisheye-controller.js");
 
 function setup(reducedMotion = false) {
   let now = 0;

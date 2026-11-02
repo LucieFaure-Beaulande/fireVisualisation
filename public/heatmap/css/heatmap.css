@@ -1,0 +1,58 @@
+/* Heatmap page: styles of the heatmap and of the parallel coordinates
+ * Colors and shared styles come from /css/theme.css; text sizes in rem (they follow the accessibility setting). */
+
+/* ---------- Heatmap ---------- */
+
+.chart-card { overflow-x: auto; }
+
+#heatmap svg:focus { outline: none; }
+#heatmap svg:focus-visible .plot-frame { stroke: var(--color-text); stroke-width: 2px; stroke-dasharray: 4 3; }
+.plot-frame { fill: none; stroke: none; }
+
+.axis text { font-size: 0.7rem; fill: var(--color-text); }
+.axis path, .axis line { stroke: var(--data-neutral); }
+
+.cell { stroke: var(--color-surface); stroke-width: 1px; }
+.cell-group { cursor: pointer; }
+.cell-group:hover .cell { stroke: var(--color-text); stroke-width: 1.5px; }
+.overlay { pointer-events: none; }
+.cell-focus { fill: none; stroke: #000; stroke-width: 3px; pointer-events: none; }
+.cell-focus-inner { fill: none; stroke: #fff; stroke-width: 1.5px; pointer-events: none; }
+
+.legend-gradient { display: block; width: 11rem; height: 0.7rem; border: 1px solid var(--color-border); border-radius: 2px; }
+.legend-scale { display: flex; justify-content: space-between; width: 11rem; font-size: 0.75rem; color: var(--color-text-muted); }
+.legend-hatch { width: 2.5rem; height: 0.8rem; vertical-align: middle; border: 1px solid var(--color-border); }
+
+/* ---------- Details dialog: parallel coordinates ---------- */
+
+#pcChart { overflow-x: auto; }
+
+.pc-legend { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem; font-size: 0.8125rem; color: var(--color-text-muted); }
+.pc-legend svg { vertical-align: middle; margin-right: 0.25rem; }
+
+.summary {
+    margin-bottom: 0.5rem; padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+    background: var(--color-surface-alt); border-radius: var(--radius-small);
+}
+.muted { color: var(--color-text-muted); }
+
+.info { margin-bottom: 0.5rem; padding: 0.25rem 0.75rem; font-size: 0.875rem; border-left: 3px solid var(--color-text); }
+.info-close { float: right; margin-left: 0.75rem; cursor: pointer; color: var(--color-text-muted); background: none; border: none; }
+.info .dot { display: inline-block; width: 0.6rem; height: 0.6rem; margin-right: 0.3rem; border-radius: 50%; }
+
+.pc-axis-title { font-size: 0.75rem; font-weight: 700; fill: var(--color-text); text-anchor: middle; }
+.pc-axis-line { stroke: var(--color-border); }
+.pc-band { fill: var(--data-neutral); }
+.pc-cat { font-size: 0.6875rem; fill: var(--color-text); cursor: pointer; }
+.pc-cat:hover, .pc-cat:focus { text-decoration: underline; font-weight: 700; outline: none; }
+.pc-cat .n { font-size: 0.625rem; fill: var(--color-text-muted); }
+
+.pc-ribbon { fill-opacity: 0.5; stroke: none; cursor: pointer; }
+.pc-ribbon:hover { fill-opacity: 0.8; }
+.pc-ribbon.pin { fill-opacity: 0.9; stroke: var(--color-text); stroke-width: 1px; }
+.pc-ghost { fill: var(--data-filtered); fill-opacity: 0.35; stroke: none; pointer-events: none; }
+
+/* high contrast: stronger ribbons */
+html.accessibility-contrast .pc-ribbon { fill-opacity: 0.8; }
+html.accessibility-contrast .summary { background: var(--color-surface); border: 2px solid #000; }

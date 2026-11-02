@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Fire visualisation - Bullet Graph</title>
+    <link rel="stylesheet" type="text/css" href="../css/theme.css">
+    <link rel="stylesheet" href="/css/accessibility.css">
+    <script src="/js/accessibility.js"></script>
+</head>
+<body>
+    <header class="page-header">
+    <a class="back-link" href="/">← All the visualizations</a>
+    <h1>Fire visualisation - Bullet Graph</h1>
+    <p class="subtitle">One year of fires compared to all the other years</p>
+    </header>
+
+    <div class="card">
+        <div id="bullet"></div>
+    </div>
+
+    <script src="/lib/d3.min.js"></script>
+    <script src="../js/theme.js"></script>
+    <script src="../js/fireData.js"></script>
+    <script src="fireDataBulletGraph.js"></script>
+    <script src="fireBulletGraph.js"></script>
+
+    <script>
+        loadFireStats().then(({ fires, yearlyStats, causePerYear, causePerYearWide }) => {
+            // check the results in the browser console (F12)
+            console.table(yearlyStats)
+            console.table(causePerYear)
+            console.log('wide format', causePerYearWide)
+
+            createFireBulletGraph('#bullet', { fires, yearlyStats, causePerYearWide }, {
+                referenceStat: 'median',   // or 'mean'
+                year: 2000                 // optional, default = latest year
+            })
+        })
+    </script>
+</body>
+</html>

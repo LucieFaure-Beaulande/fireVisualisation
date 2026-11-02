@@ -1,3 +1,4 @@
+// Shared panel and preferences; the browser and CommonJS use the same validation.
 (function (root, factory) {
   const api = factory();
   if (typeof module === "object" && module.exports) module.exports = api;
@@ -10,6 +11,10 @@
 
   const STORAGE_KEY = "fire-accessibility";
   const DEFAULTS = Object.freeze({ contrast: false, bigCursor: false, palette: "standard", textScale: 1 });
+  const TEXT_SCALES = [1, 1.25, 1.5, 1.75, 2];
+  const sessions = new WeakMap();
+  const listeners = new Set();
+  let active;
 
   function normalise(value) {
     const source = value && typeof value === "object" ? value : {};
@@ -17,11 +22,10 @@
       contrast: source.contrast === true,
       bigCursor: source.bigCursor === true,
       palette: source.palette === "cvd" ? "cvd" : "standard",
-      textScale: [1, 1.25, 1.5].includes(source.textScale) ? source.textScale : 1
+      textScale: TEXT_SCALES.includes(source.textScale) ? source.textScale : 1
     };
   }
 
-  // Storage is optional: the in-memory state always remains usable.
   function createPreferences(storage) {
     let state = { ...DEFAULTS };
     try { state = normalise(JSON.parse(storage?.getItem(STORAGE_KEY) ?? "null")); } catch (_) { /* Use defaults. */ }
@@ -38,62 +42,107 @@
   }
 
   function initialise(win) {
+    if (sessions.has(win)) {
+      active = sessions.get(win);
+      return active.preferences;
+    }
     const doc = win.document;
     let storage;
     try { storage = win.localStorage; } catch (_) { /* Browser may deny access. */ }
     const preferences = createPreferences(storage);
-    const html = doc.documentElement;
-    function apply() {
+    let panel, toggle;
+
+    function syncControls() {
+      if (!panel) return;
       const state = preferences.get();
+      panel.querySelectorAll("input[data-key]").forEach(input => {
+        const key = input.dataset.key;
+        input.checked = input.type === "checkbox" ? state[key] : String(state[key]) === input.value;
+      });
+    }
+
+    function apply(key) {
+      const state = preferences.get();
+      const html = doc.documentElement;
       html.classList.toggle("accessibility-contrast", state.contrast);
       html.classList.toggle("accessibility-big-cursor", state.bigCursor);
       html.dataset.palette = state.palette;
       html.style.setProperty("--text-scale", state.textScale);
-      win.dispatchEvent(new win.CustomEvent("fire:accessibilitychange", { detail: state }));
+      syncControls();
+      win.dispatchEvent(new win.CustomEvent("fire:accessibilitychange", { detail: { ...state } }));
+      if (key) listeners.forEach(listener => listener({ ...state }, key));
     }
-    // This script runs in the head, before the first map render.
-    apply();
+
+    function setOpen(open) {
+      panel.hidden = !open;
+      toggle.setAttribute("aria-expanded", String(open));
+      (open ? panel.querySelector(".accessibility-close") : toggle).focus();
+    }
 
     function mount() {
-      const toggle = doc.getElementById("accessibility-toggle");
-      const panel = doc.getElementById("accessibility-panel");
-      const close = doc.getElementById("accessibility-close");
-      const reset = doc.getElementById("accessibility-reset");
-      const feedback = doc.getElementById("accessibility-feedback");
-      function syncControls() {
-        const state = preferences.get();
-        panel.querySelectorAll("input").forEach(input => {
-          input.checked = input.type === "checkbox" ? state[input.name] : String(state[input.name]) === input.value;
-        });
-      }
-      function setOpen(open) {
-        panel.hidden = !open;
-        toggle.setAttribute("aria-expanded", String(open));
-        (open ? close : toggle).focus();
-      }
+      if (panel || !doc.body) return;
+      toggle = doc.createElement("button");
+      toggle.id = "accessibility-toggle";
+      toggle.type = "button";
+      toggle.className = "accessibility-toggle";
+      toggle.textContent = "Accessibilité";
+      toggle.setAttribute("aria-expanded", "false");
+      toggle.setAttribute("aria-controls", "accessibility-panel");
+      toggle.setAttribute("aria-haspopup", "dialog");
+      toggle.setAttribute("aria-keyshortcuts", "Alt+A");
+
+      panel = doc.createElement("section");
+      panel.id = "accessibility-panel";
+      panel.className = "accessibility-panel";
+      panel.hidden = true;
+      panel.setAttribute("role", "dialog");
+      panel.setAttribute("aria-labelledby", "accessibility-title");
+      panel.innerHTML = `
+        <div class="accessibility-header">
+          <h2 id="accessibility-title">Accessibilité</h2>
+          <button type="button" class="accessibility-close" aria-label="Fermer les réglages d’accessibilité">✕</button>
+        </div>
+        <div class="accessibility-body">
+          <fieldset><legend>Taille du texte</legend><div class="accessibility-segmented">
+            ${TEXT_SCALES.map(scale => `<label><input type="radio" name="accessibility-text-scale" data-key="textScale" value="${scale}"><span>${scale * 100} %</span></label>`).join("")}
+          </div></fieldset>
+          <fieldset><legend>Couleurs</legend>
+            <label class="accessibility-option"><input type="radio" name="accessibility-palette" data-key="palette" value="standard"><span>Palette standard</span></label>
+            <label class="accessibility-option"><input type="radio" name="accessibility-palette" data-key="palette" value="cvd"><span>Adaptée au daltonisme<span class="accessibility-hint">Les catégories changent de couleur ; les dégradés gardent leur teinte.</span></span></label>
+            <label class="accessibility-option"><input type="checkbox" data-key="contrast"><span>Contraste renforcé</span></label>
+          </fieldset>
+          <fieldset><legend>Souris</legend>
+            <label class="accessibility-option"><input type="checkbox" data-key="bigCursor"><span>Grand curseur<span class="accessibility-hint">Flèche bleue sur les commandes interactives.</span></span></label>
+          </fieldset>
+        </div>
+        <div class="accessibility-footer">
+          <span class="accessibility-hint">Raccourci : Alt + A</span>
+          <button type="button" class="accessibility-reset">Réinitialiser</button>
+          <span class="sr-only accessibility-feedback" role="status"></span>
+        </div>`;
+      doc.body.prepend(toggle);
+      doc.body.append(panel);
       syncControls();
       toggle.addEventListener("click", () => setOpen(panel.hidden));
-      close.addEventListener("click", () => setOpen(false));
+      panel.querySelector(".accessibility-close").addEventListener("click", () => setOpen(false));
       panel.addEventListener("change", event => {
         const input = event.target;
-        if (!input.matches("input")) return;
+        if (!input.matches("input[data-key]")) return;
+        const key = input.dataset.key;
         const value = input.type === "checkbox" ? input.checked
-          : input.name === "textScale" ? Number(input.value) : input.value;
-        preferences.update({ [input.name]: value });
-        apply();
-        syncControls();
+          : key === "textScale" ? Number(input.value) : input.value;
+        preferences.update({ [key]: value });
+        apply(key);
       });
-      reset.addEventListener("click", () => {
+      panel.querySelector(".accessibility-reset").addEventListener("click", () => {
         preferences.reset();
-        apply();
-        syncControls();
-        feedback.textContent = "Réglages réinitialisés.";
+        apply("reset");
+        panel.querySelector(".accessibility-feedback").textContent = "Réglages réinitialisés.";
       });
-      // Click runs after the browser's pointer focus, so restored focus is retained.
       doc.addEventListener("click", event => {
         if (!panel.hidden && !panel.contains(event.target) && !toggle.contains(event.target)) setOpen(false);
       });
-      // Capture Escape before the map's window handler can return to the overview.
+      // Capture Escape before the map can use it to leave the close-up view.
       doc.addEventListener("keydown", event => {
         if (event.altKey && !event.ctrlKey && !event.metaKey && event.key.toLowerCase() === "a") {
           event.preventDefault();
@@ -106,10 +155,35 @@
         }
       }, true);
     }
+
+    active = { preferences, apply, mount };
+    sessions.set(win, active);
+    // Apply preferences before the first chart render, even when loaded in <head>.
+    apply();
     if (doc.readyState === "loading") doc.addEventListener("DOMContentLoaded", mount, { once: true });
     else mount();
     return preferences;
   }
 
-  return { DEFAULTS, STORAGE_KEY, normalise, createPreferences, initialise };
+  function init() { active?.mount(); }
+  function set(key, value) {
+    if (!active || !Object.hasOwn(DEFAULTS, key)) return;
+    active.preferences.update({ [key]: value });
+    active.apply(key);
+  }
+  function reset() {
+    if (!active) return;
+    active.preferences.reset();
+    active.apply("reset");
+  }
+  function onChange(listener) {
+    listeners.add(listener);
+    return () => listeners.delete(listener);
+  }
+
+  return {
+    DEFAULTS, STORAGE_KEY, normalise, createPreferences, initialise,
+    init, set, reset, onChange,
+    get settings() { return active ? active.preferences.get() : { ...DEFAULTS }; }
+  };
 });

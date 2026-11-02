@@ -52,6 +52,55 @@ test("reste utilisable en mémoire si la lecture ou l'écriture du stockage éch
   }
 });
 
+test("conserve les tailles de texte de main jusqu'à 200 %", () => {
+  for (const textScale of [1, 1.25, 1.5, 1.75, 2]) {
+    const storage = memoryStorage(JSON.stringify({ textScale }));
+    const preferences = createPreferences(storage);
+    assert.equal(preferences.get().textScale, textScale);
+    assert.equal(createPreferences(storage).get().textScale, textScale);
+  }
+});
+
+test("préserve l'API de main, les événements de la carte et une initialisation unique", () => {
+  const api = require("../public/js/accessibility.js");
+  const scheduled = [];
+  const events = [];
+  const doc = {
+    readyState: "loading",
+    documentElement: { classList: { toggle() {} }, dataset: {}, style: { setProperty() {} } },
+    addEventListener: (...args) => scheduled.push(args)
+  };
+  const win = {
+    document: doc, localStorage: memoryStorage(),
+    CustomEvent: class { constructor(type, options) { this.type = type; this.detail = options.detail; } },
+    dispatchEvent: event => events.push(event)
+  };
+  const preferences = initialise(win);
+  assert.equal(initialise(win), preferences);
+  api.init();
+  api.init();
+  assert.equal(scheduled.length, 1);
+  assert.equal(events.length, 1);
+  const changes = [];
+  const unsubscribe = api.onChange((settings, key) => changes.push({ settings, key }));
+  api.set("textScale", 2);
+  api.set("contrast", true);
+  api.set("palette", "cvd");
+  assert.deepEqual(api.settings, { ...DEFAULTS, textScale: 2, contrast: true, palette: "cvd" });
+  const snapshot = api.settings;
+  snapshot.textScale = 1;
+  assert.equal(api.settings.textScale, 2);
+  assert.deepEqual(changes.map(change => change.key), ["textScale", "contrast", "palette"]);
+  assert.equal(events.at(-1).type, "fire:accessibilitychange");
+  assert.deepEqual(events.at(-1).detail, api.settings);
+  api.reset();
+  assert.deepEqual(api.settings, DEFAULTS);
+  assert.equal(changes.at(-1).key, "reset");
+  unsubscribe();
+  api.set("bigCursor", true);
+  assert.equal(changes.length, 4);
+});
+
 test("applique les préférences avant le montage du panneau, même si localStorage est inaccessible", () => {
   const classes = new Set();
   const properties = new Map();

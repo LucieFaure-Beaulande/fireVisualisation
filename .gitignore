@@ -1,1 +1,7 @@
 node_modules/
+.DS_Store
+
+# raw geographic sources of the heatmap (> 100 MB, downloaded by the scripts of public/heatmap/data/)
+public/heatmap/data/S_USA.TrailNFS_Publish.gdb/
+public/heatmap/data/oregon_results/
+public/heatmap/pipeline/counties/

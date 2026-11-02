@@ -3,19 +3,21 @@
 ## 1. État du projet
 
 Le projet contient un serveur Express, D3.js 7 et un jeu d'incendies déjà rendu
-accessible au navigateur. La visualisation elle-même reste à réaliser.
+accessible au navigateur. La Bubble Map est accessible sous `/bubblemap/`, depuis
+l'accueil commun aux quatre visualisations.
 
 | Élément | État | Rôle |
 | --- | --- | --- |
 | `server.js` | Disponible | Sert `public/` et D3 local sous `/lib/d3.min.js`. |
 | `public/data/fire-occurence.csv` | Disponible | Source des 23 490 incendies, de 2000 à 2022. |
 | `public/js/fireData.js` | Disponible | Charge et convertit les colonnes du CSV. |
-| `data/OR_Fire_Stations_*.xlsx` | À préparer | Source des casernes. Elle n'est pas encore accessible au navigateur. |
+| `data/OR_Fire_Stations_*.xlsx` | Préparé par le script | Source des exports de casernes ; le tableur reste privé au serveur. |
 | `data/Congressional_Districts.geojson` | Disponible via le serveur | Fond cartographique des six districts de l'Oregon. |
-| `public/js/app.js` | Première étape réalisée | Bubble map annuelle avec projection et légendes. |
+| `public/bubblemap/app.js` | Disponible | Bubble map annuelle, casernes, liens estimés et fisheye. |
 
-La première carte charge directement le CSV des incendies et le GeoJSON des
-districts. Le fichier des casernes reste à préparer avant l'ajout du réseau.
+La carte charge explicitement l'export allégé `/data/fires-bubble-map.csv`, les
+exports des casernes et de leurs liens, puis le GeoJSON des districts. Les autres
+visualisations gardent le CSV complet par défaut via le chargeur commun.
 
 ## 2. Données et règles d'interprétation
 
@@ -74,31 +76,36 @@ la même façon.
 
 ```text
 public/
-  index.html                 Interface et contrôles
-  css/style.css              Styles
+  index.html                 Accueil et liens vers les quatre visualisations
+  bubblemap/index.html       Interface et contrôles de la carte
+  bubblemap/style.css        Styles limités à la carte
+  bubblemap/app.js           Rendu D3 et interactions
+  bubblemap/fisheye-controller.js  Contrôleur du fisheye
+  css/, js/                  Thème, accessibilité et palette partagés
   data/fire-occurence.csv    Source des incendies
-  data/stations.json         Casernes préparées
-  data/districts.geojson     Fond cartographique copié
+  data/fires-bubble-map.csv   Incendies filtrés pour la carte
+  data/fire-stations.csv     Casernes préparées
+  data/fire-station-links.csv Liaisons estimées
+  data/unit-station-mapping.csv Correspondances validées
   js/fireData.js             Chargement et conversion du CSV
-  js/app.js                  Rendu D3 et interactions
 scripts/
-  prepare-data.mjs           Prépare les casernes et le GeoJSON
+  prepare-data.mjs           Prépare les CSV avec filtrage territorial
 ```
 
-Pour respecter l'architecture existante, `index.html` doit charger D3 via
-`/lib/d3.min.js`, puis `js/fireData.js`, avant `js/app.js`. Ainsi, l'application
-utilise la dépendance installée localement et `app.js` peut appeler `loadFires()`.
+La page de la carte charge D3 via `/lib/d3.min.js`, puis `/js/fireData.js`,
+avant `/bubblemap/app.js`. Elle appelle `loadFires('/data/fires-bubble-map.csv')`.
+Le serveur expose `/data/districts.geojson` depuis le GeoJSON source, sans copie.
 
 ## 4. Ordre de réalisation
 
 ### Étape 1 — Préparer les données complémentaires
 
-1. Convertir le tableur de casernes en `public/data/stations.json`.
+1. Convertir le tableur de casernes en `public/data/fire-stations.csv`.
 2. Filtrer les installations retenues et normaliser leurs propriétés : `id`,
    `agency`, `station`, `type`, `county`, `longitude`, `latitude`.
-3. Copier le GeoJSON vers `public/data/districts.geojson`.
-4. Mettre à jour `app.js` : charger les incendies via `loadFires()`, les
-   casernes via `d3.json()` et les districts via `d3.json()`.
+3. Servir le GeoJSON sous `/data/districts.geojson` et l'utiliser pour filtrer l'export des feux.
+4. Charger les incendies via `loadFires('/data/fires-bubble-map.csv')`, les
+   casernes via `d3.csv()` et les districts via `d3.json()`.
 
 ### Étape 2 — Construire la bubble map annuelle
 

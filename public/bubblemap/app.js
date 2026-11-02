@@ -316,7 +316,7 @@ function fisheyeGeoPath(focus, intensity) {
 async function initialise() {
   try {
     const [rawFires, rawStations, validatedMappings, rawLinks, districts] = await Promise.all([
-      loadFires(),
+      loadFires("/data/fires-bubble-map.csv"),
       d3.csv("/data/fire-stations.csv", d => ({
         ...d,
         Longitude: Number(d.Longitude),
@@ -371,7 +371,7 @@ async function initialise() {
     const geoPath = d3.geoPath();
     const colorScale = d3.scaleOrdinal()
       .domain(sizeClasses)
-      .range(FirePalette.sequential(sizeClasses.length));
+      .range(FirePalette.discrete(sizeClasses.length));
     const radiusScale = d3.scaleSqrt()
       .domain([0, d3.max(fires, d => d.EstTotalAcres)])
       .range([2, 26]);
@@ -623,7 +623,7 @@ async function initialise() {
       hideTooltip();
     }
     window.addEventListener("fire:accessibilitychange", () => {
-      colorScale.range(FirePalette.sequential(sizeClasses.length));
+      colorScale.range(FirePalette.discrete(sizeClasses.length));
       fireSelection.attr("fill", d => colorScale(d.Size_class));
       layoutLegend = drawLegend(colorScale);
       layoutCharts();

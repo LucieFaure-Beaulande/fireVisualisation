@@ -112,7 +112,7 @@
 
 /* ---------- Base ---------- */
 
-html { font-size: calc(100% * var(--text-scale)); }
+html { font-size: calc(100% * var(--text-scale)); height: 100%;}
 
 * {
     padding: 0;
@@ -147,7 +147,7 @@ a { color: var(--color-accent); }
 
 /* ---------- Page layout ---------- */
 
-.page { max-width: 1240px; margin: 0 auto; padding-bottom: 5rem; font-size: 1rem; }
+.page { margin: 0 auto; padding-bottom: 5rem; font-size: 1rem; }
 
 .page-header { margin-bottom: 1rem; }
 .page-header h1 { font-size: 1.75rem; margin: 0.25rem 0; }

@@ -4,34 +4,72 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Incendies de l'Oregon</title>
+    <link rel="stylesheet" href="css/theme.css" />
     <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/accessibility.css" />
+    <script src="js/accessibility.js"></script>
   </head>
   <body>
-    <main class="app-shell">
-      <header class="app-header">
+    <main class="app-shell page">
+      <button id="accessibility-toggle" class="accessibility-toggle" type="button" aria-controls="accessibility-panel" aria-expanded="false" aria-haspopup="dialog" aria-keyshortcuts="Alt+A">Accessibilité</button>
+      <header class="app-header page-header">
         <h1>Incendies de l'Oregon</h1>
         <p>Immobilisez le curseur pour explorer avec le fisheye. Patientez encore une seconde pour ouvrir une vue rapprochée.</p>
       </header>
 
-      <section class="controls" aria-label="Filtres de la carte">
+      <section class="controls card" aria-label="Filtres de la carte">
         <p id="year-instruction">Choisir une année : cliquer ou faire glisser le curseur. Utiliser les flèches gauche et droite au clavier.</p>
         <svg id="year-ruler" role="slider" tabindex="0" aria-label="Choisir l'année" aria-describedby="year-instruction"></svg>
       </section>
 
-      <section class="visualisation" aria-label="Carte interactive">
-        <div class="map-toolbar">
-          <button id="fisheye-toggle" type="button" aria-pressed="true" aria-controls="map" disabled>Désactiver le fisheye</button>
-          <button id="return-overview" type="button" aria-controls="map" hidden>Revenir à la carte</button>
+      <section class="visualisation card" aria-label="Carte interactive">
+        <div class="map-toolbar toolbar">
+          <button id="fisheye-toggle" class="btn" type="button" aria-pressed="true" aria-controls="map" disabled>Désactiver le fisheye</button>
+          <button id="return-overview" class="btn" type="button" aria-controls="map" hidden>Revenir à la carte</button>
           <span id="fisheye-state" role="status">Fisheye activé</span>
         </div>
         <svg id="map" role="img" aria-label="Carte des incendies de l'Oregon"></svg>
         <p id="status" class="status" aria-live="polite">Chargement de la carte…</p>
       </section>
 
-      <aside id="tooltip" class="tooltip" aria-live="polite" hidden></aside>
+      <aside id="tooltip" class="fire-tooltip" aria-live="polite" hidden></aside>
     </main>
 
+    <section id="accessibility-panel" class="accessibility-panel" role="dialog" aria-labelledby="accessibility-title" hidden>
+      <div class="accessibility-header">
+        <h2 id="accessibility-title">Accessibilité</h2>
+        <button id="accessibility-close" class="accessibility-close" type="button" aria-label="Fermer les réglages d’accessibilité">✕</button>
+      </div>
+      <div class="accessibility-body">
+        <fieldset>
+          <legend>Affichage</legend>
+          <label class="accessibility-option"><input type="checkbox" name="contrast" /><span>Contraste renforcé<span class="accessibility-hint">Textes et bordures plus contrastés.</span></span></label>
+          <label class="accessibility-option"><input type="checkbox" name="bigCursor" /><span>Grand curseur<span class="accessibility-hint">Flèche bleue sur les commandes interactives.</span></span></label>
+        </fieldset>
+        <fieldset>
+          <legend>Couleurs des données</legend>
+          <label class="accessibility-option"><input type="radio" name="palette" value="standard" checked /><span>Palette standard</span></label>
+          <label class="accessibility-option"><input type="radio" name="palette" value="cvd" /><span>Adaptée au daltonisme</span></label>
+          <p class="accessibility-hint">Les classes de taille gardent leur dégradé orange. Les casernes restent des carrés bleus.</p>
+        </fieldset>
+        <fieldset>
+          <legend>Taille du texte</legend>
+          <div class="accessibility-segmented">
+            <label><input type="radio" name="textScale" value="1" checked /><span>100 %</span></label>
+            <label><input type="radio" name="textScale" value="1.25" /><span>125 %</span></label>
+            <label><input type="radio" name="textScale" value="1.5" /><span>150 %</span></label>
+          </div>
+        </fieldset>
+      </div>
+      <div class="accessibility-footer">
+        <span class="accessibility-hint">Raccourci : Alt + A</span>
+        <button id="accessibility-reset" class="accessibility-reset" type="button">Réinitialiser</button>
+        <span id="accessibility-feedback" class="sr-only" role="status"></span>
+      </div>
+    </section>
+
     <script src="/lib/d3.min.js"></script>
+    <script src="js/palette.js"></script>
     <script src="js/fireData.js"></script>
     <script src="js/fisheye-controller.js"></script>
     <script src="js/app.js"></script>

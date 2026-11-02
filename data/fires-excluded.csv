@@ -1,0 +1,18 @@
+Serial,FireYear,FireName,UnitName,DistrictName,County,Lat_DD,Long_DD,EstTotalAcres,Size_class,Discover_DateTime,Control_DateTime,ExclusionReason
+70214,2004,Slide Creek,Medford,Southwest Oregon,Jackson,42.00674,-122.53061,0.25,A,07/25/2004 09:00:00 AM,07/26/2004 11:00:00 AM,Hors du territoire du fond de carte
+69944,2004,Deep Canyon,Wallowa,Northeast Oregon,Other State,46.0255,-117.15383,308,E,07/06/2004 06:45:00 AM,07/06/2004 06:50:00 PM,Hors du territoire du fond de carte
+58031,2000,Oasis,Wallowa,Northeast Oregon,Other State,46.03983,-117.2585,500,E,07/09/2000 12:46:00 PM,07/10/2000 06:00:00 AM,Hors du territoire du fond de carte
+60946,2001,Barns Canyon,Wallowa,Northeast Oregon,Other State,46.01167,-117.195,0.1,A,07/13/2001 03:51:00 PM,07/14/2001 05:33:00 AM,Hors du territoire du fond de carte
+91756,2012,Fort Complex,Medford,Southwest Oregon,Other State,41.89889,-123.24167,23658,G,08/05/2012 08:00:00 PM,09/11/2012 06:00:00 AM,Hors du territoire du fond de carte
+118642,2020,Jenny Creek,Medford,Southwest Oregon,Other State,42.00823,-122.38676,13,C,07/27/2020 01:26:00 PM,07/28/2020 01:00:00 PM,Hors du territoire du fond de carte
+101529,2015,Blue Creek,Pendleton,Northeast Oregon,Other State,46.05722,-118.13333,6004,G,07/20/2015 12:37:00 PM,07/31/2015 07:00:00 PM,Hors du territoire du fond de carte
+102929,2015,Rye Ridge,Wallowa,Northeast Oregon,Other State,46.0159,-117.095,580,E,08/12/2015 06:18:00 PM,08/20/2015 07:35:00 AM,Hors du territoire du fond de carte
+110923,2018,ODF Klamathon,Medford,Southwest Oregon,Other State,41.88078,-122.54006,38050,G,07/05/2018 12:25:00 PM,07/21/2018 06:00:00 PM,Hors du territoire du fond de carte
+114265,2019,ODF Camp Creek,Medford,Southwest Oregon,Other State,42.00738,-122.42142,5,B,06/12/2019 04:51:00 PM,06/12/2019 06:00:00 PM,Hors du territoire du fond de carte
+120638,2020,Kowall Grass Fire,Molalla,North Cascade,Clackamas,45.64167,-122.40447,2.25,B,08/23/2020 02:00:00 PM,08/23/2020 04:30:00 PM,Hors du territoire du fond de carte
+98228,2014,Eldorado Ditch,Baker,Northeast Oregon,Baker,44.45528,-117,0.01,A,08/14/2014 02:15:00 AM,08/15/2014 08:00:00 PM,Hors du territoire du fond de carte
+102545,2015,Grizzly,Wallowa,Northeast Oregon,Other State,46.0729,-117.721,75529.6,G,08/14/2015 02:30:00 PM,11/05/2015 12:01:00 AM,Hors du territoire du fond de carte
+122906,2020,Illinois Valley Support,Grants Pass,Southwest Oregon,Other State,41.08946,-123.54222,152270,G,09/08/2020 06:38:00 AM,11/15/2020 12:01:00 AM,Hors du territoire du fond de carte
+98167,2014,Deep Canyon,Wallowa,Northeast Oregon,Other State,45.99972,-117.15333,131.8,D,08/11/2014 09:40:00 PM,08/14/2014 05:00:00 PM,Hors du territoire du fond de carte
+108397,2017,Dusty,Wallowa,Northeast Oregon,Other State,46.01111,-117.48,0.1,A,08/12/2017 04:00:00 PM,08/12/2017 07:45:00 PM,Hors du territoire du fond de carte
+133998,2022,Lost Creek,Coos Bay,Coos - CFPA,Coos,43.24917,-124.98361,0.25,A,11/20/2022 11:45:00 AM,11/21/2022 05:00:00 PM,Hors du territoire du fond de carte

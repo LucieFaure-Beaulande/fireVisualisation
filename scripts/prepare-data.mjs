@@ -2,6 +2,7 @@ import { readFile, writeFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
 import { inflateRawSync } from "node:zlib";
+import { partitionFiresByTerritory } from "./geographic-filter.mjs";
 
 const scriptDirectory = path.dirname(fileURLToPath(import.meta.url));
 const projectDirectory = path.resolve(scriptDirectory, "..");
@@ -12,6 +13,9 @@ const stationOutputPath = path.join(projectDirectory, "public", "data", "fire-st
 const candidateOutputPath = path.join(projectDirectory, "public", "data", "unit-station-candidates.csv");
 const mappingOutputPath = path.join(projectDirectory, "public", "data", "unit-station-mapping.csv");
 const linkOutputPath = path.join(projectDirectory, "public", "data", "fire-station-links.csv");
+// Même fond de carte que la route /data/districts.geojson de server.js.
+const districtInputPath = path.join(projectDirectory, "data", "Congressional_Districts.geojson");
+const excludedOutputPath = path.join(projectDirectory, "data", "fires-excluded.csv");
 
 const outputColumns = [
   "Serial",
@@ -403,14 +407,17 @@ function createFireStationLinks(fires, stations, mappings) {
 
 const fireSource = await readFile(fireInputPath, "utf8");
 const stationSource = await readFile(stationInputPath);
+const districts = JSON.parse(await readFile(districtInputPath, "utf8"));
 const fires = parseCsv(fireSource);
-const bubbleFires = fires.filter(isBubbleRecord);
+const validFires = fires.filter(isBubbleRecord);
+const { retained: bubbleFires, excluded: excludedFires } = partitionFiresByTerritory(validFires, districts);
 const stations = parseXlsxRows(stationSource)
   .filter(station => station.OBJECTID && station.Agency && station.Facility_Type && station.x && station.y)
   .filter(isOperationalStation)
   .filter(station => Number.isFinite(Number(station.x)) && Number.isFinite(Number(station.y)))
   .map(toStationRecord);
-const stationCandidates = createStationCandidates(bubbleFires, stations);
+// La validation des correspondances garde son périmètre antérieur au filtre géographique.
+const stationCandidates = createStationCandidates(validFires, stations);
 const validatedStationMappings = stationCandidates
   .filter(candidate => candidate.Status === "Validée")
   .map(candidate => Object.fromEntries(mappingOutputColumns.map(column => [column, candidate[column]])));
@@ -418,13 +425,16 @@ const fireStationLinks = createFireStationLinks(bubbleFires, stations, validated
 
 await Promise.all([
   writeFile(fireOutputPath, `${toCsv(outputColumns, bubbleFires)}\n`, "utf8"),
+  writeFile(excludedOutputPath, `${toCsv([...outputColumns, "ExclusionReason"], excludedFires)}\n`, "utf8"),
   writeFile(stationOutputPath, `${toCsv(stationOutputColumns, stations)}\n`, "utf8"),
   writeFile(candidateOutputPath, `${toCsv(candidateOutputColumns, stationCandidates)}\n`, "utf8"),
   writeFile(mappingOutputPath, `${toCsv(mappingOutputColumns, validatedStationMappings)}\n`, "utf8"),
   writeFile(linkOutputPath, `${toCsv(linkOutputColumns, fireStationLinks)}\n`, "utf8")
 ]);
 
-console.log(`Créé ${path.relative(projectDirectory, fireOutputPath)} : ${bubbleFires.length} feux retenus sur ${fires.length}.`);
+console.log(`Filtrage géographique : ${validFires.length} feux valides examinés sur ${fires.length} lignes source, ${bubbleFires.length} retenus, ${excludedFires.length} exclus.`);
+console.log(`Créé ${path.relative(projectDirectory, fireOutputPath)} : ${bubbleFires.length} feux retenus.`);
+console.log(`Créé ${path.relative(projectDirectory, excludedOutputPath)} : ${excludedFires.length} feux hors du territoire.`);
 console.log(`Créé ${path.relative(projectDirectory, stationOutputPath)} : ${stations.length} casernes opérationnelles retenues.`);
 console.log(`Créé ${path.relative(projectDirectory, candidateOutputPath)} : ${stationCandidates.length} lignes de correspondance examinées.`);
 console.log(`Créé ${path.relative(projectDirectory, mappingOutputPath)} : ${validatedStationMappings.length} correspondances validées.`);

@@ -70,14 +70,19 @@ const returnButton = d3.select("#return-overview");
 
 // Règle temporelle : clic ou glissement pour sélectionner une année.
 function drawRuler(years, getCurrentYear, update) {
-  const rulerMargin = { left: 42, right: 42, top: 42 };
-  const innerWidth = width - rulerMargin.left - rulerMargin.right;
+  // Keep one SVG unit per CSS pixel so labels remain readable on narrow screens.
+  const bounds = rulerSvg.node().getBoundingClientRect();
+  const textScale = parseFloat(FirePalette.token("--text-scale")) || 1;
+  rulerSvg.attr("viewBox", `0 0 ${bounds.width} ${bounds.height}`);
+  rulerSvg.selectAll("*").remove();
+  const rulerMargin = { left: 24 * textScale, right: 24 * textScale, top: 42 * textScale };
+  const innerWidth = Math.max(1, bounds.width - rulerMargin.left - rulerMargin.right);
   const ruler = rulerSvg.append("g")
     .attr("transform", `translate(${rulerMargin.left}, ${rulerMargin.top})`);
   const yearScale = d3.scaleLinear(d3.extent(years), [0, innerWidth]);
 
   // Quand de nombreuses années sont disponibles, seules certaines étiquettes sont affichées.
-  const labelStep = Math.ceil(years.length / Math.max(1, Math.floor(innerWidth / 36)));
+  const labelStep = Math.ceil(years.length / Math.max(1, Math.floor(innerWidth / (48 * textScale))));
 
   ruler.append("g")
     .call(d3.axisBottom(yearScale)
@@ -92,6 +97,7 @@ function drawRuler(years, getCurrentYear, update) {
     .attr("width", innerWidth + 20)
     .attr("height", 70)
     .attr("fill", "transparent")
+    .attr("class", "clickable")
     .style("cursor", "pointer")
     .call(d3.drag().on("start drag", event => {
       const closest = d3.least(years, year => Math.abs(year - yearScale.invert(event.x)));
@@ -111,17 +117,13 @@ function drawRuler(years, getCurrentYear, update) {
   });
 
   // Curseur : cercle sur l'axe et année sélectionnée au-dessus.
-  const handle = ruler.append("g").style("pointer-events", "none");
+  const handle = ruler.append("g").attr("class", "year-handle").style("pointer-events", "none");
   handle.append("circle")
-    .attr("r", 8)
-    .attr("fill", "#222")
-    .attr("stroke", "white")
-    .attr("stroke-width", 2);
+    .attr("r", 8);
   handle.append("text")
     .attr("y", -16)
     .attr("text-anchor", "middle")
-    .attr("font-weight", "bold")
-    .style("font-size", "14px");
+    .attr("font-weight", "bold");
 
   return {
     move(year) {
@@ -132,26 +134,25 @@ function drawRuler(years, getCurrentYear, update) {
 }
 
 function drawLegend(colorScale) {
-  const legend = layers.legend.append("g")
-    .attr("transform", "translate(42, 54)");
+  layers.legend.selectAll("*").remove();
+  const legend = layers.legend.append("g");
 
   legend.append("text")
     .attr("class", "legend-title")
-    .text("Légende");
+    .text("Classe de taille");
 
 
-  const colorLegend = legend.append("g").attr("transform", "translate(0, 32)");
+  const colorLegend = legend.append("g");
   colorLegend.selectAll("g")
     .data(sizeClasses)
     .join("g")
-    .attr("transform", (d, i) => `translate(0, ${18 + i * 19})`)
     .each(function (d) {
       const item = d3.select(this);
-      item.append("circle").attr("r", 6).attr("fill", colorScale(d));
+      item.append("circle").attr("class", "legend-color").attr("r", 6).attr("fill", colorScale(d));
       item.append("text").attr("x", 13).attr("dy", "0.35em").text(d);
     });
 
-  const stationLegend = legend.append("g").attr("transform", "translate(0, 200)");
+  const stationLegend = legend.append("g");
   stationLegend.append("path")
     .attr("class", "station")
     .attr("d", d3.symbol().type(d3.symbolSquare).size(100));
@@ -160,6 +161,49 @@ function drawLegend(colorScale) {
     .attr("dy", "0.35em")
     .text("Caserne pertinente");
 
+  return function layout() {
+    const cssWidth = svg.node().getBoundingClientRect().width;
+    const unit = width / Math.max(1, cssWidth);
+    const fontSize = parseFloat(getComputedStyle(document.documentElement).fontSize) * 0.75;
+    const row = fontSize * 1.9 * unit;
+    const compact = window.matchMedia("(max-width: 600px)").matches;
+    const padding = 16 * unit;
+    const columns = compact ? Math.max(1, Math.min(7, Math.floor((cssWidth - 32) / (fontSize * 3.5)))) : 1;
+    const columnWidth = (width - padding * 2) / columns;
+    const rows = Math.ceil(sizeClasses.length / columns);
+    legend.style("font-size", `${fontSize * unit}px`)
+      .attr("transform", compact ? `translate(${padding},${height + row})` : `translate(${42},${54})`);
+    colorLegend.attr("transform", `translate(0,${row})`);
+    colorLegend.selectAll("g").attr("transform", (d, i) =>
+      `translate(${(i % columns) * columnWidth},${Math.floor(i / columns) * row + row * 0.6})`);
+    colorLegend.selectAll("circle").attr("r", 5 * unit);
+    colorLegend.selectAll("text").attr("x", 13 * unit);
+    stationLegend.attr("transform", `translate(0,${(rows + 2) * row})`);
+    stationLegend.select("path").attr("d", d3.symbol().type(d3.symbolSquare).size((10 * unit) ** 2));
+    stationLegend.select("text").attr("x", 13 * unit);
+    const legendHeight = (rows + 3) * row;
+    const viewHeight = compact ? height + legendHeight + row : height;
+    svg.attr("viewBox", `0 0 ${width} ${viewHeight}`).style("aspect-ratio", `${width} / ${viewHeight}`);
+    // Compensate for the responsive viewBox so SVG labels follow the text setting.
+    svg.selectAll(".fisheye-progress text, .fisheye-detail").style("font-size", `${fontSize * unit}px`);
+    svg.style("--map-label-size", `${fontSize * unit}px`);
+  };
+}
+
+function positionTooltip(event) {
+  const node = tooltip.node();
+  const bounds = node.getBoundingClientRect();
+  const viewport = window.visualViewport;
+  const left = viewport?.offsetLeft ?? 0;
+  const top = viewport?.offsetTop ?? 0;
+  const right = left + (viewport?.width ?? document.documentElement.clientWidth);
+  const bottom = top + (viewport?.height ?? window.innerHeight);
+  let x = event.clientX + 14;
+  let y = event.clientY + 14;
+  if (x + bounds.width > right - 8) x = event.clientX - bounds.width - 14;
+  if (y + bounds.height > bottom - 8) y = event.clientY - bounds.height - 14;
+  tooltip.style("left", `${Math.max(left + 8, Math.min(x, right - bounds.width - 8))}px`)
+    .style("top", `${Math.max(top + 8, Math.min(y, bottom - bounds.height - 8))}px`);
 }
 
 function showTooltip(event, fire) {
@@ -170,9 +214,8 @@ function showTooltip(event, fire) {
 
   tooltip
     .html(`<strong>${name}</strong><br>Classe ${fire.Size_class} · ${d3.format(",.2~f")(fire.EstTotalAcres)} acres${stationDescription}`)
-    .style("left", `${event.clientX + 14}px`)
-    .style("top", `${event.clientY + 14}px`)
     .attr("hidden", null);
+  positionTooltip(event);
 }
 
 function hideTooltip() {
@@ -182,17 +225,15 @@ function hideTooltip() {
 function showStationTooltip(event, station) {
   tooltip
     .html(`<strong>${station.Station}</strong><br>${station.Agency}<br>${station.County} · ${station.FacilityType}<br>Unité : ${station.UnitNames}`)
-    .style("left", `${event.clientX + 14}px`)
-    .style("top", `${event.clientY + 14}px`)
     .attr("hidden", null);
+  positionTooltip(event);
 }
 
 function showLinkTooltip(event, link) {
   tooltip
     .html(`<strong>${link.Station}</strong><br>→ ${link.FireName || "Feu sans nom"}<br>Distance estimée : ${d3.format(",.2~f")(link.DistanceKm)} km<br>Temps avant maîtrise : ${formatControlDuration(link.ControlDurationMinutes)}`)
-    .style("left", `${event.clientX + 14}px`)
-    .style("top", `${event.clientY + 14}px`)
     .attr("hidden", null);
+  positionTooltip(event);
 }
 
 function formatControlDuration(minutes) {
@@ -330,7 +371,7 @@ async function initialise() {
     const geoPath = d3.geoPath();
     const colorScale = d3.scaleOrdinal()
       .domain(sizeClasses)
-      .range(d3.schemeYlOrRd[7]);
+      .range(FirePalette.sequential(sizeClasses.length));
     const radiusScale = d3.scaleSqrt()
       .domain([0, d3.max(fires, d => d.EstTotalAcres)])
       .range([2, 26]);
@@ -353,7 +394,7 @@ async function initialise() {
       .on("pointermove", showStationTooltip)
       .on("pointerleave", hideTooltip);
 
-    drawLegend(colorScale);
+    let layoutLegend = drawLegend(colorScale);
 
     const years = d3.sort(d3.union(fires.map(d => d.FireYear)));
     let currentYear = years[years.length - 1];
@@ -491,6 +532,12 @@ async function initialise() {
     function trackPointer(event) {
       if (event.pointerType === "touch") return;
       const [x, y] = d3.pointer(event, svg.node());
+      // The responsive legend sits below the geographic viewport on small screens.
+      if (x < 0 || x > width || y < 0 || y > height) {
+        fisheyeController.leave();
+        hideTooltip();
+        return;
+      }
       fisheyeController.move({ x, y, clientX: event.clientX, clientY: event.clientY, entered: event.type === "pointerenter" });
     }
 
@@ -569,7 +616,23 @@ async function initialise() {
       })
       .classed("fisheye-enabled", fisheyeEnabled);
 
-    rulerControl = drawRuler(years, () => currentYear, updateMap);
+    function layoutCharts() {
+      rulerControl = drawRuler(years, () => currentYear, updateMap);
+      rulerControl.move(currentYear);
+      layoutLegend();
+      hideTooltip();
+    }
+    window.addEventListener("fire:accessibilitychange", () => {
+      colorScale.range(FirePalette.sequential(sizeClasses.length));
+      fireSelection.attr("fill", d => colorScale(d.Size_class));
+      layoutLegend = drawLegend(colorScale);
+      layoutCharts();
+    });
+    const resizeObserver = new ResizeObserver(layoutCharts);
+    resizeObserver.observe(document.querySelector(".controls"));
+    window.addEventListener("resize", layoutCharts);
+    document.fonts.ready.then(layoutCharts);
+    layoutCharts();
     updateMap(currentYear);
     fisheyeToggle.property("disabled", false);
   } catch (error) {

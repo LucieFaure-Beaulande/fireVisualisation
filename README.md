@@ -24,6 +24,7 @@ public/
   js/, css/                   style et composants communs (voir « Code partagé »)
   heatmap/                    heatmap des feux par comté et par mois
   sunburst/                   sunburst des causes des incendies
+  bulletgraph/                bullet graph des totaux de feux et de surface brûlées sur toutes les années, avec causes et médianes
 ```
 
 Chaque visualisation a son propre dossier dans `public/`, qui contient tous ses fichiers, avec son `index.html` (servi sur `http://localhost:3000/<dossier>/`). Ajoutez ensuite une carte vers votre page dans `public/index.html` (un modèle est en commentaire).

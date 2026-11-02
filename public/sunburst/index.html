@@ -14,6 +14,9 @@
     <script type='text/javascript' src='/js/fireData.js'></script>
     <script type='text/javascript' src='causes.js'></script>
 
+	<!-- semantic zoom: individual fires at the last level, fisheye on the arcs -->
+    <script type='text/javascript' src='semanticZoom.js'></script>
+
 	<!-- style sheets: common theme, then the styles of this visualization -->
 	<link rel="stylesheet" type="text/css" href="/css/theme.css">
 	<link rel="stylesheet" type="text/css" href="style.css">
@@ -21,7 +24,7 @@
 
 <body>
     <h1>Causes des incendies en Oregon</h1>
-    <p class="subtitle">Du centre vers l'extérieur : origine, cause générale, cause spécifique. Cliquer sur un arc pour zoomer, sur le centre pour revenir.</p>
+    <p class="subtitle">Du centre vers l'extérieur : origine, cause générale, cause spécifique. Cliquer sur un arc pour zoomer, jusqu'aux feux d'une cause spécifique ; cliquer sur le centre pour revenir.</p>
 
     <div id="filters" class="card toolbar">
         <span class="group">Taille des arcs
@@ -45,7 +48,10 @@
         <div id="overview" class="card">
             <div id="breadcrumb" class="breadcrumb"></div>
             <div id="scope"></div>
+            <p id="dots-hint"></p>
             <svg id="sunburst">
+                <!-- the fires of a specific cause, outside of the chart group to be zoomed with the mouse wheel -->
+                <g id="dots"><g class="dots-content"></g></g>
                 <g id="chart">
                     <g id="arcs"></g>
                     <g id="labels"></g>
@@ -55,11 +61,8 @@
             <p id="empty" class="empty">Aucun feu ne correspond aux filtres.</p>
         </div>
 
-        <!-- details: the selected cause and its fires -->
+        <!-- details: the causes of the circle and the largest fires of the selected cause -->
         <div id="details" class="card">
-            <h2 id="selection-title"></h2>
-            <div id="stats" class="stats"></div>
-
             <h2 id="legend-title"></h2>
             <table id="legend" class="clickable">
                 <thead>
@@ -126,8 +129,8 @@
             focusId = '', // the selected cause, '' = all the fires
             root = null,
             sort = { column: null, ascending: false }, // the sort of the table of the causes, null = the measure of the sunburst
-            focus = null, // the selected cause, described in the details
-            zoom = null // the cause at the center of the sunburst: the selected cause, or its parent for a specific cause
+            focus = null, // the selected cause
+            zoom = null // the cause at the center of the sunburst, always the selected cause
 
         let separator = ' › '
 
@@ -209,7 +212,7 @@
         let labelVisible = d => arcVisible(d) && (d.x1 - d.x0) * (d.y0 + d.y1) / 2 * radius > 14
 
         function labelTransform(d) {
-            let angle = (d.x0 + d.x1) / 2 * 180 / Math.PI,
+            let angle = (((d.x0 + d.x1) / 2 * 180 / Math.PI) % 360 + 360) % 360,
                 distance = (d.y0 + d.y1) / 2 * radius
             return `rotate(${angle - 90}) translate(${distance}, 0) rotate(${angle < 180 ? 0 : 180})`
         }
@@ -236,8 +239,9 @@
             if (!focus || focus.x1 === focus.x0) focus = root
             focusId = focus.id
 
-            // a specific cause has no children to draw around it: its parent stays at the center
-            zoom = focus.children || !focus.parent ? focus : focus.parent
+            // the selected cause is at the center: its children are drawn around it,
+            // or its individual fires for a specific cause, which has no children (semantic zoom)
+            zoom = focus
 
             root.each(d => d.target = position(d, zoom))
 
@@ -247,9 +251,13 @@
 
             let nodes = empty ? [] : root.descendants().slice(1)
 
+            fisheyeActive = false
+            lastUpdate = Date.now()
+
             drawArcs(nodes)
             drawLabels(nodes)
             drawCenter()
+            drawFireDots(empty ? [] : fires) // after the center, which follows the zoom on the fires
             drawBreadcrumb()
             drawScope()
             drawDetails(fires)
@@ -273,7 +281,6 @@
                     exit => exit.remove()
                 )
                 .attr('fill', d => color(d))
-                .classed('selected', d => d === focus)
                 .attr('pointer-events', d => arcVisible(d.target) ? 'auto' : 'none')
                 .transition()
                 .duration(duration)
@@ -282,9 +289,6 @@
                     let interpolate = d3.interpolate(this._current, d.target)
                     return t => arcGenerator(this._current = interpolate(t))
                 })
-
-            // draw the selected arc last, to see its whole outline
-            chartGroup.selectAll('path.arc.selected').raise()
         }
 
         function drawLabels(nodes) {
@@ -315,7 +319,7 @@
         // the center shows the cause around which the sunburst is drawn, a click goes back one level
         function drawCenter() {
             let center = chartGroup.select('#center'),
-                back = focus !== zoom ? zoom : zoom.parent // where a click on the center goes
+                back = zoom.parent // where a click on the center goes
 
             center.selectAll('circle')
                 .data([zoom])
@@ -367,34 +371,9 @@
                 .text(description.length ? 'Filtres : ' + description.join(' · ') : '')
         }
 
-        // the details of the selected cause: statistics, causes of the circle and largest fires
+        // the details: the causes of the circle and the largest fires of the selected cause
         function drawDetails(fires) {
             let selection = firesOfCause(fires, focus.path)
-
-            d3.select('#selection-title')
-                .text(focus.data.name)
-
-            // one card per measure: the value, the share of the circle, and in small the share of all the fires
-            let stats = [
-                { label: 'Feux', name: 'count' },
-                { label: 'Surface brûlée (acres)', name: 'acres' }
-            ]
-
-            d3.select('#stats')
-                .selectAll('div.stat')
-                .data(stats)
-                .join('div')
-                .attr('class', 'stat')
-                .html('<div class="label"></div><div class="value"></div><div class="main-share"></div><div class="total-share"></div>')
-                .each(function(d) {
-                    let card = d3.select(this),
-                        value = focus.data[d.name]
-                    card.select('.label').text(d.label)
-                    card.select('.value').text(formatNumber(value))
-                    // the selected cause is either the center of the circle, or a specific cause inside the circle
-                    card.select('.main-share').text(focus === zoom ? '' : shareOfCircle(value, d.name))
-                    card.select('.total-share').text(focus === root ? '' : shareOfTotal(value, d.name))
-                })
 
             // the causes drawn around the center of the sunburst, also used as the legend of the colors:
             // the general causes for all the fires or for an origin, the specific causes for a general cause
@@ -405,19 +384,22 @@
                     ? (a, b) => d3.ascending(a.data.name.toLowerCase(), b.data.name.toLowerCase())
                     : (a, b) => d3.ascending(a.data[key], b.data[key])
 
-            let causes = (zoom === root ? root.descendants().filter(d => d.depth === 2) : (zoom.children || []))
+            // when the fires of a specific cause are drawn, the table keeps the causes of its general cause
+            let circle = zoom.children || !zoom.parent ? zoom : zoom.parent
+
+            let causes = (circle === root ? root.descendants().filter(d => d.depth === 2) : (circle.children || []))
                     .slice()
                     .sort((a, b) => sort.ascending ? compare(a, b) : compare(b, a)),
                 names = causes.map(d => d.data.name),
                 isDuplicated = d => names.indexOf(d.data.name) !== names.lastIndexOf(d.data.name)
 
             d3.select('#legend-title')
-                .text(zoom === root ? 'Causes générales'
-                    : (zoom.depth === 1 ? 'Causes générales de « ' : 'Causes spécifiques de « ') + zoom.data.name + ' »')
+                .text(circle === root ? 'Causes générales'
+                    : (circle.depth === 1 ? 'Causes générales de « ' : 'Causes spécifiques de « ') + circle.data.name + ' »')
 
             // the explanation of the percentages, shown when the mouse is over their column headers
-            let shareInfo = `Les pourcentages sont calculés sur le total du cercle : ${formatNumber(zoom.data.count)} feux `
-                + `et ${formatNumber(zoom.data.acres)} acres brûlés.`
+            let shareInfo = `Les pourcentages sont calculés sur le total du cercle : ${formatNumber(circle.data.count)} feux `
+                + `et ${formatNumber(circle.data.acres)} acres brûlés.`
 
             // the headers of the table: a click sorts the table, an arrow shows the sorted column
             d3.selectAll('#legend th')
@@ -451,9 +433,9 @@
                 .on('mouseout', () => highlight(null))
                 .html(d => `<td><span class="swatch" style="background:${color(d)}"></span></td>`
                     + `<td class="number">${formatNumber(d.data.count)}</td>`
-                    + `<td class="number">${share(d.data.count, zoom.data.count)}</td>`
+                    + `<td class="number">${share(d.data.count, circle.data.count)}</td>`
                     + `<td class="number">${formatNumber(d.data.acres)}</td>`
-                    + `<td class="number">${share(d.data.acres, zoom.data.acres)}</td>`)
+                    + `<td class="number">${share(d.data.acres, circle.data.acres)}</td>`)
                 .each(function(d) {
                     d3.select(this).select('td')
                         .append('span')
@@ -607,6 +589,11 @@
             resetFilters()
             update()
         })
+
+        // the fisheye follows the mouse over the sunburst
+        svg.on('mousemove', moveFisheye)
+            .on('mouseleave', resetFisheye)
+            .call(dotsZoom) // the zoom of the mouse wheel on the fires of a specific cause
 
         // ---------- start ----------
 

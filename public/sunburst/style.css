@@ -18,6 +18,10 @@
     min-width: min(380px, 100%);
 }
 
+#details h2:first-child {
+    margin-top: 0;
+}
+
 #sunburst {
     display: block;
     max-width: 100%;
@@ -37,11 +41,6 @@
     cursor: pointer;
     stroke: var(--surface);
     stroke-width: 1px;
-}
-
-#sunburst path.arc.selected {
-    stroke: var(--text);
-    stroke-width: 2.5px;
 }
 
 #sunburst text.arc-label {
@@ -95,11 +94,6 @@
     font-size: 12px;
     color: var(--text-secondary);
     min-height: 16px;
-}
-
-#selection-title {
-    font-size: 16px;
-    margin-top: 0;
 }
 
 /* the shares under a value: the share of the circle, and in small the share of all the fires */
@@ -157,4 +151,50 @@ th.has-info::after {
     content: '↕ ';
     font-size: 10px;
     color: var(--text-muted);
+}
+
+/* semantic zoom: the fires of a specific cause, in cells without zoom, then one circle per fire */
+#dots path.cell {
+    stroke: var(--surface);
+    stroke-width: 0.5px;
+    vector-effect: non-scaling-stroke;
+}
+
+#dots path.cell:hover {
+    stroke: var(--text);
+    stroke-width: 1.5px;
+}
+
+#dots circle.fire {
+    fill-opacity: 0.5;
+}
+
+#dots circle.fire:hover {
+    fill-opacity: 0.9;
+    stroke: var(--text);
+}
+
+#dots circle.year-guide,
+#dots line.month-guide {
+    fill: none;
+    stroke: var(--border);
+    vector-effect: non-scaling-stroke;
+    pointer-events: none;
+}
+
+#dots text.year-label,
+#dots text.month-label {
+    font-size: 10px;
+    fill: var(--text-muted);
+    pointer-events: none;
+    /* a white outline keeps the labels readable above the cells and the fires */
+    paint-order: stroke;
+    stroke: var(--surface);
+    stroke-width: 3px;
+}
+
+#dots-hint {
+    font-size: 12px;
+    color: var(--text-secondary);
+    max-width: 640px;
 }

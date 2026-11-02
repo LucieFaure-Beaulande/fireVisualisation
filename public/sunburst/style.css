@@ -198,3 +198,11 @@ th.has-info::after {
     color: var(--text-secondary);
     max-width: 640px;
 }
+
+/* embedded mode: only the sunburst remains */
+html.embed #breadcrumb,
+html.embed #scope,
+html.embed #dots-hint,
+html.embed #details { display: none; }
+
+html.embed #content { margin-top: 0; }

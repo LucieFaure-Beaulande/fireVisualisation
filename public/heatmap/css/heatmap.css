@@ -56,3 +56,6 @@
 /* high contrast: stronger ribbons */
 html.accessibility-contrast .pc-ribbon { fill-opacity: 0.8; }
 html.accessibility-contrast .summary { background: var(--color-surface); border: 2px solid #000; }
+
+/* embedded mode: the legend is hidden too, only the heatmap remains */
+html.embed #heatmapLegend { display: none; }

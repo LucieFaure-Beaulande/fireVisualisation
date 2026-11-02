@@ -19,27 +19,25 @@
             <!-- Main area (3fr, spans the 3 rows): empty for now -->
             <section class="home-main card" aria-label="Main area"></section>
 
-            <!-- One cell per visualization: a live miniature (iframe) and a link covering the whole cell.
-                 Each page is in its own folder of public/ -->
             <div class="viz-card card">
-                <iframe src="/heatmap/" title="" tabindex="-1" aria-hidden="true"></iframe>
-                <a class="viz-link" href="/heatmap/">
+                <iframe src="/heatmap/?embed" data-target="#heatmap" title="" tabindex="-1" aria-hidden="true"></iframe>
+                <button type="button" class="viz-link" data-href="/heatmap/">
                     <span class="viz-title">Heatmap counties × months</span>
-                </a>
+                </button>
             </div>
 
             <div class="viz-card card">
-                <iframe src="/sunburst/" title="" tabindex="-1" aria-hidden="true"></iframe>
-                <a class="viz-link" href="/sunburst/">
+                <iframe src="/sunburst/?embed" data-target="#sunburst" title="" tabindex="-1" aria-hidden="true"></iframe>
+                <button type="button" class="viz-link" data-href="/sunburst/">
                     <span class="viz-title">Sunburst of the causes</span>
-                </a>
+                </button>
             </div>
 
             <div class="viz-card card">
-                <iframe src="/bulletgraph/" title="" tabindex="-1" aria-hidden="true"></iframe>
-                <a class="viz-link" href="/bulletgraph/">
+                <iframe src="/bulletgraph/?embed" data-target="#bullet" title="" tabindex="-1" aria-hidden="true"></iframe>
+                <button type="button" class="viz-link" data-href="/bulletgraph/">
                     <span class="viz-title">Bullet Graph</span>
-                </a>
+                </button>
             </div>
         </div>
     </main>

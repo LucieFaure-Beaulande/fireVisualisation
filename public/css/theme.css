@@ -354,3 +354,20 @@ svg g[font-family] { font-family: inherit; }
 .dimmed { opacity: 0.25; }
 
 .empty { color: var(--text-secondary); padding: 40px 0; text-align: center; }
+
+/* ---------- Embedded mode (?embed): only the chart is shown, see /js/embed.js ---------- */
+
+html.embed { overflow: hidden; }
+html.embed body { padding: 0; background: var(--color-surface); }
+html.embed .page { padding: 0; }
+html.embed .accessibility-toggle { display: none; }
+
+/* titles, filters and explanations are hidden */
+html.embed .page-header,
+html.embed h1,
+html.embed .subtitle,
+html.embed .toolbar,
+html.embed .hint { display: none; }
+
+/* the cards around the charts have no frame */
+html.embed .card { border: 0; box-shadow: none; padding: 0; background: transparent; }

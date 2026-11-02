@@ -17,7 +17,7 @@
     flex-direction: column;
 }
 
-/* ---------- Grid: a wide main area on the left, 3 cells of the same height on the right ---------- */
+/* ---------- Grid: a wide main area on the left, the other cells of the same height on the right ---------- */
 
 .home-grid {
     flex: 1;                    /* takes the height left under the header */
@@ -29,10 +29,13 @@
 
 .home-main {
     grid-column: 1;
-    grid-row: 1 / 4;            /* spans the 3 rows */
+    grid-row: 1 / -1;           /* spans all the rows */
 }
 
-/* ---------- Cell of a visualization: the miniature fills it, the link covers it ---------- */
+/* the empty area is only a placeholder before the first click */
+.home-grid.has-main .home-main { display: none; }
+
+/* ---------- Cell of a visualization: the miniature fills it, the button covers it ---------- */
 
 .viz-card {
     grid-column: 2;
@@ -45,6 +48,25 @@
     box-shadow: 0 4px 16px var(--color-shadow);
 }
 
+/* the visualization shown in the main area */
+.viz-card.is-main {
+    grid-column: 1;
+    grid-row: 1 / -1;
+}
+
+/* the empty cell left in the right column when a card moves to the main area */
+.viz-empty {
+    grid-column: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.875rem;
+    color: var(--color-text-faint);
+    background: transparent;
+    border: 2px dashed var(--color-border);
+    box-shadow: none;
+}
+
 /* the page is rendered at a desktop width, then shrunk by index.js (size and scale set there) */
 .viz-card iframe {
     position: absolute;
@@ -53,18 +75,27 @@
     border: 0;
     background: var(--color-surface);
     transform-origin: top left;
-    pointer-events: none;       /* the click goes to the link */
+    pointer-events: none;       /* the click goes to the button */
+    visibility: hidden;         /* shown by index.js once the chart is placed */
 }
 
-/* the link covers the whole cell */
+/* the button covers the whole cell: it moves the card to the main area, or opens the full page */
 .viz-link {
     position: absolute;
     inset: 0;
+    width: 100%;
+    height: 100%;
+    padding: 0;
     display: flex;
     align-items: flex-end;
     color: inherit;
-    text-decoration: none;
+    text-align: left;
+    background: none;
+    border: 0;
+    border-radius: 0;
+    cursor: pointer;
 }
+.viz-link:hover { background: none; }
 .viz-link:focus-visible { outline-offset: -3px; }
 
 .viz-title {
@@ -77,6 +108,18 @@
     border-top: 1px solid var(--color-border-soft);
 }
 
+/* the action of a click is written in the title */
+.viz-card:not(.is-main) .viz-title::after {
+    content: ' · show larger';
+    font-weight: 400;
+    color: var(--color-text-muted);
+}
+.viz-card.is-main .viz-title::after {
+    content: ' · open the full page →';
+    font-weight: 400;
+    color: var(--color-text-muted);
+}
+
 /* ---------- Small screens: one column, the cells follow each other ---------- */
 /* keep this block last: it overrides the rules above */
 
@@ -86,10 +129,16 @@
         grid-template-columns: 1fr;
         grid-template-rows: none;
         grid-auto-rows: 12rem;
+        .viz-empty { display: none; }
     }
     .home-main {
         grid-row: auto;
         min-height: 6rem;
     }
     .viz-card { grid-column: 1; }
+
+    /* the main visualization comes first and is twice as high */
+    .viz-card.is-main {
+        grid-row: span 2;
+    }
 }

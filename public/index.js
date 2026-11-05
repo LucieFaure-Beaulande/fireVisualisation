@@ -123,7 +123,6 @@ applyLayout()
 
 // ---------- shared year ruler ----------
 // the year is sent to the iframes marked with data-sync-year (see js/embed.js)
-
 const rulerYears = d3.range(2000, 2023)
 const syncedFrames = Array.from(document.querySelectorAll('iframe[data-sync-year]'))
 let selectedYear = 2022
@@ -135,11 +134,34 @@ function sendYear(frame) {
 // a page loaded after the ruler is synchronized as soon as it is ready
 syncedFrames.forEach(frame => frame.addEventListener('load', () => sendYear(frame)))
 
-createYearRuler('#yearRuler', {
-    years: rulerYears,
-    year: selectedYear,
-    onChange: year => {
-        selectedYear = year
-        syncedFrames.forEach(sendYear)
-    }
+function drawYearRuler() {
+    createYearRuler('#yearRuler', {
+        years: rulerYears,
+        year: selectedYear,   // the selected year is kept when the ruler is redrawn
+        onChange: year => {
+            selectedYear = year
+            syncedFrames.forEach(sendYear)
+        }
+    })
+}
+
+drawYearRuler()
+
+// redraw the ruler when the text size changes: the labels written depend on it
+FireAccessibility.onChange((settings, key) => {
+    if (key === 'textScale' || key === 'reset') drawYearRuler()
 })
+
+// ---------- layout following the text size (accessibility) ----------
+// from this text scale, the main area goes on top and the 3 miniatures below it
+const stackedFromScale = 1.5
+
+function updateLayout() {
+    grid.classList.toggle('is-stacked', FireAccessibility.settings.textScale >= stackedFromScale)
+}
+
+FireAccessibility.onChange((settings, key) => {
+    if (key === 'textScale' || key === 'reset') updateLayout()
+})
+
+updateLayout()

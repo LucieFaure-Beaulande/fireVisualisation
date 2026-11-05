@@ -153,3 +153,29 @@
     outline: 3px solid var(--color-focus);
     outline-offset: 2px;
 }
+
+/* ---------- Large text: main area on top, the 3 miniatures below ---------- */
+/* only on wide screens: small screens already have one column */
+
+@media (min-width: 801px) {
+    /* the page scrolls instead of squeezing the cells */
+    .page:has(.home-grid.is-stacked) { overflow: visible; }
+
+    .home-grid.is-stacked {
+        flex: none;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: minmax(24rem, 60vh) 14rem;
+    }
+
+    .home-grid.is-stacked .home-main,
+    .home-grid.is-stacked .viz-card.is-main {
+        grid-column: 1 / -1;
+        grid-row: 1;
+    }
+
+    .home-grid.is-stacked .viz-card,
+    .home-grid.is-stacked .viz-empty {
+        grid-column: auto;
+        grid-row: 2;
+    }
+}

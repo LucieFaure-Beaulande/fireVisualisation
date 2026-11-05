@@ -22,9 +22,16 @@ function createYearRuler(containerSelector, options) {
     const yearScale = d3.scaleLinear(d3.extent(years), [0, innerWidth])
     const ruler = svg.append('g').attr('transform', `translate(${margin.left},40)`)
 
+    // when the text is large, only some labels are written (all the ticks are kept)
+    const textScale = FireAccessibility.settings.textScale
+    const labelStep = textScale >= 1.75 ? 3 : textScale >= 1.25 ? 2 : 1
+
     ruler.append('g')
         .attr('class', 'axis')
-        .call(d3.axisBottom(yearScale).tickValues(years).tickSizeOuter(0).tickFormat(d3.format('d')))
+        .call(d3.axisBottom(yearScale)
+            .tickValues(years)
+            .tickSizeOuter(0)
+            .tickFormat((year, i) => i % labelStep === 0 ? year : ''))
 
     // invisible hit area, bigger than the axis to make the selection easy
     ruler.append('rect')

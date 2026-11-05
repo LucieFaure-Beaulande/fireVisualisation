@@ -14,13 +14,17 @@
             <h1>Fires in Oregon (2000-2022)</h1>
             <p>Visualizations of the <a href="https://www.kaggle.com/datasets/mattop/fire-occurrence-and-cause-data-2000-2022">Fire Occurrence and Cause Data</a> dataset.</p>
         </header>
+        <!-- after </header>, before <div class="home-grid"> -->
+        <section class="year-ruler card" aria-label="Year of the visualizations">
+            <div id="yearRuler"></div>
+        </section>
 
         <div class="home-grid">
             <!-- Main area (3fr, spans the 3 rows): empty for now -->
             <section class="home-main card" aria-label="Main area"></section>
 
             <div class="viz-card card">
-                <iframe src="/heatmap/?embed" data-target="#heatmap" title="" tabindex="-1" aria-hidden="true"></iframe>
+                <iframe src="/heatmap/?embed" data-target="#heatmap" data-sync-year title="" tabindex="-1" aria-hidden="true"></iframe>
                 <button type="button" class="viz-link" data-href="/heatmap/">
                     <span class="viz-title">Heatmap counties × months</span>
                 </button>
@@ -34,7 +38,7 @@
             </div>
 
             <div class="viz-card card">
-                <iframe src="/bulletgraph/?embed" data-target="#bullet" title="" tabindex="-1" aria-hidden="true"></iframe>
+                <iframe src="/bulletgraph/?embed" data-target="#bullet" data-sync-year title="" tabindex="-1" aria-hidden="true"></iframe>
                 <button type="button" class="viz-link" data-href="/bulletgraph/">
                     <span class="viz-title">Bullet Graph</span>
                 </button>
@@ -42,8 +46,10 @@
         </div>
     </main>
 
+    <script src="/lib/d3.min.js"></script>
     <script src="/js/accessibility.js"></script>
     <script>FireAccessibility.init()</script>
+    <script src="/js/yearRuler.js"></script>
     <script src="index.js"></script>
 </body>
 </html>

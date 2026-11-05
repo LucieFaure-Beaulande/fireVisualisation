@@ -142,3 +142,14 @@
         grid-row: span 2;
     }
 }
+
+/* ---------- Year ruler shared by the visualizations ---------- */
+
+.year-ruler {
+    margin-bottom: 0.5rem;
+    padding: 0.25rem 1rem;
+}
+.year-ruler svg:focus-visible {
+    outline: 3px solid var(--color-focus);
+    outline-offset: 2px;
+}

@@ -120,3 +120,26 @@ cards.forEach(card => {
 })
 
 applyLayout()
+
+// ---------- shared year ruler ----------
+// the year is sent to the iframes marked with data-sync-year (see js/embed.js)
+
+const rulerYears = d3.range(2000, 2023)
+const syncedFrames = Array.from(document.querySelectorAll('iframe[data-sync-year]'))
+let selectedYear = 2022
+
+function sendYear(frame) {
+    if (frame.contentWindow) frame.contentWindow.postMessage({ type: 'setYear', year: selectedYear }, location.origin)
+}
+
+// a page loaded after the ruler is synchronized as soon as it is ready
+syncedFrames.forEach(frame => frame.addEventListener('load', () => sendYear(frame)))
+
+createYearRuler('#yearRuler', {
+    years: rulerYears,
+    year: selectedYear,
+    onChange: year => {
+        selectedYear = year
+        syncedFrames.forEach(sendYear)
+    }
+})

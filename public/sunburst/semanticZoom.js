@@ -3,7 +3,8 @@ let shortMonthNames = ['janv.', 'févr.', 'mars', 'avr.', 'mai', 'juin', 'juil.'
 let detailScale = 2, // from this zoom, the individual fires replace the cells
     dotsTransform = d3.zoomIdentity, // the current zoom on the fires
     dotsCause = null, // the specific cause whose fires are drawn
-    labelPositions = null // the positions of the labels of the years and of the months, without zoom
+    labelPositions = null, // the positions of the labels of the years and of the months, without zoom
+    dotsYears = null // the first and last years of the data, written in the explanation
 
 // the fires are drawn when a specific cause (a leaf of the hierarchy) is selected
 let dotsVisible = () => focus !== root && !focus.children
@@ -17,10 +18,10 @@ let dotsZoom = d3.zoom()
 function drawFireDots(fires) {
     let group = svg.select('#dots .dots-content'),
         selection = dotsVisible() ? firesOfCause(fires, focus.path) : [],
-        years = d3.extent(allFires, d => d.FireYear),
+        years = dotsYears = d3.extent(allFires, d => d.FireYear),
         innerRadius = radius * 1.3,
         outerRadius = radius * 4 - 26,
-        fill = dotsVisible() ? colorScale(focus.parent.data.name) : theme.neutral
+        fill = dotsVisible() ? colorScale(focus.parent.data.name) : FirePalette.token('--data-unknown')
 
     // a new cause starts without zoom
     if (!dotsVisible() || focus.id !== dotsCause) svg.call(dotsZoom.transform, d3.zoomIdentity)
@@ -114,7 +115,7 @@ function drawFireDots(fires) {
 
     labelPositions = {
         year: d => [0, -yearScale(d) - 2],
-        month: d => [Math.sin(angle(d + 0.5)) * (outerRadius + 14), -Math.cos(angle(d + 0.5)) * (outerRadius + 14)]
+        month: d => [Math.sin(angle(d + 0.5)) * (outerRadius + 14 * textScale()), -Math.cos(angle(d + 0.5)) * (outerRadius + 14 * textScale())]
     }
 
     placeDots(dotsTransform)
@@ -169,8 +170,8 @@ function placeDots(transform) {
             : detail
                 ? 'Chaque point est un feu : autour du cercle, sa date dans l\'année ; du centre vers le bord, son année ; '
                     + 'taille : surface brûlée. Dézoomer avec la molette pour revenir aux cases.'
-                : 'Chaque case compte les feux d\'un mois (autour du cercle) et d\'une année (du centre, 2000, '
-                    + 'vers le bord, 2022). Zoomer avec la molette pour voir chaque feu, glisser pour se déplacer.')
+                : `Chaque case compte les feux d'un mois (autour du cercle) et d'une année (du centre, ${dotsYears[0]}, `
+                    + `vers le bord, ${dotsYears[1]}). Zoomer avec la molette pour voir chaque feu, glisser pour se déplacer.`)
 }
 
 // the details of one fire

@@ -1,0 +1,781 @@
+StationId,Agency,Station,FacilityType,County,Longitude,Latitude
+1,Agness Illahee Fire Department,Agness Illahee Fire Department,Fire Station,Curry,-124.080752024559,42.5606204718942
+2,Alfalfa Fire District,Alfalfa Fire District,Fire Station,Deschutes,-121.032527778167,44.0771721289893
+3,Amity Fire District,Headquarters,Fire Station & Headquarters,Yamhill,-123.206968733739,45.1133915690389
+5,Baker City Fire Department,Baker City Fire Department,Fire Station,Baker,-117.831999999281,44.7739212351252
+6,Bandon Rural Fire Protection District,Bandon Rural Fire Protection District,Fire Station,Coos,-124.389721127852,43.0909380473631
+7,Canyon City Fire Department,Canyon City Fire Department,Fire Station,Grant,-118.94857966545,44.3932455441307
+8,Cape Ferrelo RFPD,Cape Ferrelo RFPD,Fire Station,Curry,-124.322943713206,42.1257664719421
+9,Cascade Locks Fire & Ems,Cascade Locks Fire & Ems,Fire Station,Hood River,-121.884228349857,45.6721868246773
+10,Coos Bay Fire & Rescue,Station 1,Fire Station,Coos,-124.216692719211,43.364716461539
+11,County Fire,County Fire,Fire Station,Josephine,-123.421189191996,42.5170286056003
+13,Crooked River Ranch RFPD,Crooked River Ranch RFPD,Fire Station,Jefferson,-121.26965421544,44.4363322886157
+14,Dayville Fire Department,Dayville Fire Department,Fire Station,Grant,-119.53599485949,44.4679264313353
+15,Dufur Volunteer Fire Department,Dufur Volunteer Fire Department,Fire Station,Wasco,-121.129240668286,45.4522812813058
+16,Dundee Fire & Rescue,Station 3,Fire Station,Yamhill,-123.011347363532,45.2772782248863
+17,Echo Rural Fire Protection District,Headquarters,Fire Station & Headquarters,Umatilla,-119.194699543216,45.7424848623411
+19,Gates RFPD,Gates RFPD,Fire Station,Marion,-122.412528409285,44.7534440309112
+20,Granite City Fire Department,Granite City Fire Department,Fire Station,Grant,-118.417944878013,44.8092092701943
+21,Greater Bowen Valley RFPD,Greater Bowen Valley RFPD,Fire Station,Baker,-117.893274446393,44.6509340060855
+22,Greenacres RFPD,Greenacres RFPD,Fire Station,Coos,-124.207080606652,43.2551202085859
+23,Greensprings Fire & Rescue,Greensprings Fire & Rescue,Fire Station,Jackson,-122.464748125781,42.1233605549872
+24,Haines Fire Protection District,Haines Fire Protection District,Fire Station,Baker,-117.937577251886,44.9129663093383
+25,Hamlet Volunteer Fire Department,Hamlet Volunteer Fire Department,Fire Station,Clatsop,-123.788549513964,45.9070750899884
+26,Hines Fire Department,Hines Fire Department,Fire Station,Harney,-119.082271164061,43.5617788387726
+27,Huntington Fire Department,Huntington Fire Department,Fire Station,Baker,-117.267687385147,44.3505084557519
+28,Idanha-Detroit Rural Fire Protection District (out of service due to 2020 wildfires),Idanha-Detroit Rural Fire Protection District (out of service due to 2020 wildfires),Fire Station,Marion,-122.151328431879,44.7357837758044
+29,Ione Fire Department,Ione Fire Department,Fire Station,Morrow,-119.826274658197,45.5012053172815
+30,Jefferson County Rural Fire Protection District #1,Madras,Fire Station,Jefferson,-121.129155807716,44.6249259361248
+31,John Day Fire Department,John Day Fire Department,Fire Station,Grant,-118.952690325654,44.4124387611741
+32,John Day Rural Fire Protection District,John Day Rural Fire Protection District,Fire Station,Grant,-118.952690325654,44.4124387611741
+33,John Day-Fernhill RFPD,John Day-Fernhill RFPD,Fire Station,Clatsop,-123.583716339613,46.1673747786493
+34,Juniper Flat RFPD,Station 1,Fire Station,Wasco,-121.255671580648,45.1274328039612
+35,Kellogg Rural Fire District,Kellogg Rural Fire District,Fire Station,Douglas,-123.486156988123,43.4914966381318
+36,Keno Rural Fire Protection District,Station 1,Fire Station & Administration,Klamath,-121.924110866305,42.1336333519683
+37,La Pine RFPD,Station 101,Fire Station,Deschutes,-121.504340475387,43.6732555616404
+38,Lafayette Fire Department,Lafayette Fire Department,Fire Station,Yamhill,-123.113226867771,45.2439451932275
+39,Lake Chinook Fire & Rescue,Lake Chinook Fire & Rescue,Fire Station,Jefferson,-121.364249814807,44.5681039183548
+40,Lakeview Fire Department,Lakeview Fire Department,Fire Station,Lake,-120.346168523416,42.1918404335402
+41,Langlois RFPD #4-107,Langlois RFPD #4-107,Fire Station,Curry,-124.44849285512,42.9257132350951
+42,Lewis & Clark RFPD,Station 1,Fire Station,Clatsop,-123.85325506153,46.1522864345184
+43,Lorane RFPD,Lorane RFPD,Fire Station,Lane,-123.240096755194,43.8374390808089
+44,Meacham Volunteer Fire Department,Meacham Volunteer Fire Department,Fire Station,Umatilla,-118.421961211764,45.5075894171921
+45,Medical Springs RFPD,Medical Springs RFPD,Fire Station,Baker,-117.644412850967,45.011374708418
+46,Merrill RFPD,Merrill RFPD,Fire Station,Klamath,-121.600529385643,42.027087750119
+48,Mist-Birkenfeld Rural Fire Protection District,Main Station,Fire Station,Columbia,-123.309438560285,46.0130559202142
+49,Monitor RFPD #58,Station 58,Fire Station,Marion,-122.748938772892,45.101248581617
+50,Monument Fire Department,Monument Fire Department,Fire Station,Grant,-119.418570436732,44.8193136045433
+51,Myrtle Creek Fire Department,Myrtle Creek Fire Department,Fire Station,Douglas,-123.280989845966,43.0229108307039
+52,Netarts-Oceanside RFPD,Netarts-Oceanside RFPD,Fire Station,Tillamook,-123.947970862423,45.4369492489528
+53,New Carlton Fire District,New Carlton Fire District,Fire Station,Yamhill,-123.17918423777,45.3011763733821
+54,North Gilliam County RFPD,North Gilliam County RFPD,Fire Station,Gilliam,-120.193239379399,45.7116686228235
+55,Olney Walluski Fire & Rescue,Olney Walluski Fire & Rescue,Fire Station,Clatsop,-123.79139356008,46.1174309633054
+56,Ophir RFPD,Ophir RFPD,Fire Station,Curry,-124.414966448252,42.5018123611842
+57,Oregon Outback RFPD,Oregon Outback RFPD,Fire Station,Klamath,-121.516368384224,43.566337295925
+58,Payette RFPD,Payette RFPD,Fire Station,Malheur,-116.922475306972,44.0813143552135
+59,Powder RFPD,Powder RFPD,Fire Station,Union,-117.920948137072,45.0296133573628
+60,Powder River RFPD - Mosquito Flat,Powder River RFPD - Mosquito Flat,Fire Station,Baker,-118.170793956954,44.7202751582756
+61,Prairie City Fire Department,Prairie City Fire Department,Fire Station,Grant,-118.710804668564,44.4619608849321
+62,Prospect RFPD,Prospect RFPD,Fire Station,Jackson,-122.488922384334,42.7521605657157
+63,Rocky Point Fire & Ems,Rocky Point Fire & Ems,Fire Station,Klamath,-122.106477251819,42.4595336789039
+65,Seaside Fire & Rescue,Station 3100,Fire Station,Clatsop,-123.919677463,45.9926816314238
+66,Silver Lake RFPD,Silver Lake RFPD,Fire Station,Lake,-121.04723698223,43.1259320088438
+68,Thomas Creek-Westside RFPD,Thomas Creek-Westside RFPD,Fire Station,Lake,-120.493152384929,42.1138942873062
+70,Ukiah Fire Department,Ukiah Fire Department,Fire Station,Umatilla,-118.932137752412,45.1365562868915
+71,Umatilla County Fire District #1,Station 21,Fire Station & Headquarters,Umatilla,-119.290807902702,45.8384794903315
+72,Weiser RFPD Annex-Oregon,Weiser RFPD Annex-Oregon,Fire Station,Malheur,-116.972978734585,44.2451046645599
+73,Wheeler County Fire & Rescue,Wheeler County Fire & Rescue,Fire Station,Wheeler,-120.215824394799,44.997950778928
+74,Wolf Creek RFPD,Wolf Creek RFPD,Fire Station,Josephine,-123.394856344203,42.6906428728029
+77,Baker Rural Fire Protection District,Station 27 - Lindley Road Station,Fire Station,Baker,-117.799185938106,44.817761719994
+78,Baker Rural Fire Protection District,Station 26 - Pine Creek Station,Fire Station,Baker,-117.978552101746,44.8357453782034
+79,Eagle Valley Fire Protection District,Station 31,Fire Station,Baker,-117.16772096811,44.7694170727359
+80,Haines Fire Protection District,Haines Fire Protection District,Fire Station,Baker,-117.972770043579,44.9017357107945
+81,Haines Fire Protection District,Haines Fire Protection District,Fire Station,Baker,-118.014285306554,44.9377225676007
+82,Keating Fire Protection District,Station 22,Fire Station,Baker,-117.524216054909,44.8618877265308
+83,Pine Valley Rural Fire Protection District,Station 34,Fire Station,Baker,-117.11013227399,44.8771930382386
+84,Sumpter Fire Department,Station 33,Fire Station,Baker,-118.201219231617,44.7469027478807
+85,Alsea RFPD,Station 700,Fire Station,Benton,-123.596785373273,44.3811080969372
+86,Corvallis Fire Department,Station 1,Fire Station & Administration,Benton,-123.261137691061,44.5676673059983
+87,Corvallis Fire Department,Station 3,Fire Station,Benton,-123.267295545435,44.5886038905814
+88,Corvallis Fire Department,Station 4,Fire Station,Benton,-123.269109771786,44.5435449796042
+89,Corvallis Fire Department,Station 6 - Corvallis Rural Fire District - Locke Corvallis RFPD Contracts With City,Fire Station,Benton,-123.251182725913,44.6288547588994
+90,Monroe RFPD,Station 2 - Alpine Station,Fire Station,Benton,-123.360426790021,44.3294197381525
+91,Philomath Fire & Rescue,Station 201 - Downtown,Fire Station,Benton,-123.371822130006,44.54029199084
+92,Clackamas County Fire District #1,Station 14 - Boring,Fire Station,Clackamas,-122.368353860754,45.4326697753403
+93,Clackamas County Fire District #1,Station 21 - Centennial Park,Fire Station,Clackamas,-122.455607528218,45.4174958768817
+94,Canby Fire District 62,Station 361 - Main,Fire Station,Clackamas,-122.6826657623,45.2645198312077
+95,Clackamas County Fire District #1,Station 8 - Clackamas,Fire Station,Clackamas,-122.530206939365,45.4057704454236
+96,Clackamas County Fire District #1,Station 13 - Clarkes,Fire Station,Clackamas,-122.475489694951,45.2341984632248
+97,Clackamas County Fire District #1,Station 6 - Happy Valley,Fire Station,Clackamas,-122.530952231651,45.4470258228329
+98,Clackamas County Fire District #1,Station 15 - John Adams,Fire Station,Clackamas,-122.604624891863,45.3558561585251
+99,Clackamas County Fire District #1,Station 4 - Lake Road,Fire Station,Clackamas,-122.594930018262,45.4255650802053
+100,Clackamas County Fire District #1,Station 3 - Oak Grove,Fire Station,Clackamas,-122.633004111568,45.4157370534988
+101,Clackamas County Fire District #1,Station 11 - Redland,Fire Station,Clackamas,-122.490476638799,45.3426362957469
+102,Clackamas County Fire District #1,Station 17 - South End,Fire Station,Clackamas,-122.625466654359,45.3320339231792
+103,Clackamas County Fire District #1,Station 1 - Town Center,Fire Station,Clackamas,-122.582028172146,45.4406182591768
+104,Clackamas County Fire District #1,Station 16 - Hilltop,Fire Station,Clackamas,-122.582463991494,45.3267813837132
+105,Colton Rural Fire Protection District #70,Elwood,Fire Station,Clackamas,-122.362879564949,45.2051520534504
+106,Colton Rural Fire Protection District #70,Main Station,Fire Station,Clackamas,-122.434742579933,45.1721303698374
+107,Estacada Rural Fire District #69,Station 110,Fire Station,Clackamas,-122.333343081086,45.2857622529313
+108,Estacada Rural Fire District #69,Station 115,Fire Station,Clackamas,-122.245233131539,45.2985506105903
+109,Gladstone Fire Department,Gladstone Fire Department,Fire Station,Clackamas,-122.594742678744,45.3806428533216
+110,Hoodland Rural Fire Protection District #74,Station 252 - Brightwood,Fire Station,Clackamas,-122.032786807117,45.3756183372448
+111,Hoodland Rural Fire Protection District #74,Station 253 - Government Camp,Fire Station,Clackamas,-121.759526227267,45.3048538238831
+112,Hoodland Rural Fire Protection District #74,Station 251 - Main Station - Welches,Fire Station,Clackamas,-121.948345446737,45.3446900959623
+113,Lake Oswego Fire Department,Station 212 - South Shore Fire Station,Fire Station,Clackamas,-122.681496149411,45.4067870508041
+114,Lake Oswego Fire Department,Station 211 - Jean Road Fire Station,Fire Station,Clackamas,-122.723814811293,45.3970426978353
+115,Lake Oswego Fire Department,Station 214 - Main Fire Station,Fire Station & Administration,Clackamas,-122.666606242693,45.4206906161288
+116,Lake Oswego Fire Department,Station 210 - Westlake Fire Station,Fire Station,Clackamas,-122.724929501766,45.4259429684526
+117,Molalla Rural Fire Protection District #73,Molalla Rural Fire Protection District #73,Fire Station,Clackamas,-122.554788359771,45.0747713476796
+118,Molalla Rural Fire Protection District #73,Station 81,Fire Station,Clackamas,-122.581448429309,45.2063846193368
+119,Sandy Fire District #72,Station 74 - Dover,Fire Station,Clackamas,-122.23543698035,45.3456002647569
+120,Sandy Fire District #72,Station 71 - Main,Fire Station,Clackamas,-122.264073233643,45.3967283948895
+121,Tualatin Valley Fire & Rescue,Station 58,Fire Station,Clackamas,-122.621877734802,45.3706273036341
+122,Tualatin Valley Fire & Rescue,Station 57,Fire Station,Clackamas,-122.708499705469,45.3449902198655
+123,Tualatin Valley Fire & Rescue,Station 59,Fire Station,Clackamas,-122.654706123797,45.344414518749
+124,Tualatin Valley Fire & Rescue,Station 52,Fire Station,Clackamas,-122.778038681148,45.3041274487828
+125,Astoria Fire Department,Headquarters,Fire Station & Headquarters,Clatsop,-123.811085582476,46.1907903454655
+126,Astoria Fire Department,Station 2,Fire Station,Clatsop,-123.850562547027,46.1885406229379
+127,Cannon Beach Rural Fire Protection District,Arch Cape Station,Fire Station,Clatsop,-123.960847646247,45.8198568529527
+128,Cannon Beach Rural Fire Protection District,Cannon Beach Station,Fire Station,Clatsop,-123.960209525622,45.8879965033738
+129,Elsie-Vinemaple Rural Fire Protection District,Station 3 - Jewell Station,Fire Station,Clatsop,-123.502188803977,45.9347351309586
+130,Elsie-Vinemaple Rural Fire Protection District,Station 1 - Main Station,Fire Station,Clatsop,-123.544910797307,45.8562385233706
+131,Gearhart Fire Department,Station 2900 - Main Station,Fire Station,Clatsop,-123.919396991136,46.0243815507094
+132,John Day-Fernhill RFPD,John Day-Fernhill RFPD,Fire Station,Clatsop,-123.748460642896,46.1657110824988
+133,Knappa-Svensen-Burnside RFPD,Knappa Station,Fire Station & Headquarters,Clatsop,-123.583891341203,46.1677283743988
+134,Knappa-Svensen-Burnside RFPD,Svensen Station,Fire Station,Clatsop,-123.657205852613,46.1664927987059
+135,Lewis & Clark RFPD,Station 2,Fire Station,Clatsop,-123.839919069812,46.0986889444501
+136,Olney Walluski Fire & Rescue,Olney Walluski Fire & Rescue,Fire Station,Clatsop,-123.803143455543,46.142896213673
+137,Warrenton Fire Department,Station 27A - Hammond,Fire Station,Clatsop,-123.950235593605,46.1994182249237
+138,Warrenton Fire Department,Station 27 - Headquarters,Fire Station & Headquarters,Clatsop,-123.925499388049,46.1634696300305
+139,Westport-Wauna RFPD,Westport Station 21,Fire Station & Administration,Clatsop,-123.376058599527,46.132619583355
+140,Clatskanie Rural Fire,Quincy Station,Fire Station,Columbia,-123.152565059197,46.1567648455596
+141,Columbia River Fire & Rescue,Deer Island Station,Fire Station,Columbia,-122.872629625372,45.9365095091073
+142,Columbia River Fire & Rescue,Fern Hill Station,Fire Station,Columbia,-122.995202495625,46.0574608209347
+143,Columbia River Fire & Rescue,Rainier Station,Fire Station,Columbia,-122.937419820867,46.0888267984054
+144,Columbia River Fire & Rescue,St Helens Station,Fire Station,Columbia,-122.810529644102,45.8614732776606
+145,Mist-Birkenfeld Rural Fire Protection District,Burris Station,Fire Station,Columbia,-123.19073886077,45.9669966372549
+146,Scappoose Rural Fire Protection District,Scappoose Main,Fire Station,Columbia,-122.878915835737,45.7613932662059
+148,Vernonia Rural Fire Protection District,Station 5,Fire Station,Columbia,-123.180591674547,45.8575577723384
+149,Scappoose Rural Fire Protection District,Holbrook Station,Fire Station,Multnomah,-122.875948585123,45.6675247947843
+150,Charleston Rural Fire Protection District,Station 2 - Crown Point Station,Fire Station,Coos,-124.306680486755,43.3349830805557
+151,Charleston Rural Fire Protection District,Station 1 - Barview Station,Fire Station,Coos,-124.292051917087,43.3711089219683
+152,Charleston Rural Fire Protection District,Station 3 - Turkington Memorial Fire Station,Fire Station,Coos,-124.324868589391,43.3412939626665
+153,Coos Bay Fire & Rescue,Station 3 - Eastside,Fire Station,Coos,-124.196067289158,43.3646448507114
+154,Coos Bay Fire & Rescue,Station 2 - Empire,Fire Station,Coos,-124.275662132236,43.3911994618701
+155,Coquille Fire Department,Station 2,Fire Station,Coos,-124.19628594199,43.1032712038328
+156,Coquille Fire Department,Station 1,Fire Station,Coos,-124.189629758921,43.1768700212484
+157,Fairview Rural Fire Protection District,Fairview Rural Fire Protection District,Fire Station,Coos,-124.077754010627,43.2161212915921
+158,Lakeside Rural Fire Protection District,Lakeside Rural Fire Protection District,Fire Station,Coos,-124.174499401697,43.5762769895837
+159,Millington Rural Fire Protection District #5,Station 2,Fire Station,Coos,-124.193724352433,43.3215278315562
+160,Millington Rural Fire Protection District #5,Station 1 - Main,Fire Station,Coos,-124.199773308771,43.3346755667296
+161,Myrtle Point Fire Department,Station 2 - Broadbent,Fire Station,Coos,-124.147150518104,43.0089654038319
+162,Myrtle Point Fire Department,Station 1,Fire Station,Coos,-124.141963708164,43.0649169761355
+163,North Bay RFPD,North Bay RFPD,Fire Station,Coos,-124.216199766031,43.4880682413343
+164,North Bay RFPD,Station 2,Fire Station,Coos,-124.20797829174,43.4784714647643
+166,North Bend Fire & Rescue,Station 2,Fire Station,Coos,-124.242949732507,43.3915674871584
+167,Powers City Fire Department,Powers City Fire Department,Fire Station,Coos,-124.070645537914,42.8815725767493
+168,Crook County Fire And Rescue,Main Station,Fire Station,Crook,-120.845797637154,44.3047093593289
+169,Crook County Fire And Rescue,Powell Butte,Fire Station,Crook,-121.027734940567,44.2220132708463
+170,Brookings Fire & Rescue,Station 1,Fire Station,Curry,-124.287669868641,42.0553104509648
+171,Cedar Valley - North Bank RFPD,Cedar Valley - North Bank RFPD,Fire Station,Curry,-124.337482335004,42.4759892155325
+172,Coos Forest Protective Association,Gold Beach Unit,Fire Station,Curry,-124.416916348682,42.4160942774137
+173,Gold Beach Fire Department,Station 6400,Fire Station,Curry,-124.421262514585,42.4105145652367
+174,Port Orford Rural Fire Protection District,Port Orford Rural Fire Protection District,Fire Station,Curry,-124.479897421653,42.7499151887758
+175,Port Orford Volunteer Fire Department,Port Orford Volunteer Fire Department,Fire Station,Curry,-124.49847089856,42.7535900869442
+176,Cedar Valley - North Bank RFPD,Cedar Valley - North Bank RFPD,Fire Station,Curry,-124.364169191696,42.5060138778484
+177,Winchuck Rural Fire Protection District,Winchuck Rural Fire Protection District,Fire Station,Curry,-124.165810000064,42.0342605929468
+178,Bend Fire Department,Station 301 - West Station & Administration,Fire Station & Administration,Deschutes,-121.329580486784,44.0480141916401
+179,Bend Fire Department,Station 305 - North Station & Training Center,Fire Station & Training,Deschutes,-121.306035541859,44.1016637536612
+180,Bend Fire Department,Station 303 - South Station,Fire Station,Deschutes,-121.303758276354,44.017106933628
+181,Bend Fire Department,Station 302 - Tumalo Station,Fire Station,Deschutes,-121.331609055125,44.1500182418665
+182,Black Butte Ranch Rural Fire Protection District,Black Butte Ranch Rural Fire Protection District,Fire Station,Deschutes,-121.660260913802,44.3603148671188
+183,Cloverdale Rural Fire Protection District,Station 601,Fire Station,Deschutes,-121.453221173969,44.2903444806305
+184,Cloverdale Rural Fire Protection District,Station 602,Fire Station,Deschutes,-121.473341433235,44.2416760317332
+185,La Pine RFPD,Station 103,Fire Station,Deschutes,-121.526722556245,43.7034168037335
+186,Oregon Outback RFPD,Oregon Outback RFPD,Fire Station,Klamath,-121.463895000889,43.5356438405654
+188,Redmond Fire & Rescue,Station 404 - Cline Falls,Fire Station,Deschutes,-121.250698221343,44.2770040580849
+189,Redmond Fire & Rescue,Station 401 - Headquarters,Fire Station & Headquarters,Deschutes,-121.172149538331,44.2794310942965
+190,Redmond Fire & Rescue,Station 402 - Terrebonne,Fire Station,Deschutes,-121.183210737914,44.3525370161442
+191,Sisters - Camp Sherman Fire District,Station 702 - Tollgate Subdivision,Fire Station,Deschutes,-121.584598570199,44.3125978343175
+192,Sisters - Camp Sherman Fire District,Station 701 - Main,Fire Station,Deschutes,-121.550034406152,44.2895522992973
+193,Sunriver Fire Department,Sunriver Fire Department,Fire Station,Deschutes,-121.438658478661,43.887540920879
+194,Canyonville South Umpqua Fire District,Canyonville South Umpqua Fire District,Fire Station,Douglas,-123.281008308888,42.9318820572214
+195,Days Creek Rural Fire District,Days Creek Rural Fire District,Fire Station,Douglas,-123.162803243595,42.9685845678548
+196,Elkton Rural Fire Protection District,Elkton Rural Fire Protection District,Fire Station,Douglas,-123.563324576593,43.6340796967403
+197,Gardiner Rural Fire Protection District,Gardiner Rural Fire Protection District,Fire Station,Douglas,-124.110800315751,43.7321699962427
+198,Glide Rural Fire Protection District,Glide Rural Fire Protection District,Fire Station,Douglas,-123.097866820509,43.2987258038482
+199,Kellogg Rural Fire District,Kellogg Rural Fire District,Fire Station,Douglas,-123.519893735327,43.5162853943377
+200,Kellogg Rural Fire District,Kellogg Rural Fire District,Fire Station,Douglas,-123.550733792388,43.4424954630473
+201,North Douglas County Fire & Ems,Station 1,Fire Station,Douglas,-123.31823795642,43.6581835413549
+202,North Douglas County Fire & Ems,Station 5,Fire Station,Douglas,-123.216798900718,43.6114395908835
+203,Riddle Fire District,Riddle Fire District,Fire Station,Douglas,-123.365789576701,42.9505764801281
+204,Oakland Rural Fire Department,Oakland Rural Fire Department,Fire Station,Douglas,-123.297256235706,43.4221840379939
+205,Reedsport Volunteer Fire Department,Station 1,Fire Station,Douglas,-124.096489037361,43.7017471750196
+206,Roseburg Fire Department,Station 2,Fire Station,Douglas,-123.377492042085,43.2142966289324
+207,Roseburg Fire Department,Station 1,Fire Station,Douglas,-123.344179680683,43.2113179697723
+208,Scottsburg Rural Fire District,Scottsburg Rural Fire District,Fire Station,Douglas,-123.804071473209,43.6748302891846
+209,Sutherlin Fire Department,Sutherlin Fire Department,Fire Station,Douglas,-123.312911657462,43.3887514109159
+210,Winchester Bay RFPD,Winchester Bay RFPD,Fire Station,Douglas,-124.174861203157,43.6778863339024
+211,South Gilliam County Fire Rural Protection District,South Gilliam County Fire Rural Protection District,Fire Station,Gilliam,-120.18473230376,45.238982063254
+213,Long Creek Fire Department,Long Creek Fire Department,Fire Station,Grant,-119.105086623984,44.7128951176093
+214,Mt. Vernon Fire Department,Mt. Vernon Fire Department,Fire Station,Grant,-119.114557584313,44.4176902158389
+215,Seneca Volunteer Fire Department,Seneca Volunteer Fire Department,Fire Station,Grant,-118.97058359949,44.1343717996892
+216,Burns Fire Department,Burns Fire Department,Fire Station,Harney,-119.05450271758,43.5838540146004
+217,Burns Paiute Tribe Fire Department,Burns Paiute Tribe Fire Department,Fire Station,Harney,-119.069704160492,43.6112455752046
+218,U.S. Department of Energy,Cenppoppb Bonneville Lock & Dam Project (Federal Fire Brigade For Dam Project Only),Federal Fire Facility,Multnomah,-121.954172583822,45.6326322257533
+219,Parkdale RFPD,Dee Station,Fire Station,Hood River,-121.640506593019,45.5746669546779
+221,Hood River Fire Department,Main Station,Fire Station,Hood River,-121.529063243303,45.703220088614
+222,West Side Rural Fire Protection District,Station 1,Fire Station,Hood River,-121.564332437093,45.6785108467244
+223,West Side Rural Fire Protection District,Station 2 - Main,Fire Station,Hood River,-121.527317940874,45.6856984600943
+224,Applegate Valley RFPD #9,Station 2,Fire Station,Jackson,-123.067324078333,42.1405166166458
+226,Ashland Fire And Rescue,Station 2,Fire Station,Jackson,-122.681740209004,42.1852964371299
+227,Ashland Fire And Rescue,Station 1,Fire Station,Jackson,-122.708528347954,42.1941143155346
+228,Butte Falls Volunteer Fire Department,Butte Falls Volunteer Fire Department,Fire Station,Jackson,-122.566919105669,42.543665014539
+229,Colestin Rural Fire Protection District,Colestin Rural Fire Protection District,Fire Station,Jackson,-122.651608020911,42.0530478635538
+230,Evans Valley Fire District #6,Evans Valley Fire District #6,Fire Station,Jackson,-123.151853765374,42.5387627347747
+231,Jackson County Fire District #3,White City Station,Fire Station & Administration,Jackson,-122.856092499988,42.4377973269978
+232,Jackson County Fire District #3,Dodge Bridge Station,Fire Station,Jackson,-122.845904904009,42.5265334008422
+233,Jackson County Fire District #3,Eagle Point Station,Fire Station,Jackson,-122.804572736395,42.4724605125306
+234,Jackson County Fire District #5 (out of service due to 2020 wildfires),Station 3,Fire Station,Jackson,-122.816821222253,42.2742022951777
+235,Jacksonville Fire Department,Jacksonville Fire Department,Fire Station,Jackson,-122.967331276052,42.31470447989
+236,Medford Fire-Rescue,Station 5,Fire Station,Jackson,-122.852857795049,42.3509925877055
+237,Medford Fire-Rescue,Station 3,Fire Station,Jackson,-122.849953684399,42.3206711641373
+239,Jefferson County Rural Fire Protection District #1,Culver,Fire Station,Jefferson,-121.21012623109,44.5274319103521
+240,Grants Pass Public Safety Fire & Rescue,Hillcrest Fire Station,Fire Station,Josephine,-123.324798939933,42.4580001963468
+241,Grants Pass Public Safety Fire & Rescue,Parkway Fire Station,Fire Station,Josephine,-123.318829808651,42.4268565815675
+242,Illinois Valley Fire District,Station 1,Fire Station,Josephine,-123.635462266632,42.1594603864375
+243,Illinois Valley Fire District,Station 2 - Selma,Fire Station,Josephine,-123.616836845554,42.2770141007099
+245,Rural Metro Fire Department,Station 3,Fire Station,Josephine,-123.385011818995,42.6276402784018
+246,Rural Metro Fire Department,Station 7,Fire Station,Josephine,-123.338475693518,42.3377784066532
+247,Rural Metro Fire Department,Station 1,Fire Station,Josephine,-123.346409775505,42.4088681237232
+248,Williams Rural Fire Protection District,Williams Rural Fire Protection District,Fire Station,Josephine,-123.273908439699,42.2172644910327
+249,Bonanza RFPD,Bonanza RFPD,Fire Station,Klamath,-121.400492655975,42.1995812167497
+250,Chiloquin Agency Lake RFPD - Chiloquin Fire & Rescue,Chiloquin Agency Lake RFPD - Chiloquin Fire & Rescue,Fire Station,Klamath,-121.862523935078,42.575325459682
+251,Chiloquin Agency Lake RFPD - Chiloquin Fire & Rescue,Chiloquin Agency Lake RFPD - Chiloquin Fire & Rescue,Fire Station,Klamath,-121.927941113085,42.5482906747389
+252,Klamath County Fire District #1,Station 1,Fire Station,Klamath,-121.732649063345,42.205837267416
+253,Klamath County Fire District #1,Station 3,Fire Station,Klamath,-121.759898032306,42.214105258004
+255,Klamath County Fire District #1,Station 4,Fire Station,Klamath,-121.788952411522,42.2489863334024
+256,Klamath County Fire District #4,Klamath County Fire District #4,Fire Station,Klamath,-121.807954801984,42.1919445246247
+257,Klamath County Fire District #5,Klamath County Fire District #5,Fire Station,Klamath,-121.407169867703,42.3066981133656
+258,Malin RFPD,Malin RFPD,Fire Station,Klamath,-121.41159957814,42.0130316839662
+259,New Pine Creek RFPD,New Pine Creek RFPD,Fire Station,Lake,-120.298006629878,41.9940551524759
+260,Thomas Creek-Westside RFPD,Thomas Creek-Westside RFPD,Fire Station,Lake,-120.417782510432,42.1934261830501
+261,Eugene Springfield Fire,Station 7 - Bethel Station,Fire Station,Lane,-123.177864491062,44.0844947135724
+262,Eugene Springfield Fire,Station 8 - Danebo Station,Fire Station,Lane,-123.158218856242,44.0672689391539
+263,Eugene Springfield Fire,Station 1 - Downtown Station,Fire Station,Lane,-123.092816260185,44.0452725001314
+264,Eugene Springfield Fire,Station 11 - Santa Clara Station,Fire Station,Lane,-123.131930028155,44.1004990888385
+265,Eugene Springfield Fire,Station 15 - South Hills Station,Fire Station,Lane,-123.090571677554,44.0206283231344
+266,Eugene Springfield Fire,Station 13 - University Station,Fire Station,Lane,-123.069526374545,44.0412759842657
+267,Eugene Springfield Fire,Station 9 - Valley River Station,Fire Station,Lane,-123.111552137753,44.0837924714647
+268,Coburg Fire District,Coburg Fire District,Fire Station,Lane,-123.072357152681,44.1417206986983
+269,South Lane County Fire and Rescue,Station 201 - Cottage Grove Station,Fire Station & Administration,Lane,-123.065762558307,43.7899626564055
+270,South Lane County Fire and Rescue,Station 203 - Creswell Station,Fire Station,Lane,-123.020033102874,43.917358807525
+271,South Lane County Fire and Rescue,Station 204 - Camas Swale Station,Fire Station,Lane,-123.141122077171,43.9154518548461
+272,Swisshome - Deadwood Rural Fire Protection District,Station 2,Fire Station,Lane,-123.733912862422,44.0964356450672
+273,Dexter Rural Fire Protection District,Dexter Rural Fire Protection District,Fire Station,Lane,-122.822415256836,43.9147858458172
+274,Pleasant Hill - Goshen Fire & Rescue,Pleasant Hill - Goshen Fire & Rescue,Fire Station & Administration,Lane,-123.010545213274,43.9957800449391
+275,Junction City Rural Fire Protection District,Junction City Rural Fire Protection District,Fire Station,Lane,-123.280867342701,44.189544990186
+276,Lake Creek Fire & Rescue,Lake Creek Fire & Rescue,Fire Station,Lane,-123.494961484582,44.2146934611822
+277,Lane Fire Authority,Station 105 - Elmira,Fire Station,Lane,-123.358000325213,44.0677278016258
+278,Lane Fire Authority,Station 102 - Central Road,Fire Station,Lane,-123.295805984358,44.0371990265981
+279,Lane Fire Authority,Station 109 - Spencer Creek,Fire Station,Lane,-123.237279027868,43.9832780828321
+280,Lane Fire Authority,Station 103 - Butler Road,Fire Station,Lane,-123.407071834538,44.11664918969
+281,Lane Fire Authority,Station 101 - Veneta - Headquarters,Fire Station & Headquarters,Lane,-123.351711147937,44.0475769508956
+282,Lane Fire Authority,Station 106 - Walton,Fire Station,Lane,-123.588693356161,44.0306779345841
+283,Lane Fire Authority,Station 112 - Alvadore,Fire Station,Lane,-123.264780138079,44.1260224810128
+284,Lane Fire Authority,Station 115 - Irving,Fire Station,Lane,-123.16743090462,44.1147345745979
+285,Lane Fire Authority,Station 113 - Franklin,Fire Station,Lane,-123.30774013387,44.1564141756006
+286,Lane Fire Authority,Station 114 - Alderwood,Fire Station,Lane,-123.44173039471,44.1688353770188
+287,Lowell Rural Fire Protection District,Station 1,Fire Station,Lane,-122.781575901157,43.9227043604977
+288,Mckenzie Fire & Rescue,Station 5 - Nimrod,Fire Station,Lane,-122.432813025392,44.1114406281343
+289,Mckenzie Fire & Rescue,Station 1 - Walterville,Fire Station,Lane,-122.825117079921,44.0603792872781
+290,Mckenzie Fire & Rescue,Station 3 - Leaburg,Fire Station & Administration,Lane,-122.676120972517,44.1069920597934
+291,Mohawk Valley Rural Fire District,Station 1 - Marcola,Fire Station,Lane,-122.870565633645,44.1702732087107
+292,Mohawk Valley Rural Fire District,Station 3 - Parsons Creek,Fire Station,Lane,-122.885408761334,44.1789651550695
+293,Oakridge Fire Department,Oakridge Fire Department,Fire Station,Lane,-122.485166569718,43.7466316494296
+294,Pleasant Hill - Goshen Fire & Rescue,Station 2,Fire Station,Lane,-122.904518827988,43.997933580462
+295,Siuslaw Valley Fire & Rescue,Station 6 - Ada Station,Fire Station,Lane,-124.045212003326,43.8751878087097
+296,Siuslaw Valley Fire & Rescue,Station 1 - Central Station,Fire Station,Lane,-124.101416763181,43.9895280393807
+297,Siuslaw Valley Fire & Rescue,Station 7 - Oak Street Station,Fire Station,Lane,-124.104001976254,43.9948146697772
+298,Siuslaw Valley Fire & Rescue,Station 2 - Old Town Station,Fire Station,Lane,-124.106795695274,43.9679006617835
+299,Siuslaw Valley Fire & Rescue,Station 4 - Sutton Station,Fire Station,Lane,-124.096178058233,44.0516845345632
+300,Eugene Springfield Fire,Station 3 - 28th Street Station,Fire Station,Lane,-122.986243229911,44.0563787449676
+301,Eugene Springfield Fire,Station 4 - 5th Street Station,Fire Station,Lane,-123.019304809251,44.0588823401338
+302,Eugene Springfield Fire,Station 14 - 48th Street Station,Fire Station,Lane,-122.950560953546,44.0456283930901
+303,Eugene Springfield Fire,Station 16 - Thurston Station,Fire Station,Lane,-122.905587719165,44.0455403371314
+304,Central Oregon Coast Fire & Rescue,Station 7300 - Tidewater,Fire Station,Lincoln,-123.901670282153,44.4122237279325
+305,Depoe Bay Rural Fire Protection District,Station 22 - Gleneden Beach,Fire Station,Lincoln,-124.034310822293,44.875822952967
+306,Depoe Bay Rural Fire Protection District,Station 23 - Otter Rock,Fire Station,Lincoln,-124.055522286093,44.7468936849385
+307,Newport Fire Department,Station 31 - Main,Fire Station,Lincoln,-124.055159093838,44.6434567884872
+308,North Lincoln Fire & Rescue District #1,Station 15 - Delake,Fire Station,Lincoln,-124.012040598255,44.9606585765695
+309,North Lincoln Fire & Rescue District #1,Station 17 - Kernville,Fire Station,Lincoln,-123.944598638909,44.8845857595909
+310,North Lincoln Fire & Rescue District #1,Station 14 - Bob Everest,Fire Station,Lincoln,-124.007300702952,44.9835641484866
+311,North Lincoln Fire & Rescue District #1,Station 12 - Rose Lodge,Fire Station,Lincoln,-123.880821690648,45.0100459965624
+312,Seal Rock RFPD,Station 6300 - Bayshore,Fire Station,Lincoln,-124.075290902225,44.4408722960255
+313,Siletz Rural Fire Protection District,Station 1 - Main,Fire Station,Lincoln,-123.91879362396,44.7219273620054
+314,Toledo Fire Department & Rural Fire Protection District,Toledo Fire Department & Rural Fire Protection District,Fire Station,Lincoln,-123.934499774618,44.6290903274796
+315,Yachats Rural Fire Protection District,Station 8200,Fire Station,Lincoln,-124.098673240979,44.3241601606039
+316,Albany Fire Department,Station 11,Fire Station,Linn,-123.103742688614,44.6334608791599
+317,Albany Fire Department,Station 12,Fire Station,Linn,-123.100126763802,44.6100927617511
+318,Brownsville Rural Fire District,Station 62,Fire Station,Linn,-122.984493132464,44.3934110666526
+319,Brownsville Rural Fire District,Station 61 - Main,Fire Station,Linn,-122.97805222645,44.3846829466766
+320,Halsey-Shedd Rural Fire Protection District,Station 52 - Shedd,Fire Station & Headquarters,Linn,-123.109620876769,44.4595851086745
+321,Halsey-Shedd Rural Fire Protection District,Station 51 - Halsey,Fire Station,Linn,-123.109686237742,44.383661866434
+322,Harrisburg Fire & Rescue,Station 41,Fire Station,Linn,-123.169118363152,44.2722376289295
+323,Jefferson Rural Fire Protection District,Millersburg Station,Fire Station,Linn,-123.076390982781,44.6823442250965
+324,Lebanon Fire District,Station 33,Fire Station,Linn,-122.821297260581,44.4805335483381
+325,Lebanon Fire District,Station 32,Fire Station,Linn,-122.73906565385,44.5852884070811
+326,Lebanon Fire District,Station 31 - Main Station,Fire Station & Administration,Linn,-122.922977735579,44.5363608929951
+327,Lyons Rural Fire Protection District,Station 570,Fire Station,Linn,-122.692074943826,44.7172086588863
+328,Mill City Rural Fire Protection District,Station 790,Fire Station,Linn,-122.477429352071,44.7521863485755
+329,Scio Rural Fire Protection District,Station 92 - Crabtree,Fire Station,Linn,-122.89967791068,44.6354205561681
+330,Scio Rural Fire Protection District,Scio Rural Fire Protection District,Fire Station,Linn,-122.848950599026,44.7002802191621
+331,Sweet Home Fire & Ambulance District,Station 23 - Crawfordsville,Fire Station,Linn,-122.855242771144,44.3548898220447
+332,Sweet Home Fire & Ambulance District,Station 22 - Foster,Fire Station,Linn,-122.681572597029,44.4073270293531
+333,Tangent Rural Fire Protection District,Station 71,Fire Station,Linn,-123.107859261894,44.5412858324553
+334,Jordan Valley Volunteer Fire Department,Jordan Valley Volunteer Fire Department,Fire Station,Malheur,-117.055778296908,42.9745950830162
+335,Nyssa Fire Department,Nyssa Fire Department,Fire Station,Malheur,-116.996242130809,43.8766448486064
+336,Nyssa Fire Department,Nyssa Fire Department,Fire Station,Malheur,-116.995058428461,43.8758364512604
+337,Ontario Fire & Rescue,Ontario Fire & Rescue,Fire Station,Malheur,-116.969122752501,44.0235086180782
+338,Vale Fire & Ambulance,Vale Fire & Ambulance,Fire Station,Malheur,-117.24981535897,43.9855956665496
+339,Aumsville Rural Fire Protection District,Station 650,Fire Station,Marion,-122.869819180651,44.841498785515
+340,Aurora Rural Fire Protection District,Station 920 - Donald Station,Fire Station,Marion,-122.841018550349,45.2215324882999
+341,Aurora Rural Fire Protection District,Station 900 - Aurora Station,Fire Station,Marion,-122.755872291192,45.2292179987972
+342,Drakes Crossing Rural Fire Protection District,Station 440 - Main,Fire Station,Marion,-122.657041078696,44.9263915997675
+343,Hubbard Rural Fire Protection District,Station 87,Fire Station,Marion,-122.809495705633,45.1797415329237
+344,Jefferson Rural Fire Protection District,Station 600 - Jefferson Station (Main),Fire Station & Administration,Marion,-123.011532246669,44.7182882909418
+345,Jefferson Rural Fire Protection District,Station 640 - Talbot Station,Fire Station,Marion,-123.095955004121,44.7607140572678
+346,Keizer Fire District,Station 350,Fire Station,Marion,-123.024874065297,44.9969556089451
+347,Marion County Fire District 1,Station 6 - Clearlake,Fire Station,Marion,-123.021347253697,45.0353818956151
+348,Marion County Fire District 1,Station 4 - Macleay,Fire Station,Marion,-122.889207930547,44.9073422525638
+349,Marion County Fire District 1,Station 1 - Four Corners,Fire Station,Marion,-122.958940075074,44.931886622433
+350,Marion County Fire District 1,Station 7 - Labish,Fire Station,Marion,-122.9131784436,45.0311260909646
+351,Mt. Angel Fire Department,Mt. Angel Fire Department,Fire Station,Marion,-122.799667455504,45.0700214326659
+352,Oregon Office of State Fire Marshal,Oregon Office of State Fire Marshal,State Fire Facility,Marion,-122.987779370347,44.8859427506036
+353,Salem Fire Department,Station 10,Fire Station,Marion,-122.988545701293,44.9282084251585
+354,Salem Fire Department,Station 5,Fire Station,Polk,-123.065218831614,44.9501157406512
+355,Salem Fire Department,Station 3,Fire Station,Marion,-122.997635710059,44.9527972909343
+356,Salem Fire Department,Station 2,Fire Station,Marion,-123.022754042803,44.954735213135
+357,Salem Fire Department,Station 9,Fire Station,Marion,-123.01071792461,44.8819673417587
+358,Salem Fire Department,Station 4,Fire Station,Marion,-123.047227721258,44.9135002241717
+359,Salem Fire Department,Station 1,Fire Station,Marion,-123.040329685264,44.9380914630859
+360,Silverton Fire District,Station 1 - Administration,Fire Station,Marion,-122.796570600723,45.0052534034593
+361,Silverton Fire District,Station 8 - Scotts Mills Station,Fire Station,Marion,-122.671284288871,45.0437226321438
+362,Silverton Fire District,Station 2 - Victor Point Station,Fire Station,Marion,-122.788976391751,44.9258917012214
+363,St Paul Fire District,Station 750 - Main Station,Fire Station,Marion,-122.975123170496,45.2105727764465
+364,Stayton Fire District,Stayton Station,Fire Station,Marion,-122.814538269119,44.7970878831037
+365,Stayton Fire District,Marion Station,Fire Station,Marion,-122.939710621112,44.7503432207021
+366,Sublimity Fire District,Station 52 - Drift Creek Station,Fire Station,Marion,-122.719618926181,44.8838718608489
+367,Turner Fire District,Station 950,Fire Station,Marion,-122.953194675254,44.8452729746284
+368,Woodburn Fire District,Station 25 - Broadacres,Fire Station,Marion,-122.867251309881,45.1899421626405
+369,Woodburn Fire District,Station 22 - James St,Fire Station,Marion,-122.83628346699,45.1471171881056
+370,Heppner Fire Department,Heppner Fire Department,Fire Station,Morrow,-119.554608778277,45.3544727165294
+371,Lexington Volunteer Fire Department,Lexington Volunteer Fire Department,Fire Station,Morrow,-119.685354067646,45.4457689834068
+372,Gresham Fire & Emergency Services,Station 76,Fire Station,Multnomah,-122.351383261446,45.4697610559302
+373,Portland Fire & Rescue,Station 31 - Rockwood & Gresham Fire & Emergency Services,Fire Station,Multnomah,-122.484800362804,45.5086537820443
+374,Gresham Fire & Emergency Services,Station 74,Fire Station,Multnomah,-122.46608074388,45.5338992842206
+375,Gresham Fire & Emergency Services,Station 75,Fire Station,Multnomah,-122.393727648375,45.5335077956255
+377,Gresham Fire & Emergency Services,Station 72 - Kane Road,Fire Station,Multnomah,-122.399771468677,45.5018036853884
+378,Gresham Fire & Emergency Services,Station 73 - Pleasant View,Fire Station,Multnomah,-122.46795376482,45.4796214729672
+379,Portland Fire & Rescue,Station 1 - Old Town,Fire Station,Multnomah,-122.670714947761,45.5219223491256
+380,Portland Fire & Rescue,Station 27 - Forest Heights,Fire Station,Multnomah,-122.760913755495,45.5448817477661
+381,Portland Fire & Rescue,Station 30 - Gateway,Fire Station,Multnomah,-122.526073903806,45.5372823748667
+382,Portland Fire & Rescue,Station 29 - Powellhurst,Fire Station,Multnomah,-122.526734727936,45.4767772725667
+383,Portland Fire & Rescue,Station 9 - Hawthorne,Fire Station,Multnomah,-122.622717577436,45.5107653818535
+384,Portland Fire & Rescue,Station 17 - Hayden Island,Fire Station,Multnomah,-122.675936016454,45.6101322953853
+385,Portland Fire & Rescue,Station 5 - Hillsdale,Fire Station,Multnomah,-122.693674549944,45.4801924406972
+386,Portland Fire & Rescue,Station 8 - Kenton,Fire Station,Multnomah,-122.68084409645,45.5748152869381
+387,Portland Fire & Rescue,Station 11 - Lents,Fire Station,Multnomah,-122.568660808288,45.4812691929025
+388,Portland Fire & Rescue,Station 13 - Lloyd Center,Fire Station,Multnomah,-122.655901999477,45.5342714711439
+389,Portland Fire & Rescue,Station 23 - Lower Eastside,Fire Station,Multnomah,-122.652216214936,45.5018044633394
+390,Portland Fire & Rescue,Station 7 - Mill Park,Fire Station,Multnomah,-122.537578956974,45.5128779082273
+391,Portland Fire & Rescue,Station 19 - Mt Tabor,Fire Station,Multnomah,-122.587856983349,45.5231218724217
+392,Portland Fire & Rescue,Station 18 - Multnomah Village,Fire Station,Multnomah,-122.707682298919,45.4619660169272
+393,Portland Fire & Rescue,Station 6 - NW Industrial,Fire Station,Multnomah,-122.706021986007,45.5488170518459
+394,Portland Fire & Rescue,Station 3 - NW Pearl District,Fire Station,Multnomah,-122.688582331929,45.528601695011
+395,Portland Fire & Rescue,Station 4 - Portland State University,Fire Station,Multnomah,-122.682734025266,45.5095556361187
+396,Portland Fire & Rescue,Station 28 - Rose City/Hollywood,Fire Station,Multnomah,-122.606173590868,45.5415365841521
+397,Portland Fire & Rescue,Station 20 - Sellwood/Moreland,Fire Station,Multnomah,-122.642378664198,45.4741645446673
+398,Portland Fire & Rescue,Station 22 - St. Johns,Fire Station,Multnomah,-122.756915645006,45.5898113315711
+399,Portland Fire & Rescue,Station 12 - Sandy Blvd,Fire Station,Multnomah,-122.574302946188,45.5542699578642
+400,Portland Fire & Rescue,Station 15 - Portland Heights,Fire Station,Multnomah,-122.698459029126,45.5090715703913
+401,Portland Fire & Rescue,Station 24 - Overlook/Swan Island,Fire Station,Multnomah,-122.681097874014,45.5555317498772
+402,Portland Fire & Rescue,Station 16 - Sylvan,Fire Station,Multnomah,-122.735623067003,45.5109672058497
+403,Portland Fire & Rescue,Station 26 - Portsmouth/University Park,Fire Station,Multnomah,-122.722654024304,45.5821263601373
+404,Portland Fire & Rescue,Station 14 - Alberta Park,Fire Station,Multnomah,-122.645907382877,45.5627591150368
+405,Portland Fire & Rescue,Station 25 - Woodstock,Fire Station,Multnomah,-122.608859417687,45.491401297738
+406,Portland Fire & Rescue,Station 21 - Eastbank/Hawthorne,Fire Station,Multnomah,-122.668206013042,45.5130125678975
+407,Portland Fire & Rescue,Station 2 - Parkrose,Fire Station,Multnomah,-122.537680122099,45.5574989486056
+408,Tualatin Valley Fire & Rescue,Station 72,Fire Station,Multnomah,-122.86042194193,45.6084740592058
+409,Dallas Fire & EMS,Dallas Fire & EMS,Fire Station,Polk,-123.313957809743,44.920313151523
+410,Polk County Fire District 1,Station 80 - Airlie Station,Fire Station,Polk,-123.332432891504,44.7511669200091
+411,Salem Fire Department,Station 11,Fire Station,Polk,-123.074850412942,44.9602556144284
+412,Spring Valley RFPD,Spring Valley RFPD,Fire Station,Polk,-123.086431609593,45.0195029769656
+413,Southwestern Polk County RFPD,Station 130 - Rickreall,Fire Station,Polk,-123.214165330508,44.9310212788663
+414,Moro Fire Department,Moro Fire Department,Fire Station,Sherman,-120.731988520036,45.4816004364062
+415,North Sherman Rural Fire Protection District,North Sherman Rural Fire Protection District,Fire Station,Sherman,-120.703129709907,45.5959912057287
+416,Bay City Fire Department,Station 41,Fire Station,Tillamook,-123.890231546983,45.5245054931609
+417,Nestucca RFPD,Station 83 - Beaver,Fire Station,Tillamook,-123.823973039922,45.2768803258172
+419,Nestucca RFPD,Station 82 - Pacific City,Fire Station,Tillamook,-123.961196131516,45.2012415756677
+420,Netarts-Oceanside RFPD,Station 62,Fire Station,Tillamook,-123.969298617104,45.460240972268
+421,Rockaway Beach Fire Department,Rockaway Beach Fire Department,Fire Station,Tillamook,-123.943902354546,45.610216728131
+422,Tillamook Fire District,Station 73 - Cape Meares,Fire Station,Tillamook,-123.954537170454,45.5011722564081
+423,Tillamook Fire District,Station 71 - Tillamook,Fire Station,Tillamook,-123.840904543492,45.4556225151549
+424,Athena Volunteer Fire Department,Athena Volunteer Fire Department,Fire Station,Umatilla,-118.491897238101,45.8119120834886
+425,Milton-Freewater Fire Department,Station 1,Fire Station,Umatilla,-118.396056649453,45.9418234500281
+426,East Umatilla County Rural Fire Protection District,Station 1 - Main Station,Fire Station,Umatilla,-118.426067012832,45.8134868232817
+427,Helix RFPD,Helix RFPD,Fire Station,Umatilla,-118.654824492864,45.8505142400515
+428,Milton-Freewater Fire Department,Station 2 - South Fire Station,Fire Station,Umatilla,-118.383504085782,45.9274154946371
+429,Milton-Freewater Rural Fire Department,Milton-Freewater Rural Fire Department,Fire Station,Umatilla,-118.37672758455,45.9644117064144
+430,Pendleton Fire And Ambulance Service,Station 1,Fire Station,Umatilla,-118.796609284095,45.6702113850647
+431,Pendleton Fire And Ambulance Service,Station 2,Fire Station,Umatilla,-118.810517911303,45.6544379295767
+432,Pilot Rock Rural Fire Protection District,Station 51,Fire Station,Umatilla,-118.827480030021,45.4868980078193
+433,Umatilla County Fire District #1,Station 24,Fire Station,Umatilla,-119.219697388171,45.7805873064368
+434,Umatilla Rural Fire Protection District,Umatilla Rural Fire Protection District,Fire Station,Umatilla,-119.288492597887,45.9170644620935
+435,Umatilla Rural Fire Protection District,Umatilla Rural Fire Protection District,Fire Station,Umatilla,-119.341966579058,45.9177642078298
+436,Umatilla Tribal Fire Department,Umatilla Tribal Fire Department,Fire Station,Umatilla,-118.669970279891,45.6659987533364
+437,La Grande Fire Department,La Grande Fire Department,Fire Station,Union,-118.083411526133,45.3257899293572
+438,Cove Rural Fire Protection District,Cove Rural Fire Protection District,Fire Station,Union,-117.811834223132,45.2969265231095
+439,Cove Rural Fire Protection District,Cove Rural Fire Protection District,Fire Station,Union,-117.829184862145,45.3107905033231
+440,Elgin Rural Fire Department,Elgin Rural Fire Department,Fire Station,Union,-117.918495471642,45.5641414382813
+441,Imbler Rural Fire Protection District,Station 1,Fire Station & Headquarters,Union,-117.962776328052,45.4574174033155
+442,Imbler Rural Fire Protection District,Station 2,Fire Station,Union,-118.003804339704,45.4893772429953
+443,La Grande Rural Fire Protection District,Station 5,Fire Station,Union,-118.04568486027,45.3395738471422
+444,Union RFPD,Union RFPD,Fire Station,Union,-117.860721112049,45.2084113895291
+445,Enterprise Fire Department,Enterprise Fire Department,Fire Station,Wallowa,-117.276648952217,45.426328456499
+446,Wallowa Lake Rural Fire District,Wallowa Lake Rural Fire District,Fire Station,Wallowa,-117.20720090908,45.2788746503786
+447,Maupin Fire Department,Maupin Fire Department,Fire Station,Wasco,-121.077670293478,45.1765135488862
+448,Mid-Columbia Fire & Rescue,Station 2,Fire Station,Wasco,-121.135427525385,45.5989294672375
+449,Shaniko Volunteer Fire Department,Shaniko Volunteer Fire Department,Fire Station,Wasco,-120.75244971046,45.0043454718353
+450,Banks Fire District #13,Station 13 - Banks Station,Fire Station,Washington,-123.114337841253,45.6173096196432
+451,Banks Fire District #13,Station 14 - Hornshuh Station,Fire Station,Washington,-123.180434579921,45.6749438992756
+452,Banks Fire District #13,Station 15 - Timber Station,Fire Station,Washington,-123.300953607408,45.7158332689467
+453,Cornelius Fire Department,Cornelius Fire Department,Fire Station,Washington,-123.05577009455,45.5217073528112
+454,Forest Grove Fire & Rescue,Gales Creek Station,Fire Station,Washington,-123.214048666914,45.5849784597206
+455,Forest Grove Fire & Rescue,Main Station,Fire Station,Washington,-123.110176608181,45.5186519919376
+456,Gaston Fire District,Gaston Fire District,Fire Station,Washington,-123.138683248549,45.437187815071
+457,Hillsboro Fire & Rescue,Station 2 - Brookwood,Fire Station,Washington,-122.93090370054,45.5028638073291
+458,Hillsboro Fire & Rescue,Station 1 - Main,Fire Station,Washington,-122.989721244263,45.5206982336152
+459,Tualatin Valley Fire & Rescue,Station 67,Fire Station,Washington,-122.819274571674,45.4867322904029
+460,Tualatin Valley Fire & Rescue,Station 69,Fire Station,Washington,-122.856724781412,45.4478971431432
+461,Tualatin Valley Fire & Rescue,Station 60,Fire Station,Washington,-122.765275685821,45.5289481484081
+462,Tualatin Valley Fire & Rescue,Station 61,Fire Station,Washington,-122.817849209004,45.5142089271955
+463,Tualatin Valley Fire & Rescue,Station 53,Fire Station,Washington,-122.781385449551,45.4586290961518
+464,Tualatin Valley Fire & Rescue,Station 33,Fire Station,Washington,-122.835799321912,45.3589226630873
+465,Tualatin Valley Fire & Rescue,Station 66,Fire Station,Washington,-122.819840437776,45.4548315593644
+466,Tualatin Valley Fire & Rescue,Station 50,Fire Station,Washington,-122.806323370555,45.4277431081318
+468,Tualatin Valley Fire & Rescue,Station 34,Fire Station,Washington,-122.770497447793,45.3798755804257
+469,Fossil Volunteer Fire Department,Fossil Volunteer Fire Department,Fire Station,Wheeler,-120.210194103667,45.0018169992849
+470,Mitchell Volunteer Fire Department,Mitchell Volunteer Fire Department,Fire Station,Wheeler,-120.153137402081,44.5656175345634
+471,Spray Volunteer Fire Department,Spray Volunteer Fire Department,Fire Station,Wheeler,-119.793677390301,44.8336150480111
+472,Dayton Fire District,Hopewell,Fire Station,Yamhill,-123.093110195308,45.0974566795798
+473,Dayton Fire District,Grand Island,Fire Station,Yamhill,-123.061452293467,45.1296007413799
+474,Mcminnville Fire Department,Mcminnville Fire Department,Fire Station,Yamhill,-123.198251185047,45.2086417525356
+475,Tualatin Valley Fire & Rescue,Station 20,Fire Station,Yamhill,-122.975640888097,45.2994561800055
+476,Tualatin Valley Fire & Rescue,Station 21,Fire Station,Yamhill,-122.946684886671,45.3133724719342
+477,Sheridan Fire District,Station 198 - Ballston,Fire Station,Polk,-123.321934170008,45.0679078165387
+478,Sheridan Fire District,Station 190 - Main,Fire Station,Yamhill,-123.397150453543,45.0968604501594
+479,West Valley Fire District,Main,Fire Station,Yamhill,-123.476437717193,45.0817118198988
+480,Yamhill Fire Protection District,Yamhill Fire Protection District,Fire Station,Yamhill,-123.189256875107,45.3401746964987
+482,Medford Fire-Rescue,Station 6,Fire Station,Jackson,-122.812149999489,42.3169300004099
+483,U.S. Forest Service,Tiller Ranger District,Federal Fire Facility,Douglas,-122.950036515845,42.9264906601301
+484,U.S. Forest Service,Fremont Winema National Forest Fire Center,Federal Fire Facility,Lake,-120.351339286124,42.1790704036739
+485,U.S. Department of Defense,Oregon Air National Guard Base Fire And Rescue - Portland,Federal Fire Facility,Multnomah,-122.594358273696,45.5744533330017
+486,Wamic RFPD,Station 1 - Pine Hollow,Fire Station,Wasco,-121.290510632163,45.2410007168359
+487,U.S. Department of Defense,Kingsley Field Fire Department,Federal Fire Facility,Klamath,-121.744316933717,42.1631279571574
+488,Halsey-Shedd Rural Fire Protection District,Station 53 - Peoria,Fire Station,Linn,-123.204875265285,44.4476947154478
+489,Lostine Fire Department,Lostine Fire Department,Fire Station,Wallowa,-117.431770623857,45.4868609839681
+490,Keno Rural Fire Protection District,Station 3,Fire Station,Klamath,-121.850374402169,42.1653087398199
+491,Umatilla County Fire District #1,Station 22,Fire Station,Umatilla,-119.22521666197,45.8641592290039
+492,Aumsville Rural Fire Protection District,Shaw,Fire Station,Marion,-122.860488153834,44.8728160710995
+493,La Pine RFPD,Station 102,Fire Station,Deschutes,-121.443286173052,43.8240012840689
+494,Jackson County Fire District #3,Gold Hill Station,Fire Station,Jackson,-123.042220785081,42.4289730657254
+495,Jackson County Fire District #3,Agate Lake Station,Fire Station,Jackson,-122.771894991246,42.4209105192595
+496,Irrigon Rural Fire Protection District,Irrigon Rural Fire Protection District,Fire Station,Morrow,-119.492055041689,45.8965548125086
+498,Illinois Valley Fire District,Station 5 - Dryden,Fire Station,Josephine,-123.550066862003,42.2656805737722
+499,Illinois Valley Fire District,Station 3 - O'Brien,Fire Station,Josephine,-123.704060476796,42.0674891152057
+500,Philomath Fire & Rescue,Station 202 - Wren,Fire Station,Benton,-123.426149660097,44.5866874901664
+501,Thomas Creek-Westside RFPD,Five Corners Station,Fire Station,Lake,-120.434310300363,42.1870463699836
+502,U.S. Forest Service,Prospect Ranger District,Federal Fire Facility,Jackson,-122.488939031153,42.7628440289727
+503,U.S. Forest Service,Redmond Hotshots,Federal Fire Facility,Deschutes,-121.148983591835,44.2595116591722
+504,U.S. Forest Service,Wild Rivers Ranger District,Federal Fire Facility,Josephine,-123.29416264335,42.4310654850804
+505,Eugene Springfield Fire,Station 6 - Sheldon Station,Fire Station,Lane,-123.074189188483,44.0802434498363
+506,U.S. Forest Service,Central Oregon Helitack,Federal Fire Facility,Crook,-120.90197509567,44.2796942126915
+507,Sweet Home Fire & Ambulance District,Station 21,Fire Station,Linn,-122.730967614023,44.3961554402892
+508,U.S. Forest Service,Detroit Ranger District,Federal Fire Facility,Marion,-122.174739983511,44.7312715482131
+509,Azalea Rural Fire Protection District,Azalea Rural Fire Protection District,Fire Station,Douglas,-123.259462459539,42.7962892300836
+510,Applegate Valley RFPD #9,Station 1,Fire Station,Jackson,-123.17065967047,42.2568088492214
+511,Applegate Valley RFPD #9,Station 4,Fire Station,Josephine,-123.259660000154,42.3030100004456
+512,Tiller Rural Fire Protection District,Headquarters,Fire Station & Headquarters,Douglas,-122.953630000005,42.9285470770623
+513,Applegate Valley RFPD #9,Station 5,Fire Station,Jackson,-122.993930000115,42.2927870404609
+514,Sweet Home Fire & Ambulance District,Station 24 - Cascadia,Fire Station,Linn,-122.443353486999,44.3982911641014
+515,Bend Fire Department,Station 304 - East Fire Station,Fire Station,Deschutes,-121.242781897787,44.0673285484335
+516,Sumner Rural Fire Protection District,Station 1,Fire Station,Coos,-124.148770795844,43.2810097392825
+517,North Bay RFPD,North Bay RFPD,Fire Station,Coos,-124.212371192488,43.4345399300059
+518,Upper Chetco Rural Fire Protection District,Upper Chetco Rural Fire Protection District,Fire Station,Curry,-124.204889093023,42.0865989617071
+519,Siuslaw Valley Fire & Rescue,Station 5 - Canary Station,Fire Station,Lane,-124.027769891874,43.9287313408517
+520,South Lane County Fire and Rescue,Station 202,Fire Station,Lane,-123.035733794463,43.8346742906517
+521,Monroe RFPD,Station 1 - Monroe Station,Fire Station,Benton,-123.300330529374,44.3146211777913
+522,North Bend Fire & Rescue,Station 1,Fire Station,Coos,-124.226550000568,43.4082199995803
+523,Hauser Rural Fire Protection District,Hauser Rural Fire Protection District,Fire Station,Coos,-124.213160334499,43.5018009418424
+524,Adrian Rural Fire Protection District,Adrian Rural Fire Protection District,Fire Station,Malheur,-117.072091949463,43.7389205283993
+525,U.S. Forest Service,Ashland Ranger District,Federal Fire Facility,Jackson,-122.668595964976,42.1829886439837
+526,U.S. Forest Service,Hebo Ranger District,Federal Fire Facility,Tillamook,-123.858513554332,45.2269482989911
+527,U.S. Forest Service,Hood River Ranger District,Federal Fire Facility,Hood River,-121.56945700623,45.5339403582766
+528,Mckenzie Fire & Rescue,Station 2 - Camp Creek,Fire Station,Lane,-122.867810713294,44.0676198287109
+529,Keno Rural Fire Protection District,Station 2,Fire Station,Klamath,-121.86736160707,42.0453064268176
+530,U.S. Forest Service,Sisters Ranger District,Federal Fire Facility,Deschutes,-121.554251090922,44.2916770624701
+531,Polk County Fire District 1,Station 70 - Pedee,Fire Station,Polk,-123.414182375074,44.7536279196535
+532,Polk County Fire District 1,Station 40 - Buena Vista,Fire Station,Polk,-123.151810407381,44.7684830956074
+533,Mosier Rural Fire District,Station 13,Fire Station,Wasco,-121.335021320374,45.6661622616126
+534,Columbia River Fire & Rescue,Fairgrounds Station,Fire Station,Columbia,-122.872085776137,45.8490223931123
+535,Monitor RFPD #58,Yoder Station,Fire Station,Clackamas,-122.681734092246,45.1419379647384
+537,St Paul Fire District,Station 770 - Substation,Fire Station,Marion,-122.940115879608,45.1967271170661
+538,Mid-Columbia Fire & Rescue,Main Station,Fire Station,Wasco,-121.20502000013,45.6070300002817
+539,North Lincoln Fire & Rescue District #1,Station 16 - St. Clair,Fire Station,Lincoln,-124.018731046403,44.9323591472038
+540,Tualatin Valley Fire & Rescue,Station 56 - South Operating Center (SOC),Fire Station,Washington,-122.763908712699,45.3359986251833
+541,Mist-Birkenfeld Rural Fire Protection District,Peterson Station,Fire Station,Columbia,-123.165644513187,45.9470623177471
+542,Lane Fire Authority,Lane Fire Authority,Fire Station,Lane,-123.380145797548,43.9497177443191
+543,Lane Fire Authority,Station 104 - Noti,Fire Station,Lane,-123.446500868031,44.0594980321877
+544,U.S. Forest Service,Diamond Lake Ranger District,Federal Fire Facility,Douglas,-122.41361368639,43.2617033431533
+545,Sutherlin Fire Department,Calapooia Station,Fire Station,Douglas,-123.3548644342,43.3905529677147
+546,Gresham Fire & Emergency Services,Station 71 - Main,Fire Station & Headquarters,Multnomah,-122.437348183118,45.5075399063496
+547,Rural Metro Fire Department,Station 6,Fire Station,Josephine,-123.417756156963,42.4468892278896
+548,Rural Metro Fire Department,Station 4,Fire Station,Josephine,-123.47556151291,42.3829973451634
+549,Marion County Fire District 1,Station 5 - Brooklake,Fire Station,Marion,-122.957929553114,45.0473392011406
+550,Marion County Fire District 1,Station 8 - Chemeketa,Fire Station,Marion,-122.97851698944,44.9770213477718
+551,Scappoose Rural Fire Protection District,Chapman,Fire Station,Columbia,-122.995953630342,45.8246460684519
+552,Scappoose Rural Fire Protection District,Marina,Fire Station,Columbia,-122.859873102297,45.7295345808467
+553,Bandon Rural Fire Protection District,Randolph Station,Fire Station,Coos,-124.36320233078,43.1856941263215
+554,Crook County Fire And Rescue,Juniper Canyon,Fire Station,Crook,-120.753640237546,44.193080767759
+555,Central Oregon Coast Fire & Rescue,Station 7200 - Main,Fire Station,Lincoln,-124.062579999745,44.4271817403448
+556,North Lincoln Fire & Rescue District #1,Station 13 - Otis,Fire Station,Lincoln,-123.947131201588,45.0244811257137
+557,Portland Fire & Rescue,Station 10 - Burlingame,Fire Station,Multnomah,-122.682926387903,45.4634322399588
+558,Winston Dillard Rural Fire Protection District,Winston Dillard Rural Fire Protection District,Fire Station,Douglas,-123.413319436484,43.1196934567013
+559,Joseph Fire Department,Joseph Fire Department,Fire Station,Wallowa,-117.235604287938,45.3536969183182
+560,Multnomah County RFPD #14,Station 61 - Springdale,Fire Station,Multnomah,-122.336100532707,45.5192300907478
+561,Hillsboro Fire & Rescue,Station 3 - Ronler Acres,Fire Station,Washington,-122.909984872983,45.5512617063692
+562,Multnomah County RFPD #14,Station 62 - Corbett,Fire Station,Multnomah,-122.283730534198,45.5317908935987
+563,Sauvie Island RFPD #30,Sauvie Island RFPD #30,Fire Station,Multnomah,-122.834724873545,45.6565551095353
+564,Eugene Springfield Fire,Station 2 - Whiteaker Station,Fire Station,Lane,-123.119865155772,44.05804397322
+565,Parkdale RFPD,Mt Hood Station,Fire Station,Hood River,-121.567472719734,45.539590262148
+566,Glendale Rural Fire Protection District,Glendale Rural Fire Protection District,Fire Station,Douglas,-123.412058957352,42.7456597637355
+567,Albany Fire Department,Station 13,Fire Station,Linn,-123.056362118144,44.6243715288356
+568,Idanha-Detroit Rural Fire Protection District,Idanha-Detroit Rural Fire Protection District,Fire Station,Marion,-122.08140106727,44.7027159770101
+569,Sublimity Fire District,Station 51,Fire Station & Administration,Marion,-122.796882192709,44.8310299995541
+570,Sixes Rural Fire Protection,Station 1,Fire Station,Curry,-124.478331777815,42.8319199856076
+571,Albany Fire Department,Station 14,Fire Station,Benton,-123.13425109465,44.6564496893786
+572,Eugene Springfield Fire,Station 5 - Gateway Station,Fire Station,Lane,-123.032851022388,44.0728705198786
+573,Marion County Fire District 1,Station 3 - Pratum,Fire Station,Marion,-122.878352837053,44.9596060212161
+574,Marion County Fire District 1,Station 2 - Middle Grove,Fire Station,Marion,-122.956519743109,44.9754504422435
+575,Hoskins-Kings Valley Rural Fire Protection District,Station 500,Fire Station,Benton,-123.434330348079,44.6738418017202
+576,Bandon Rural Fire Protection District,Kehl Station,Fire Station,Coos,-124.41008083246,43.0830599844607
+577,Woodburn Fire District,Station 24 - Waconda,Fire Station,Marion,-122.975919739744,45.0858468359209
+578,Reedsport Volunteer Fire Department,Station 2,Fire Station,Douglas,-124.126542613875,43.6945658800649
+579,Woodburn Fire District,Station 21 - Headquarters,Fire Station & Headquarters,Marion,-122.866613898068,45.1492627491991
+580,Clackamas County Fire District #1,Station 9 - Holcomb,Fire Station,Clackamas,-122.568401561332,45.3730203258515
+581,Douglas County Fire District 2,Station 3 - Melrose,Fire Station,Douglas,-123.4436137148,43.2435173681998
+583,Falls City Fire Department,Falls City Fire Department,Fire Station,Polk,-123.433690379455,44.8663210047764
+584,Monroe RFPD,Station 3 - Bellfountain,Fire Station,Benton,-123.355839794047,44.3650195731312
+585,Corvallis Fire Department,Station 2,Fire Station,Benton,-123.290292323213,44.5623000004513
+586,Adair Rural Fire Protection District,Adair Rural Fire Protection District,Fire Station,Benton,-123.218129924933,44.6707604287408
+587,Clackamas County Fire District #1,Station 10 - Beavercreek,Fire Station,Clackamas,-122.516851140342,45.284190616586
+588,Molalla Rural Fire Protection District #73,Station 82,Fire Station,Clackamas,-122.576990000227,45.1502900000138
+589,Clackamas County Fire District #1,Station 12 - Logan,Fire Station,Clackamas,-122.423251189275,45.3441100001403
+590,Clackamas County Fire District #1,Station 2 - Milwaukie,Fire Station,Clackamas,-122.628385825684,45.4461886980588
+591,Clackamas County Fire District #1,Station 20 - Highland,Fire Station,Clackamas,-122.408698571171,45.2484705906503
+592,Tualatin Valley Fire & Rescue,Station 17,Fire Station,Washington,-123.000270000251,45.597330872534
+593,Silverton Fire District,Station 3 - Abiqua,Fire Station,Marion,-122.703650000513,45.0214895799321
+594,Tualatin Valley Fire & Rescue,Station 19,Fire Station,Washington,-122.959839999543,45.4104199996358
+595,Myrtle Point Fire Department,Station 3,Fire Station,Coos,-124.080910355044,43.1052517005649
+596,Coquille Fire Department,Coquille Fire Department,Fire Station,Coos,-124.173560963774,43.1207610268691
+597,Bridge Rural Fire Protection District,Bridge Rural Fire Protection District,Fire Station,Coos,-124.009957803127,43.025826376707
+598,Dora-Sitkum Rural Fire Protection District,Dora-Sitkum Rural Fire Protection District,Fire Station,Coos,-123.955120000454,43.1542735547832
+599,Harbor Rural Fire Protection District,Harbor Rural Fire Protection District,Fire Station,Curry,-124.254771995961,42.0428207415933
+600,Pistol River Rural Fire Protection District,Pistol River Rural Fire Protection District,Fire Station,Curry,-124.394960858239,42.2768400078444
+601,Cedar Valley - North Bank RFPD,Cedar Valley - North Bank RFPD,Fire Station,Curry,-124.36804000031,42.4877498818451
+602,Multnomah County RFPD #14,Station 63 - Aims,Fire Station,Multnomah,-122.244444829123,45.4694974925295
+603,Bandon Rural Fire Protection District,Main Station,Fire Station,Coos,-124.417310250303,43.1086901469289
+604,Lyons Rural Fire Protection District,Lyons Rural Fire Protection District,Fire Station,Linn,-122.610828786254,44.7730098205563
+605,Scio Rural Fire Protection District,Station 93,Fire Station,Linn,-122.692089999905,44.6984617318963
+606,North Douglas County Fire & Ems,Station 6,Fire Station,Douglas,-123.292737406182,43.5026283365662
+607,North Douglas County Fire & Ems,Station 4,Fire Station,Douglas,-123.209027627039,43.7227716292031
+608,North Douglas County Fire & Ems,Station 3,Fire Station,Douglas,-123.292610058963,43.5355147282539
+609,North Douglas County Fire & Ems,Station 2,Fire Station,Douglas,-123.282915124775,43.5997777942478
+610,Tualatin Valley Fire & Rescue,Station 35,Fire Station,Washington,-122.799849999558,45.3964099999008
+611,Tualatin Valley Fire & Rescue,Station 51,Fire Station,Washington,-122.768231189441,45.4276300000525
+612,Columbia River Fire & Rescue,Goble Station,Fire Station,Columbia,-122.908259522408,46.0009605255231
+613,Tygh Valley Fire Department,Tygh Valley Fire Department,Fire Station,Wasco,-121.175829025123,45.24730965669
+614,Mosier Rural Fire District,Station 12,Fire Station,Wasco,-121.384460000335,45.6793512471489
+615,Mosier Rural Fire District,Station 11,Fire Station,Wasco,-121.398429382202,45.6828854356198
+616,Sisters - Camp Sherman Fire District,Station 703 - Squaw Creek Canyon Subdivision,Fire Station,Deschutes,-121.471304147956,44.3400503904234
+617,Douglas County Fire District 2,Station 1 - Dixonville Station & Administrative,Fire Station & Administration,Douglas,-123.25265687437,43.2092063040219
+618,Douglas County Fire District 2,Station 4 - Winchester,Fire Station,Douglas,-123.352403020193,43.2915213505102
+619,Douglas County Fire District 2,Station 2 - Green,Fire Station,Douglas,-123.38245790434,43.1531122289951
+620,Douglas County Fire District 2,Station 5 - Garden Valley,Fire Station,Douglas,-123.411465987852,43.2832647015599
+621,Douglas County Fire District 2,Station 6 - Umpqua,Fire Station,Douglas,-123.471509693159,43.3636803459213
+622,Roseburg Fire Department,Station 3,Fire Station,Douglas,-123.366681189758,43.2281208667202
+623,Wallowa Fire Department,Wallowa Fire Department,Fire Station,Wallowa,-117.528436091559,45.5708063959205
+624,Fair Oaks Rural Fire Protection District,Fair Oaks Rural Fire Protection District,Fire Station,Douglas,-123.200783119192,43.4093499997329
+625,Tenmile Rural Fire Protection District,Tenmile Rural Fire Protection District,Fire Station,Douglas,-123.569338730625,43.0932128827005
+626,Tri-City Rural Fire Protection District #4,Tri-City Rural Fire Protection District #4,Fire Station,Douglas,-123.322118998433,42.9838987707163
+627,Lookingglass RFD,Lookingglass RFD,Fire Station,Douglas,-123.486807830982,43.180763819198
+628,Camas Valley Rural Fire District,Camas Valley Rural Fire District,Fire Station,Douglas,-123.6762003988,43.0337304228309
+629,Diamond Lake Volunteer Fire Department,Diamond Lake Volunteer Fire Department,Fire Station,Douglas,-122.137100707298,43.1771652434933
+630,Milo Rural Fire Protection District,Milo Rural Fire Protection District,Fire Station,Douglas,-123.04019118997,42.9346800002567
+631,Parkdale RFPD,Parkdale Station,Fire Station,Hood River,-121.590540534604,45.5193196445573
+632,Wy'East Fire District,Pine Grove Station,Fire Station,Hood River,-121.512819941233,45.653099917487
+633,Jackson County Fire District #4,Shady Cove Station,Fire Station,Jackson,-122.814029999874,42.6080100002378
+634,Jackson County Fire District #5,Station 1,Fire Station,Jackson,-122.791270711107,42.2509107081019
+636,Medford Fire-Rescue,Station 4,Fire Station,Jackson,-122.882068645637,42.3500614766312
+637,Applegate Valley RFPD #9,Station 6,Fire Station,Josephine,-123.22997301579,42.3155075627712
+638,Klamath County Fire District #1,Station 2,Fire Station,Klamath,-121.702440478176,42.1999242107119
+639,Bly Rural Fire Protection District,Bly Rural Fire Protection District,Fire Station,Klamath,-121.048954701569,42.4068580497039
+640,Crescent Rural Fire Protection District,Station 1100 - Main,Fire Station,Klamath,-121.694018810436,43.462471295167
+641,Paisley Volunteer Fire Department,Paisley Volunteer Fire Department,Fire Station,Lake,-120.545336781538,42.6915769930634
+642,Pleasant Hill - Goshen Fire & Rescue,Station 1,Fire Station,Lane,-122.931113736019,43.9660408983713
+643,Siletz Rural Fire Protection District,Station 2 - Logsden Substation,Fire Station,Lincoln,-123.789411752437,44.7428504455837
+644,Mohawk Valley Rural Fire District,Station 2 - Old Marcola,Fire Station,Lane,-122.819832842911,44.2246234918329
+645,Garibaldi Fire Department,Garibaldi Fire Department,Fire Station,Tillamook,-123.914248752848,45.55983087363
+646,Tillamook Fire District,South Prairie,Fire Station,Tillamook,-123.80274837992,45.3832935864169
+647,Upper Mckenzie Rural Fire Protection District,Station 1,Fire Station,Lane,-122.155670835673,44.1733207654556
+648,Upper Mckenzie Rural Fire Protection District (out of service due to 2020 wildfires),Station 2,Fire Station,Lane,-122.339778035552,44.1541028261484
+649,East Umatilla County Rural Fire Protection District,East Umatilla County Rural Fire Protection District,Fire Station,Umatilla,-118.557660462983,45.7688100631374
+650,Eugene Springfield Fire,Station 12 - Airport Station,Fire Station,Lane,-123.213265010136,44.1180138844902
+651,Lane Fire Authority,Station 107 - Fox Hollow,Fire Station,Lane,-123.136759999555,43.9554597427107
+652,Lane Fire Authority,Station 108 - Lorane Highway,Fire Station,Lane,-123.217699999578,43.9393952634567
+653,Mohawk Valley Rural Fire District,Station 4 - Nadeau,Fire Station,Lane,-122.919451018728,44.1273605132545
+654,Mohawk Valley Rural Fire District,Station 5 - Black Canyon,Fire Station,Lane,-122.958070951423,44.1010008937709
+655,Lane Fire Authority,Station 116 - Santa Clara North - Santa Clara Rural Fire Protection District,Fire Station,Lane,-123.139472386039,44.1224074544923
+656,Nestucca RFPD,Station 85 - Sandlake,Fire Station,Tillamook,-123.922302436855,45.3034682860007
+657,Nestucca RFPD,Station 84 - Neskowin,Fire Station,Tillamook,-123.977481948747,45.1073286241281
+658,Eugene Springfield Fire,Station 10 - Bailey Hill Station,Fire Station,Lane,-123.15089355329,44.0380872210388
+659,Lane Fire Authority,Station 111 - Crow,Fire Station,Lane,-123.336089999732,43.9937642797096
+660,Salem Fire Department,Station 7,Fire Station,Marion,-123.061388340132,44.8846095241747
+661,Sandy Fire District #72,Station 73 - Roslyn,Fire Station,Clackamas,-122.239869599525,45.4294090227886
+662,Clackamas County Fire District #1,Station 18 - Eagle Creek,Fire Station,Clackamas,-122.331331062172,45.3684105338489
+663,Polk County Fire District 1,Station 90,Fire Station & Administration,Polk,-123.216080035437,44.8517999241699
+664,West Valley Fire District,Grand Ronde,Fire Station,Polk,-123.61154089324,45.0667083233122
+665,Amity Fire District,Perrydale,Fire Station,Polk,-123.251608568078,45.0421290172626
+666,Salem Fire Department,Station 6,Fire Station,Marion,-123.009281452775,44.9137130851314
+667,Silverton Fire District,Station 9 - Crooked Finger,Fire Station,Marion,-122.620789999432,44.9928924653747
+668,Nestucca RFPD,Station 86 - Blaine,Fire Station,Tillamook,-123.693451247103,45.2629091219155
+669,Knappa-Svensen-Burnside RFPD,Brownsmead Station,Fire Station,Clatsop,-123.539886979645,46.2100808770448
+670,Lake Creek Fire & Rescue,Lake Creek Fire & Rescue,Fire Station,Lane,-123.534626692926,44.1950181319562
+671,Clackamas County Fire District #1,Station 5 - Mt. Scott,Fire Station,Clackamas,-122.566741732041,45.4419502865962
+672,Keno Rural Fire Protection District,Station 4,Fire Station,Klamath,-122.251410233847,42.2995059219523
+673,Breitenbush Fire Department,Breitenbush Fire Department,Fire Station,Marion,-121.972244795869,44.7862813484884
+674,Chiloquin Agency Lake RFPD - Chiloquin Fire & Rescue,Chiloquin Agency Lake RFPD - Chiloquin Fire & Rescue,Fire Station,Klamath,-121.735613775732,42.5806990823378
+675,Milton-Freewater Rural Fire Department,Umapine Station,Fire Station,Umatilla,-118.496341812647,45.9763615154969
+676,Umatilla County Fire District #1,Station 23,Fire Station,Umatilla,-119.349408538249,45.8240514072415
+677,Garibaldi Rural Fire District,Garibaldi Rural Fire District,Fire Station,Tillamook,-123.850659554934,45.6525095273357
+678,Jackson County Fire District #3,Sams Valley Station,Fire Station,Jackson,-122.954246202804,42.476279069934
+679,Boardman Rural Fire Protection District,Station 3 - Threemile Canyon Station,Fire Station,Morrow,-119.937232910803,45.7543864977036
+680,Illinois Valley Fire District,Station 4 - Holland,Fire Station,Josephine,-123.572274781282,42.1251661329352
+681,Philomath Fire & Rescue,Station 203 - Inavale,Fire Station,Benton,-123.348859664053,44.4726941280382
+682,U.S. Forest Service,North Umpqua Ranger District,Federal Fire Facility,Douglas,-123.098583139289,43.2983871729365
+683,U.S. Forest Service,Mckenzie River Ranger District,Federal Fire Facility,Lane,-122.116481222816,44.1796546379611
+684,U.S. Forest Service,Rager Ranger Station,Federal Fire Facility,Crook,-119.826255011046,44.2293442754595
+685,U.S. Forest Service,North Umpqua Ranger District - Steamboat Workstation,Federal Fire Facility,Douglas,-122.736181339441,43.3434725530639
+686,U.S. Forest Service,Applegate Ranger District,Federal Fire Facility,Jackson,-123.057399155583,42.1509750363438
+687,Oregon Department of Forestry,Headquarters,State Fire Facility,Crook,-120.807525519552,44.3040012423442
+688,Oregon Outback RFPD,Oregon Outback RFPD,Fire Station,Deschutes,-121.507538048797,43.6652277112405
+689,Crescent Rural Fire Protection District,Station 2 - Hackett,Fire Station,Klamath,-121.586125014964,43.5711803432066
+690,U.S. Forest Service,Dufur Ranger Station,Federal Fire Facility,Wasco,-121.125299201272,45.4565425995132
+691,Chemult Rural Fire Protection District,Station 1 - Chemult - Headquarters,Fire Station & Headquarters,Klamath,-121.785209716187,43.2198195731293
+692,Chemult Rural Fire Protection District,Station 3 - Two Rivers North,Fire Station,Klamath,-121.8336756026,43.3547361063677
+693,Douglas Forest Protective Association,South Unit,Fire Station,Douglas,-123.313480157959,42.9485294582002
+695,Douglas Forest Protective Association,Central Unit - Headquarters,Fire Station & Headquarters,Douglas,-123.353943294164,43.2309259095311
+696,U.S. Forest Service,Crescent Ranger District,Federal Fire Facility,Klamath,-121.696896530663,43.4611404508724
+697,U.S. Forest Service,Fort Rock Fire Center,Federal Fire Facility,Deschutes,-121.305310119769,44.05066439581
+698,U.S. Forest Service,Whitman Ranger Station,Federal Fire Facility,Baker,-117.843011406978,44.7885118474014
+699,U.S. Bureau Of Land Management,Burns District,Federal Fire Facility,Harney,-119.096124479538,43.523644934078
+700,Sheridan Fire District,Station 197 - Buell,Fire Station,Polk,-123.420797685145,45.02141715148
+701,Wamic RFPD,Station 2,Fire Station,Wasco,-121.39318513538,45.2183079191501
+702,Rogue River Fire District,Rogue River Fire District,Fire Station,Jackson,-123.161291076812,42.4302088511921
+703,Kellogg Rural Fire District,Kellogg Rural Fire District,Fire Station,Douglas,-123.560246901434,43.4469049712591
+704,Helix RFPD,Station 2 - Juniper Canyon Station,Fire Station,Umatilla,-118.814437946493,45.9050423585409
+705,Oregon Department of Corrections - Shutter Creek Correctional Institution Fire Department,Oregon Department of Corrections - Shutter Creek Correctional Institution Fire Department,State Fire Facility,Coos,-124.177156236538,43.5347383163031
+706,Echo Rural Fire Protection District,Echo Rural Fire Protection District,Fire Station,Umatilla,-119.385221587973,45.6709045338425
+707,Echo Rural Fire Protection District,Echo Rural Fire Protection District,Fire Station,Umatilla,-118.937761700176,45.6900881803793
+708,Halsey-Shedd Rural Fire Protection District,Station 54 - Oakville,Fire Station,Linn,-123.187259440249,44.5097715129928
+709,Oregon Department of Forestry,Astoria District,State Fire Facility,Clatsop,-123.79690642272,46.151862625153
+710,Coos Forest Protective Association,Coos Forest Protective Association,Fire Station,Coos,-124.205346525105,43.3518307825051
+711,Dayton Fire District,Main,Fire Station,Yamhill,-123.082391603384,45.2168234727877
+712,Mist-Birkenfeld Rural Fire Protection District,Sager Station,Fire Station,Clatsop,-123.401774759622,45.9858651273488
+713,Mist-Birkenfeld Rural Fire Protection District,Fishhawk Lake Station,Fire Station,Clatsop,-123.368928797124,46.0319171600241
+714,Depoe Bay Rural Fire Protection District,Station 21 - Depoe Bay,Fire Station,Lincoln,-124.06184441261,44.8075207238274
+715,Stayton Fire District,Mehama Station,Fire Station,Marion,-122.625734570492,44.7907295534119
+716,Stayton Fire District,Elkhorn Station,Fire Station,Marion,-122.401259662272,44.8170725147921
+717,Sisters - Camp Sherman Fire District,Station 704 - Camp Sherman,Fire Station,Jefferson,-121.654127466049,44.449845804541
+718,Warm Springs Fire And Safety,Warm Springs Fire And Safety,Fire Station,Jefferson,-121.265726826137,44.7638110687437
+719,Siuslaw Valley Fire & Rescue,Station 3 - North Fork Station,Fire Station,Lane,-123.986044877743,44.0556096184673
+720,Blodgett-Summit Rural Fire Protection District,Blodgett-Summit Rural Fire Protection District,Fire Station,Benton,-123.520661654753,44.5959683432047
+721,Central Oregon Coast Fire & Rescue,Station 7400 - Five Rivers,Fire Station,Lincoln,-123.828910531913,44.3625815174217
+722,East Lincoln Fire & Rescue (Land only),Station 4300,Fire Station,Lincoln,-123.77355087352,44.6365222702715
+723,Lowell Rural Fire Protection District,Station 2,Fire Station,Lane,-122.816811908381,43.9606051815859
+724,Blodgett-Summit Rural Fire Protection District,Blodgett-Summit Rural Fire Protection District,Fire Station,Benton,-123.578833737496,44.6346322860399
+725,Illinois Valley Fire District,Station 6 - Takilma,Fire Station,Josephine,-123.612737845938,42.0617313045879
+726,Adair Rural Fire Protection District,Adair Rural Fire Protection District,Fire Station,Benton,-123.29213467008,44.6482169248304
+727,Rural Metro Fire Department,Station 2,Fire Station,Josephine,-123.373732581861,42.5010682682404
+728,Haines Fire Protection District,Old Slough Road,Fire Station,Baker,-117.830386449928,44.8986766172162
+729,Tiller Rural Fire Protection District,Drew Station,Fire Station,Douglas,-122.879363917756,42.8649207030739
+730,Clatskanie Rural Fire,Delena Station,Fire Station,Columbia,-123.053626404446,46.0993209580233
+731,Mapleton Fire Department,Mapleton Fire Department,Fire Station,Lane,-123.863554713986,44.0364230744119
+732,Coquille Fire Department,Coquille Fire Department,Fire Station,Coos,-124.273262206657,43.1570568667671
+733,Agness Illahee Fire Department,Agness Illahee Fire Department,Fire Station,Curry,-124.064631003804,42.5932654976325
+734,Siuslaw Valley Fire & Rescue,Station 8 - Clear Lake Station,Fire Station,Lane,-124.101587644369,43.8980774451787
+735,Mckenzie Fire & Rescue,Station 4 - Vida,Fire Station,Lane,-122.572671704159,44.1474718923706
+736,South Sherman Fire Protection District,Station 2,Fire Station,Sherman,-120.782745895138,45.3646348346193
+737,Lake Creek Rural Fire District #8,Main Station,Fire Station,Jackson,-122.622920995052,42.4207612462731
+739,Christmas Valley Rural Fire Protection District,Christmas Valley Rural Fire Protection District,Fire Station,Lake,-120.678650364967,43.2391416631687
+740,East Umatilla County Rural Fire Protection District,East Umatilla County Rural Fire Protection District,Fire Station,Umatilla,-118.252505843391,45.7879032842041
+741,Swisshome - Deadwood Rural Fire Protection District,Station 1,Fire Station,Lane,-123.800749962799,44.0576481501737
+743,Klamath County Fire District #3,Klamath County Fire District #3,Fire Station,Klamath,-121.517014764015,42.498448091554
+744,U.S. Coast Guard,Air Station Astoria,Federal Fire Facility,Clatsop,-123.886385971386,46.1533522668224
+745,Junction City Rural Fire Protection District,Station 1,Fire Station,Lane,-123.207710983056,44.2292211972791
+746,Bandon Rural Fire Protection District,Bandon Rural Fire Protection District,Fire Station,Coos,-124.413823222263,43.117166028452
+747,Clatskanie Rural Fire,Clatskanie Station,Fire Station,Columbia,-123.202488412397,46.1022745180797
+749,Camas Valley Rural Fire District,Camas Valley Rural Fire District,Fire Station,Douglas,-123.677762500022,43.0268706058316
+750,Newport Fire Department,Station 33 - South Beach,Fire Station,Lincoln,-124.063170127648,44.5868523786926
+751,Gearhart Fire Department,Station 2900A - Hertig Station,Fire Station,Clatsop,-123.917453127308,46.0758527658671
+752,Clackamas County Fire District #1,Station 7 - Pleasant Valley,Fire Station,Clackamas,-122.486208798579,45.4436791540642
+754,North Sherman Rural Fire Protection District,Rufus Vfd,Fire Station,Sherman,-120.735074435708,45.6932472567134
+755,Unity-Burnt River Fire District,Station 37,Fire Station,Baker,-118.183149022927,44.4374517578171
+756,Wheeler Fire Department,Wheeler Fire Department,Fire Station,Wheeler,-119.888715126315,44.9118162613743
+757,Boardman Rural Fire Protection District,Station 1,Fire Station,Morrow,-119.706080128843,45.8281887919231
+758,Canby Fire District 62,Station 365 - substation,Fire Station,Clackamas,-122.679298630899,45.2188001570346
+759,Columbia River Fire & Rescue,Columbia City Station,Fire Station,Columbia,-122.812905100134,45.8924893977496
+760,Central Cascades Fire & EMS,Central Cascades Fire & EMS,Fire Station,Klamath,-121.948597243409,43.5269491126573
+761,Tualatin Valley Fire & Rescue,Station 62,Fire Station,Washington,-122.891338831512,45.4931576957146
+762,Tualatin Valley Fire & Rescue,Station 64,Fire Station,Washington,-122.868196535789,45.5432101884702
+763,Swisshome - Deadwood Rural Fire Protection District,Swisshome - Deadwood Rural Fire Protection District,Fire Station,Lane,-123.729340986756,44.140085055464
+764,Agness Illahee Fire Department,Agness Illahee Fire Department,Fire Station,Curry,-124.064582025908,42.5572099693082
+765,Jackson County Fire District #3,Central Point Station,Fire Station,Jackson,-122.913019463859,42.3688216725886
+766,Rural Metro Fire Department,Station 5,Fire Station,Josephine,-123.440142223471,42.5074754380284
+767,Applegate Valley RFPD #9,Station 7,Fire Station,Jackson,-122.949599531505,42.215097552669
+768,Jackson County Fire District #5,Station 2,Fire Station,Jackson,-122.628387752362,42.154053163254
+769,Jackson County Fire District #4,Lost Creek Substation,Fire Station,Jackson,-122.689603408879,42.6602999345944
+770,Nehalem Bay Fire & Rescue,Station 13 - Main Station,Fire Station & Headquarters,Tillamook,-123.913631552209,45.7170418428202
+771,Nestucca RFPD,Station 87,Fire Station,Tillamook,-123.863286083704,45.231874665848
+772,Klamath County Fire District #1,Station 5,Fire Station,Klamath,-121.871535936044,42.2580344748152
+773,Lebanon Fire District,Station 34,Fire Station,Linn,-122.881448591075,44.5100067158027
+774,Lebanon Fire District,Station 35,Fire Station,Linn,-122.74792865308,44.4886938890733
+775,Wy'East Fire District,Odell Station,Fire Station,Hood River,-121.540903305093,45.6249959409049
+776,Tualatin Valley Fire & Rescue,Station 68,Fire Station,Washington,-122.816766044883,45.5470549745552
+777,Tualatin Valley Fire & Rescue,Station 65,Fire Station,Washington,-122.782807687116,45.4957669095816
+778,Tualatin Valley Fire & Rescue,Station 70 - EMS,Fire Station,Washington,-122.76171093997,45.4869457001444
+779,Tualatin Valley Fire & Rescue,Station 55,Fire Station,Clackamas,-122.650758777332,45.3770552851607
+780,Seal Rock RFPD,Station 6100 - Seal Rock,Fire Station,Lincoln,-124.081333368515,44.4992731579854
+781,Clackamas County Fire District #1,Station 19 - Damascus,Fire Station,Clackamas,-122.457795436652,45.4199504365283
+782,Jackson County Fire District #3,Table Rock Station,Fire Station,Jackson,-122.886984041064,42.3923313737125
+783,Albany Fire Department,Station 15,Fire Station,Linn,-123.062983990955,44.6810261669323
+784,Bend Fire Department,Station 306 - Pilot Butte Station,Fire Station,Deschutes,-121.284621291684,44.0544557234667
+785,Grants Pass Public Safety Fire & Rescue,Redwood Fire Station,Fire Station,Josephine,-123.388547897975,42.4294520284713
+787,Newport Fire Department,Station 32 - Agate Beach,Fire Station,Lincoln,-124.059346588534,44.6905352776987
+788,Chemult Rural Fire Protection District,Station 2 - Beaver Marsh,Fire Station,Klamath,-121.803337137317,43.134764188909
+789,Hillsboro Fire & Rescue,Station 6 - Cherry Lane,Fire Station,Washington,-122.902182143352,45.5289941790711
+790,Hillsboro Fire & Rescue,Station 5 - Jones Farm,Fire Station,Washington,-122.958809231395,45.5457683812593
+791,Juniper Flat RFPD,Station 2,Fire Station,Wasco,-121.175364766202,45.1724313261517
+792,Juniper Flat RFPD,Station 3,Fire Station,Wasco,-121.363435991434,45.1073570889116
+793,Lane Fire Authority,Station 117 - Santa Clara South,Fire Station,Lane,-123.131112984734,44.1019020831777
+794,Medford Fire-Rescue,Station 2,Fire Station,Jackson,-122.887914701211,42.3127201946436
+795,Boardman Rural Fire Protection District,Station 7 - Butter Creek Station,Fire Station,Morrow,-119.43585416844,45.6203514891557
+796,Nehalem Bay Fire & Rescue,Station 11 - Substation,Fire Station,Tillamook,-123.85332916124,45.7258390706304
+797,Elsie-Vinemaple Rural Fire Protection District,Station 2,Fire Station,Clatsop,-123.544448574815,45.8889694590944
+798,Sumner Rural Fire Protection District,Station 2,Fire Station,Coos,-124.149015310803,43.3376188871193
+799,U.S. Forest Service,Malheur National Forest - Emigrant Creek Ranger Station,Federal Fire Facility,Harney,-119.084689713896,43.5572033443703
+800,Coos Forest Protective Association,Fourmile Sub Unit,Fire Station,Coos,-124.415399996673,43.0106816593833
+801,Port Orford Rural Fire Protection District,Elk River Station,Fire Station,Curry,-124.448441998554,42.7636179866609
+802,Sixes Rural Fire Protection,Up River Hall,Fire Station,,-124.422165940287,42.8182389576628
+803,Tenmile Rural Fire Protection District,Tenmile Rural Fire Protection District,Fire Station,,-123.551915552317,43.0120027115973
+804,Glide Rural Fire Protection District,substation,Fire Station,,-123.179603766254,43.2904776100973
+805,Jackson County Fire District #3,Scenic Station,Fire Station,Jackson,-122.922993249903,42.3881779302768
+808,Southwestern Polk County RFPD,Station 140 - Salt Creek,Fire Station,Polk,-123.345286702476,44.9915982408652
+809,Southwestern Polk County RFPD,Station 150 - Bridgeport,Fire Station,Polk,-123.360737680154,44.847350520067
+810,Yachats Rural Fire Protection District,Station 8300,Fire Station,Lincoln,-123.98001825264,44.286240637886
+811,Prospect RFPD,Station 2,Fire Station,Jackson,-122.574667776527,42.7109914942016
+812,Lake Creek Rural Fire District #8,Brownboro,Fire Station,Jackson,-122.733554867398,42.461262082023
+813,Lake Creek Rural Fire District #8,Lake Creek,Fire Station,Jackson,-122.67971211814,42.4498747273534
+814,Lake Creek Rural Fire District #8,Soda Creek,Fire Station,Jackson,-122.511292577128,42.3563872120184

@@ -19,5 +19,11 @@
         return sequentials[token('--data-sequential')] || d3.interpolateOranges
     }
 
-    window.FirePalette = { token, sequential }
+    // Discrete ColorBrewer classes for ordinal charts such as the bubble map.
+    function discrete(classes = 7) {
+        let name = token('--data-sequential')
+        return d3[`scheme${name}`]?.[classes] || d3.schemeOranges[classes]
+    }
+
+    window.FirePalette = { token, sequential, discrete }
 })()

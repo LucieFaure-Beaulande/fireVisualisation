@@ -1,0 +1,66 @@
+UnitName,StationId,Station,Agency,County,MatchMethod,ValidationReason
+Astoria,125,Headquarters,Astoria Fire Department,Clatsop,UnitName présent dans Agency ou Station,Nom correspondant et comté présent parmi les feux de l'unité
+Astoria,126,Station 2,Astoria Fire Department,Clatsop,UnitName présent dans Agency ou Station,Nom correspondant et comté présent parmi les feux de l'unité
+Astoria,709,Astoria District,Oregon Department of Forestry,Clatsop,UnitName présent dans Agency ou Station,Nom correspondant et comté présent parmi les feux de l'unité
+Astoria,744,Air Station Astoria,U.S. Coast Guard,Clatsop,UnitName présent dans Agency ou Station,Nom correspondant et comté présent parmi les feux de l'unité
+Baker,5,Baker City Fire Department,Baker City Fire Department,Baker,UnitName présent dans Agency ou Station,Nom correspondant et comté présent parmi les feux de l'unité
+Baker,77,Station 27 - Lindley Road Station,Baker Rural Fire Protection District,Baker,UnitName présent dans Agency ou Station,Nom correspondant et comté présent parmi les feux de l'unité
+Baker,78,Station 26 - Pine Creek Station,Baker Rural Fire Protection District,Baker,UnitName présent dans Agency ou Station,Nom correspondant et comté présent parmi les feux de l'unité
+Bridge,597,Bridge Rural Fire Protection District,Bridge Rural Fire Protection District,Coos,UnitName présent dans Agency ou Station,Nom correspondant et comté présent parmi les feux de l'unité
+Columbia City,759,Columbia City Station,Columbia River Fire & Rescue,Columbia,UnitName présent dans Agency ou Station,Nom correspondant et comté présent parmi les feux de l'unité
+Coos Bay,10,Station 1,Coos Bay Fire & Rescue,Coos,UnitName présent dans Agency ou Station,Nom correspondant et comté présent parmi les feux de l'unité
+Coos Bay,153,Station 3 - Eastside,Coos Bay Fire & Rescue,Coos,UnitName présent dans Agency ou Station,Nom correspondant et comté présent parmi les feux de l'unité
+Coos Bay,154,Station 2 - Empire,Coos Bay Fire & Rescue,Coos,UnitName présent dans Agency ou Station,Nom correspondant et comté présent parmi les feux de l'unité
+Crescent,640,Station 1100 - Main,Crescent Rural Fire Protection District,Klamath,UnitName présent dans Agency ou Station,Nom correspondant et comté présent parmi les feux de l'unité
+Crescent,689,Station 2 - Hackett,Crescent Rural Fire Protection District,Klamath,UnitName présent dans Agency ou Station,Nom correspondant et comté présent parmi les feux de l'unité
+Crescent,696,Crescent Ranger District,U.S. Forest Service,Klamath,UnitName présent dans Agency ou Station,Nom correspondant et comté présent parmi les feux de l'unité
+Dallas,409,Dallas Fire & EMS,Dallas Fire & EMS,Polk,UnitName présent dans Agency ou Station,Nom correspondant et comté présent parmi les feux de l'unité
+Forest Grove,454,Gales Creek Station,Forest Grove Fire & Rescue,Washington,UnitName présent dans Agency ou Station,Nom correspondant et comté présent parmi les feux de l'unité
+Forest Grove,455,Main Station,Forest Grove Fire & Rescue,Washington,UnitName présent dans Agency ou Station,Nom correspondant et comté présent parmi les feux de l'unité
+Gold Beach,172,Gold Beach Unit,Coos Forest Protective Association,Curry,UnitName présent dans Agency ou Station,Nom correspondant et comté présent parmi les feux de l'unité
+Gold Beach,173,Station 6400,Gold Beach Fire Department,Curry,UnitName présent dans Agency ou Station,Nom correspondant et comté présent parmi les feux de l'unité
+Grants Pass,240,Hillcrest Fire Station,Grants Pass Public Safety Fire & Rescue,Josephine,UnitName présent dans Agency ou Station,Nom correspondant et comté présent parmi les feux de l'unité
+Grants Pass,241,Parkway Fire Station,Grants Pass Public Safety Fire & Rescue,Josephine,UnitName présent dans Agency ou Station,Nom correspondant et comté présent parmi les feux de l'unité
+Grants Pass,785,Redwood Fire Station,Grants Pass Public Safety Fire & Rescue,Josephine,UnitName présent dans Agency ou Station,Nom correspondant et comté présent parmi les feux de l'unité
+John Day,31,John Day Fire Department,John Day Fire Department,Grant,UnitName présent dans Agency ou Station,Nom correspondant et comté présent parmi les feux de l'unité
+John Day,32,John Day Rural Fire Protection District,John Day Rural Fire Protection District,Grant,UnitName présent dans Agency ou Station,Nom correspondant et comté présent parmi les feux de l'unité
+Klamath,252,Station 1,Klamath County Fire District #1,Klamath,UnitName présent dans Agency ou Station,Nom correspondant et comté présent parmi les feux de l'unité
+Klamath,253,Station 3,Klamath County Fire District #1,Klamath,UnitName présent dans Agency ou Station,Nom correspondant et comté présent parmi les feux de l'unité
+Klamath,255,Station 4,Klamath County Fire District #1,Klamath,UnitName présent dans Agency ou Station,Nom correspondant et comté présent parmi les feux de l'unité
+Klamath,256,Klamath County Fire District #4,Klamath County Fire District #4,Klamath,UnitName présent dans Agency ou Station,Nom correspondant et comté présent parmi les feux de l'unité
+Klamath,257,Klamath County Fire District #5,Klamath County Fire District #5,Klamath,UnitName présent dans Agency ou Station,Nom correspondant et comté présent parmi les feux de l'unité
+Klamath,638,Station 2,Klamath County Fire District #1,Klamath,UnitName présent dans Agency ou Station,Nom correspondant et comté présent parmi les feux de l'unité
+Klamath,743,Klamath County Fire District #3,Klamath County Fire District #3,Klamath,UnitName présent dans Agency ou Station,Nom correspondant et comté présent parmi les feux de l'unité
+Klamath,772,Station 5,Klamath County Fire District #1,Klamath,UnitName présent dans Agency ou Station,Nom correspondant et comté présent parmi les feux de l'unité
+La Grande,437,La Grande Fire Department,La Grande Fire Department,Union,UnitName présent dans Agency ou Station,Nom correspondant et comté présent parmi les feux de l'unité
+La Grande,443,Station 5,La Grande Rural Fire Protection District,Union,UnitName présent dans Agency ou Station,Nom correspondant et comté présent parmi les feux de l'unité
+Lakeview,40,Lakeview Fire Department,Lakeview Fire Department,Lake,UnitName présent dans Agency ou Station,Nom correspondant et comté présent parmi les feux de l'unité
+Medford,236,Station 5,Medford Fire-Rescue,Jackson,UnitName présent dans Agency ou Station,Nom correspondant et comté présent parmi les feux de l'unité
+Medford,237,Station 3,Medford Fire-Rescue,Jackson,UnitName présent dans Agency ou Station,Nom correspondant et comté présent parmi les feux de l'unité
+Medford,482,Station 6,Medford Fire-Rescue,Jackson,UnitName présent dans Agency ou Station,Nom correspondant et comté présent parmi les feux de l'unité
+Medford,636,Station 4,Medford Fire-Rescue,Jackson,UnitName présent dans Agency ou Station,Nom correspondant et comté présent parmi les feux de l'unité
+Medford,794,Station 2,Medford Fire-Rescue,Jackson,UnitName présent dans Agency ou Station,Nom correspondant et comté présent parmi les feux de l'unité
+Molalla,117,Molalla Rural Fire Protection District #73,Molalla Rural Fire Protection District #73,Clackamas,UnitName présent dans Agency ou Station,Nom correspondant et comté présent parmi les feux de l'unité
+Molalla,118,Station 81,Molalla Rural Fire Protection District #73,Clackamas,UnitName présent dans Agency ou Station,Nom correspondant et comté présent parmi les feux de l'unité
+Molalla,588,Station 82,Molalla Rural Fire Protection District #73,Clackamas,UnitName présent dans Agency ou Station,Nom correspondant et comté présent parmi les feux de l'unité
+Pendleton,430,Station 1,Pendleton Fire And Ambulance Service,Umatilla,UnitName présent dans Agency ou Station,Nom correspondant et comté présent parmi les feux de l'unité
+Pendleton,431,Station 2,Pendleton Fire And Ambulance Service,Umatilla,UnitName présent dans Agency ou Station,Nom correspondant et comté présent parmi les feux de l'unité
+Philomath,91,Station 201 - Downtown,Philomath Fire & Rescue,Benton,UnitName présent dans Agency ou Station,Nom correspondant et comté présent parmi les feux de l'unité
+Philomath,500,Station 202 - Wren,Philomath Fire & Rescue,Benton,UnitName présent dans Agency ou Station,Nom correspondant et comté présent parmi les feux de l'unité
+Philomath,681,Station 203 - Inavale,Philomath Fire & Rescue,Benton,UnitName présent dans Agency ou Station,Nom correspondant et comté présent parmi les feux de l'unité
+Sisters,191,Station 702 - Tollgate Subdivision,Sisters - Camp Sherman Fire District,Deschutes,UnitName présent dans Agency ou Station,Nom correspondant et comté présent parmi les feux de l'unité
+Sisters,192,Station 701 - Main,Sisters - Camp Sherman Fire District,Deschutes,UnitName présent dans Agency ou Station,Nom correspondant et comté présent parmi les feux de l'unité
+Sisters,530,Sisters Ranger District,U.S. Forest Service,Deschutes,UnitName présent dans Agency ou Station,Nom correspondant et comté présent parmi les feux de l'unité
+Sisters,616,Station 703 - Squaw Creek Canyon Subdivision,Sisters - Camp Sherman Fire District,Deschutes,UnitName présent dans Agency ou Station,Nom correspondant et comté présent parmi les feux de l'unité
+Sisters,717,Station 704 - Camp Sherman,Sisters - Camp Sherman Fire District,Jefferson,UnitName présent dans Agency ou Station,Nom correspondant et comté présent parmi les feux de l'unité
+Sweet Home,331,Station 23 - Crawfordsville,Sweet Home Fire & Ambulance District,Linn,UnitName présent dans Agency ou Station,Nom correspondant et comté présent parmi les feux de l'unité
+Sweet Home,332,Station 22 - Foster,Sweet Home Fire & Ambulance District,Linn,UnitName présent dans Agency ou Station,Nom correspondant et comté présent parmi les feux de l'unité
+Sweet Home,507,Station 21,Sweet Home Fire & Ambulance District,Linn,UnitName présent dans Agency ou Station,Nom correspondant et comté présent parmi les feux de l'unité
+Sweet Home,514,Station 24 - Cascadia,Sweet Home Fire & Ambulance District,Linn,UnitName présent dans Agency ou Station,Nom correspondant et comté présent parmi les feux de l'unité
+Tillamook,422,Station 73 - Cape Meares,Tillamook Fire District,Tillamook,UnitName présent dans Agency ou Station,Nom correspondant et comté présent parmi les feux de l'unité
+Tillamook,423,Station 71 - Tillamook,Tillamook Fire District,Tillamook,UnitName présent dans Agency ou Station,Nom correspondant et comté présent parmi les feux de l'unité
+Tillamook,646,South Prairie,Tillamook Fire District,Tillamook,UnitName présent dans Agency ou Station,Nom correspondant et comté présent parmi les feux de l'unité
+Toledo,314,Toledo Fire Department & Rural Fire Protection District,Toledo Fire Department & Rural Fire Protection District,Lincoln,UnitName présent dans Agency ou Station,Nom correspondant et comté présent parmi les feux de l'unité
+Veneta,281,Station 101 - Veneta - Headquarters,Lane Fire Authority,Lane,UnitName présent dans Agency ou Station,Nom correspondant et comté présent parmi les feux de l'unité
+Wallowa,446,Wallowa Lake Rural Fire District,Wallowa Lake Rural Fire District,Wallowa,UnitName présent dans Agency ou Station,Nom correspondant et comté présent parmi les feux de l'unité
+Wallowa,623,Wallowa Fire Department,Wallowa Fire Department,Wallowa,UnitName présent dans Agency ou Station,Nom correspondant et comté présent parmi les feux de l'unité

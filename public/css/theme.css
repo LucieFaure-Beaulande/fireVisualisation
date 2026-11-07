@@ -28,6 +28,18 @@
     --data-cost: #4e79a7;          /* blue   */
     --data-trail-open: #76b7b2;    /* teal   */
     --data-trail-closed: #e15759;  /* red    */
+    --data-station: #4e79a7;       /* blue   */
+
+    /* categories without a color of their own (e.g. the causes of the sunburst), to use in this order:
+       the order keeps the neighbours distinguishable; beyond 8 categories, use --data-unknown */
+    --data-category-1: #6c9ce8;    /* blue   */
+    --data-category-2: #f2896b;    /* coral  */
+    --data-category-3: #3fbf9f;    /* mint   */
+    --data-category-4: #dfa93a;    /* amber  */
+    --data-category-5: #e58cb8;    /* pink   */
+    --data-category-6: #6fb85a;    /* green  */
+    --data-category-7: #9b85e6;    /* violet */
+    --data-category-8: #e0636f;    /* red    */
 }
 
 [data-palette="cvd"] {
@@ -40,6 +52,17 @@
     --data-cost: #0072b2;          /* blue        */
     --data-trail-open: #56b4e9;    /* sky blue    */
     --data-trail-closed: #000000;  /* black       */
+    --data-station: #0072b2;       /* blue        */
+
+    /* categories without a color of their own, in an order where the neighbours stay distinct */
+    --data-category-1: #0072b2;    /* blue        */
+    --data-category-2: #e69f00;    /* orange      */
+    --data-category-3: #009e73;    /* green       */
+    --data-category-4: #cc79a7;    /* purple      */
+    --data-category-5: #56b4e9;    /* sky blue    */
+    --data-category-6: #d55e00;    /* vermillion  */
+    --data-category-7: #f0e442;    /* yellow      */
+    --data-category-8: #000000;    /* black       */
 }
 
 :root {
@@ -197,7 +220,7 @@ input[type="text"] {
     padding: 6px 10px;
 }
 select:hover, button:hover { background: var(--surface-hover); }
-select:focus, button:focus-visible, input:focus-visible { outline: 2px solid var(--accent-soft); border-color: var(--accent); }
+select:focus, button:focus-visible, input:focus-visible { outline: 3px solid var(--color-focus); outline-offset: 2px; border-color: var(--accent); }
 button { cursor: pointer; }
 button.primary { background: var(--accent); border-color: var(--accent); color: #ffffff; }
 

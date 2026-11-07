@@ -23,7 +23,7 @@
             <!-- Main area (3fr, spans the 3 rows): empty for now -->
             <section class="home-main card" aria-label="Main area"></section>
 
-            <div class="viz-card card">
+            <div class="viz-card card" data-interactive>
                 <iframe src="/heatmap/?embed" data-target="#heatmap" data-sync-year title="" tabindex="-1" aria-hidden="true"></iframe>
                 <button type="button" class="viz-link" data-href="/heatmap/">
                     <span class="viz-title">Heatmap counties × months</span>
@@ -37,49 +37,20 @@
                 </button>
             </div>
 
-            <div class="viz-card card">
+            <div class="viz-card card" data-interactive>
                 <iframe src="/bulletgraph/?embed" data-target="#bullet" data-sync-year title="" tabindex="-1" aria-hidden="true"></iframe>
                 <button type="button" class="viz-link" data-href="/bulletgraph/">
                     <span class="viz-title">Bullet Graph</span>
                 </button>
             </div>
+
+            <div class="viz-card card" data-main data-interactive>
+                <iframe src="/bubblemap/?embed" data-target="#map" data-sync-year title="" tabindex="-1" aria-hidden="true"></iframe>
+                <button type="button" class="viz-link" data-href="/bubblemap/">
+                    <span class="viz-title">Wildfire bubble map</span>
+                </button>
+            </div>
         </div>
-        <!-- One card per visualization: each page is in its own folder of public/ -->
-        <ul class="viz-list">
-            <li>
-                <a class="viz-card card" href="/bubblemap/">
-                    <h2>Wildfire bubble map</h2>
-                    <p>Explore wildfires, fire stations, and their estimated links by year with a fisheye lens.</p>
-                </a>
-            </li>
-            <li>
-                <a class="viz-card card" href="/heatmap/">
-                    <h2>Heatmap counties × months</h2>
-                    <p>Number of fires per county and month, costs, trails and public share of the burned area;
-                        causes of each month in parallel coordinates.</p>
-                </a>
-            </li>
-            <li>
-                <a class="viz-card card" href="/sunburst/">
-                    <h2>Sunburst of the causes</h2>
-                    <p>Hierarchy of the causes of the fires: origin, general cause, specific cause.</p>
-                </a>
-            </li>
-          <li>
-                <a class="viz-card card" href="/bulletgraph/">
-                    <h2>Bullet Graph</h2>
-                    <p>Desc.</p>
-                </a>
-            </li>
-            <!--
-            <li>
-                <a class="viz-card card" href="/folder-name/">
-                    <h2>Title of the visualization</h2>
-                    <p>One sentence of description.</p>
-                </a>
-            </li>
-            -->
-        </ul>
     </main>
 
     <script src="/lib/d3.min.js"></script>

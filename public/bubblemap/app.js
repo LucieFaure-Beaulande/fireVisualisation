@@ -634,6 +634,12 @@ async function initialise() {
     document.fonts.ready.then(layoutCharts);
     layoutCharts();
     updateMap(currentYear);
+    // Embedded on the home page: the year comes from the shared ruler
+    if (document.documentElement.classList.contains("embed")) {
+      FireEmbed.onYear(year => {
+        if (years.includes(year) && year !== currentYear) updateMap(year);
+      });
+    }
     fisheyeToggle.property("disabled", false);
   } catch (error) {
     console.error(error);

@@ -18,6 +18,15 @@ function fitMiniature(card) {
         doc = frame.contentDocument,
         target = doc && doc.querySelector(frame.dataset.target)
 
+    // interactive main card: real size (no scaling), the iframe fills the cell above the title strip
+    if (card.classList.contains('is-interactive')) {
+        frame.style.width = card.clientWidth + 'px'
+        frame.style.height = Math.max(0, card.clientHeight - title.offsetHeight) + 'px'
+        frame.style.transform = 'none'
+        if (target) frame.style.visibility = 'visible'
+        return
+    }
+
     // the chart is not drawn yet
     if (!target) return
 
@@ -61,6 +70,7 @@ cards.forEach(card => {
     frame.style.width = baseWidth + 'px'
     frame.style.height = baseHeight + 'px'
     frame.addEventListener('load', () => watchChart(card))
+    frame.addEventListener('load', () => sendInteractive(frame))
 
     // the iframe may already be loaded when this script runs
     if (frame.contentDocument && frame.contentDocument.readyState === 'complete'
@@ -69,10 +79,20 @@ cards.forEach(card => {
     observer.observe(card)
 })
 
+// tell the page of the iframe if it is the interactive main area (see js/embed.js)
+function sendInteractive(frame) {
+    if (frame.contentWindow) {
+        frame.contentWindow.postMessage(
+            { type: 'setInteractive', value: frame.dataset.interactive === 'true' }, location.origin)
+    }
+}
+
 // ---------- main area ----------
 
-let mainCard = null             // the card shown in the main area, null before the first click
-let sideSlots = cards.slice()   // the 3 cells of the right column, from top to bottom (null = empty cell)
+// the card marked data-main is shown in the main area from the start
+let mainCard = cards.find(card => card.hasAttribute('data-main')) || null
+// the 3 cells of the right column, from top to bottom (null = empty cell)
+let sideSlots = cards.filter(card => card !== mainCard)
 
 // the empty cell: it replaces the card that moved to the main area
 const emptyCell = document.createElement('div')
@@ -83,17 +103,41 @@ grid.appendChild(emptyCell)
 
 const cardTitle = card => card.querySelector('.viz-title').textContent
 
-// apply the state to the page: classes, order in the grid and label of the buttons
-// the iframes stay in the DOM, so the charts are not loaded again
+// switch a card between miniature and interactive main area
+function setInteractive(card, interactive) {
+    const frame = card.querySelector('iframe')
+    const was = frame.dataset.interactive === 'true'
+    if (was === interactive) return
+
+    const hadFocus = document.activeElement === frame
+    frame.dataset.interactive = String(interactive)
+    frame.tabIndex = interactive ? 0 : -1
+    if (interactive) {
+        frame.removeAttribute('aria-hidden')
+        frame.title = `${cardTitle(card)} (interactive)`
+    } else {
+        frame.setAttribute('aria-hidden', 'true')
+        frame.title = ''
+    }
+    sendInteractive(frame)
+    fitMiniature(card)
+
+    // the keyboard focus must not be lost inside a frame that becomes a miniature
+    if (!interactive && hadFocus) card.querySelector('.viz-link').focus()
+}
+
 function applyLayout() {
     grid.classList.toggle('has-main', mainCard !== null)
 
     cards.forEach(card => {
         const isMain = card === mainCard
+        const interactive = isMain && card.hasAttribute('data-interactive')
         card.classList.toggle('is-main', isMain)
+        card.classList.toggle('is-interactive', interactive)
         card.style.order = isMain ? -1 : sideSlots.indexOf(card)
         card.querySelector('.viz-link').setAttribute('aria-label',
             (isMain ? 'Open the full page: ' : 'Show larger: ') + cardTitle(card))
+        setInteractive(card, interactive)
     })
 
     // the empty cell takes the slot that contains null, it is hidden while every slot has a card

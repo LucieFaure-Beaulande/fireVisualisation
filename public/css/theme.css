@@ -394,3 +394,15 @@ html.embed .hint { display: none; }
 
 /* the cards around the charts have no frame */
 html.embed .card { border: 0; box-shadow: none; padding: 0; background: transparent; }
+/* the accessibility panel is not available inside a miniature */
+html.embed .accessibility-panel { display: none; }
+
+/* ---------- Interactive main area (?embed + html.interactive, set by the home page) ---------- */
+
+/* the page scrolls inside its frame and gets a little room */
+html.embed.interactive { overflow: auto; }
+html.embed.interactive body { padding: 0.5rem; }
+
+/* the filters and the explanations are shown again (the title and the header stay hidden) */
+html.embed.interactive .toolbar { display: flex; }
+html.embed.interactive .hint { display: block; }

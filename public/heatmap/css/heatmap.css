@@ -57,5 +57,7 @@
 html.accessibility-contrast .pc-ribbon { fill-opacity: 0.8; }
 html.accessibility-contrast .summary { background: var(--color-surface); border: 2px solid #000; }
 
-/* embedded mode: the legend is hidden too, only the heatmap remains */
-html.embed #heatmapLegend { display: none; }
+/* embedded: the legend is only shown in the interactive main area;
+   the year comes from the ruler of the home page, so its selector is hidden */
+html.embed:not(.interactive) #heatmapLegend { display: none; }
+html.embed.interactive .year-field { display: none; }

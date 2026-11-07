@@ -79,6 +79,15 @@
     visibility: hidden;         /* shown by index.js once the chart is placed */
 }
 
+/* interactive main card: the iframe receives the pointer */
+.viz-card.is-interactive iframe { pointer-events: auto; }
+
+/* the link is only a strip at the bottom, so that it does not block the clicks on the chart */
+.viz-card.is-interactive .viz-link {
+    inset: auto 0 0 0;
+    height: auto;
+}
+
 /* the button covers the whole cell: it moves the card to the main area, or opens the full page */
 .viz-link {
     position: absolute;

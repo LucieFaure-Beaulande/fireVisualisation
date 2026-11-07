@@ -164,14 +164,18 @@ function placeDots(transform) {
             .attr('transform', d => `translate(${labelPositions.month(d)}) scale(${1 / k})`)
     }
 
-    // the explanation of what is drawn
+        // with a single year (home page), the rings of the other years stay empty
+    let yearNote = embeddedYear !== null
+        ? ` Only ${embeddedYear} is selected, so its fires are on a single ring.` : ''
+
     d3.select('#dots-hint')
         .text(!dotsVisible() ? ''
-            : detail
+            : (detail
                 ? 'Each dot is a fire. Its position around the circle shows the date within the year, and its distance from the center '
                     + 'shows the year. Its size shows the area burned. Scroll to zoom out and return to the cells.'
                 : `Each cell shows the number of fires in a month and year. Months run around the circle, and years run from ${dotsYears[0]} `
                     + `at the center to ${dotsYears[1]} at the edge. Scroll to zoom in and see individual fires. Drag to pan.`)
+                + yearNote)
 }
 
 // the details of one fire

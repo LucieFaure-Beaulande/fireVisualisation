@@ -45,7 +45,7 @@
             </span>
         </span>
         <label>County <select id="county"></select></label>
-        <span class="group">
+        <span class="group year-field">
             <label>Years <select id="year-min" aria-label="Start year"></select></label>
             <label>to <select id="year-max" aria-label="End year"></select></label>
         </span>
@@ -142,6 +142,10 @@
             zoom = null // the cause at the center of the sunburst, always the selected cause
 
         let separator = ' › '
+
+        // embedded on the home page: the year of the ruler (null = free range of the full page)
+        let embeddedYear = null,
+            started = false // false until the first drawing, to avoid drawing twice
 
         // ---------- shares ----------
         // in the sunburst, the main share of a cause is its part of the circle (the cause at the center),
@@ -573,11 +577,12 @@
         }
 
         function resetFilters() {
-            let years = d3.extent(allFires, d => d.FireYear)
+            // embedded: "reset" keeps the year of the ruler instead of going back to the full range
+            let years = embeddedYear !== null ? [embeddedYear, embeddedYear] : d3.extent(allFires, d => d.FireYear)
             d3.selectAll('#county, #month, #owner').property('value', '')
             d3.select('#year-min').property('value', years[0])
             d3.select('#year-max').property('value', years[1])
-            filters = { county: null, years: null, month: null, owner: null }
+            filters = { county: null, years: embeddedYear !== null ? years : null, month: null, owner: null }
             sort = { column: null, ascending: false }
             focusId = ''
         }
@@ -629,6 +634,17 @@
             update()
         })
 
+        // the home page ruler sets both ends of the range to the same year
+        function setEmbeddedYear(year) {
+            let [first, last] = d3.extent(allFires, d => d.FireYear)
+            if (year < first || year > last) return
+            embeddedYear = year
+            d3.select('#year-min').property('value', year)
+            d3.select('#year-max').property('value', year)
+            if (started) readFilters()
+            else filters.years = [year, year] // first drawing not done yet: update() uses these filters
+        }
+
         // ---------- start ----------
 
         function start(fires) {
@@ -636,6 +652,10 @@
             ranks = rankCauses(allFires)
             createColorScale()
             createFilters()
+            // after createFilters(): its resetFilters() would overwrite the year.
+            // FireEmbed calls the listener immediately when the year was already received.
+            if (document.documentElement.classList.contains('embed')) FireEmbed.onYear(setEmbeddedYear)
+            started = true
             update()
         }
 

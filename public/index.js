@@ -89,10 +89,45 @@ function sendInteractive(frame) {
 
 // ---------- main area ----------
 
-// the card marked data-main is shown in the main area from the start
-let mainCard = cards.find(card => card.hasAttribute('data-main')) || null
+// ---------- layout memory ----------
+// the card in the main area and the order of the side cards are kept between visits
+const LAYOUT_KEY = 'fire-home-layout'
+const cardId = card => card ? card.querySelector('.viz-link').dataset.href : null
+
+function loadLayout() {
+    try {
+        const saved = JSON.parse(sessionStorage.getItem(LAYOUT_KEY))
+        const byId = new Map(cards.map(card => [cardId(card), card]))
+        const main = byId.get(saved?.main)
+        // the saved layout must still match the cards of the page, otherwise it is ignored
+        const side = Array.isArray(saved?.side) ? saved.side.map(id => byId.get(id) ?? null) : []
+        const known = [main, ...side].filter(Boolean)
+        if (!main || known.length !== cards.length || new Set(known).size !== cards.length) return null
+        return { main, side }
+    } catch (_) {
+        return null   // storage denied or corrupted value: use the default layout
+    }
+}
+
+function saveLayout() {
+    try {
+        sessionStorage.setItem(LAYOUT_KEY, JSON.stringify({
+            main: cardId(mainCard),
+            side: sideSlots.map(cardId)
+        }))
+    } catch (_) { /* the layout is simply not remembered */ }
+}
+
+const savedLayout = loadLayout()
+
+// the card marked data-main is shown in the main area by default
+let mainCard = savedLayout
+    ? savedLayout.main
+    : cards.find(card => card.hasAttribute('data-main')) || null
 // the 3 cells of the right column, from top to bottom (null = empty cell)
-let sideSlots = cards.filter(card => card !== mainCard)
+let sideSlots = savedLayout
+    ? savedLayout.side
+    : cards.filter(card => card !== mainCard)
 
 // the empty cell: it replaces the card that moved to the main area
 const emptyCell = document.createElement('div')
@@ -152,6 +187,7 @@ function moveToMain(card) {
     sideSlots[sideSlots.indexOf(card)] = mainCard
     mainCard = card
     applyLayout()
+    saveLayout()
 }
 
 cards.forEach(card => {

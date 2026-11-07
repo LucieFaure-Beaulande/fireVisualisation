@@ -40,6 +40,11 @@ taille**, pas comme une sévérité indépendante.
 
 ### Casernes
 
+Source du tableur : jeu « Fire Stations » sur Oregon GeoHub,
+https://geohub.oregon.gov/datasets/fac9a8c2add346efa83bfee0cd7923aa_0/explore.
+La date de téléchargement et la version précise de l'export local ne sont pas
+documentées.
+
 Le fichier Excel des casernes contient notamment `OBJECTID`, `Agency`,
 `Station`, `Facility_Type`, `County`, `x` et `y`. Utiliser `OBJECTID` comme
 identifiant, `x` comme longitude et `y` comme latitude.
@@ -71,6 +76,15 @@ temps de trajet d'une caserne.
 La légende doit employer le libellé : **« Durée estimée entre découverte et
 maîtrise »**. Toute ligne de liaison utilisant cette durée doit être décrite de
 la même façon.
+
+Le calcul est arrondi à la minute. Une valeur arrondie nulle ou négative reste
+vide dans l'export et s'affiche comme indisponible. Le feu et sa liaison ne sont
+pas supprimés pour cette raison.
+
+Le fuseau horaire des dates sources n'est pas documenté. Le calcul de préparation
+utilise les composantes des horodatages dans un repère UTC commun, sans affirmer
+que les heures sources sont en UTC ni appliquer de correction de changement
+d'heure. Cette limite doit être indiquée dans le rapport.
 
 ## 3. Architecture cible
 
@@ -142,10 +156,10 @@ Chaque lien estimé contient :
 }
 ```
 
-Ne montrer ces liens qu'au survol ou pour le feu sélectionné : afficher une ligne
-pour chaque feu simultanément rendrait la carte illisible. La largeur peut être
-proportionnelle à `estimatedControlHours`, avec une échelle racine carrée, mais
-ne doit jamais être nommée « temps d'intervention ».
+Dans la réalisation actuelle, les liens de l'année sélectionnée sont affichés
+avec une largeur fixe, épaissie au survol. La durée est consultable dans
+l'infobulle ; elle n'est pas encodée par la largeur du trait et ne doit jamais
+être nommée « temps d'intervention ».
 
 La caserne la plus proche est une approximation de proximité. Le fichier de
 casernes est contemporain de 2020–2022, alors que les feux couvrent 2000–2022 ;

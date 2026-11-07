@@ -144,6 +144,7 @@ Le même script prépare aussi `fire-stations.csv` depuis le fichier Excel des
 casernes. Il conserve l'identifiant, l'agence, le nom, le type, le comté et les
 coordonnées géographiques. Les sites administratifs, de formation ou de
 maintenance ne sont pas inclus.
+Le tableur provient du jeu [Fire Stations sur Oregon GeoHub](https://geohub.oregon.gov/datasets/fac9a8c2add346efa83bfee0cd7923aa_0/explore).
 
 Le script génère également `unit-station-candidates.csv`. Une correspondance
 est validée lorsque `UnitName` apparaît dans le nom ou l'agence d'une caserne
@@ -159,6 +160,11 @@ Enfin, `fire-station-links.csv` relie chaque feu retenu à la caserne validée l
 proche appartenant à sa `UnitName`. La distance est calculée à vol d'oiseau en
 kilomètres. Ces liaisons visualisent une proximité estimée, et non le trajet ou
 l'intervention historique d'une caserne.
+La durée entre découverte et maîtrise est arrondie à la minute et conservée
+uniquement si elle est strictement positive ; une durée nulle, négative ou
+non calculable reste vide sans supprimer le feu ou sa liaison. Le fuseau source
+n'est pas documenté : aucune correction de changement d'heure n'est affirmée.
+La durée est affichée dans les détails, sans encodage par la largeur des liens.
 
 Le fonctionnement de la carte et les conventions de données sont documentés dans [`docs/guide-technique.md`](docs/guide-technique.md).
 

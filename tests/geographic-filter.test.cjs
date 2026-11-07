@@ -129,3 +129,26 @@ test("les exports répartissent les 23 408 feux valides et ne gardent aucune lia
   }
   for (const link of links) assert.ok(retainedIds.has(link.FireSerial), `Liaison orpheline : ${link.FireSerial}`);
 });
+
+test("les durées absentes ou nulles restent indisponibles sans supprimer les liaisons", async () => {
+  const { csvParse } = await d3Module;
+  const links = csvParse(await readFile(path.join(projectDirectory, "public/data/fire-station-links.csv"), "utf8"));
+  const byId = new Map(links.map(link => [link.FireSerial, link]));
+  // Ces feux ont une découverte et une maîtrise au même instant dans la source.
+  for (const id of ["68956", "84284", "61575"]) {
+    const link = byId.get(id);
+    assert.ok(link, `La liaison du feu ${id} doit rester présente`);
+    assert.equal(link.Discover_DateTime, link.Control_DateTime);
+    assert.equal(link.ControlDurationMinutes, "");
+    assert.equal(link.ControlDurationHours, "");
+  }
+  assert.ok(links.some(link => link.ControlDurationMinutes !== ""));
+  for (const link of links) {
+    if (link.ControlDurationMinutes === "") {
+      assert.equal(link.ControlDurationHours, "");
+    } else {
+      assert.ok(Number(link.ControlDurationMinutes) > 0);
+      assert.ok(Math.abs(Number(link.ControlDurationHours) - Number(link.ControlDurationMinutes) / 60) <= 0.0051);
+    }
+  }
+});

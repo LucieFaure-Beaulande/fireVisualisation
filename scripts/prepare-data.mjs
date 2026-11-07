@@ -356,7 +356,7 @@ function controlDurationMinutes(discoverDateTime, controlDateTime) {
   if (!discover || !control) return "";
 
   const durationMinutes = Math.round((control.getTime() - discover.getTime()) / 60_000);
-  return durationMinutes >= 0 ? durationMinutes : "";
+  return durationMinutes > 0 ? durationMinutes : "";
 }
 
 function createFireStationLinks(fires, stations, mappings) {

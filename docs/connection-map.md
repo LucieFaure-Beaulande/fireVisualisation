@@ -17,6 +17,8 @@ coordonnées des deux extrémités, la distance, `Discover_DateTime`,
 `Control_DateTime` et la durée calculée entre ces deux dates. Sur la carte, une
 courbe relie la caserne au feu pour l'année sélectionnée ; son infobulle
 affiche le temps avant maîtrise lorsqu'il est disponible.
+La durée est arrondie à la minute ; les valeurs nulles, négatives ou non
+calculables sont indisponibles. Elle n'est pas encodée par la largeur des liens.
 
 ## Lentille fisheye
 
@@ -64,3 +66,5 @@ La liaison représente une caserne pertinente et proche. Elle ne constitue pas
 une preuve que cette caserne a réellement été mobilisée ni son itinéraire.
 La durée représente l'intervalle entre la découverte et la maîtrise du feu, et
 non un temps de trajet de la caserne.
+Le fuseau horaire des dates sources n'est pas documenté. Le calcul ne permet
+pas d'affirmer une correction des changements d'heure.

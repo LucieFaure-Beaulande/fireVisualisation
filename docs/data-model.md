@@ -39,6 +39,10 @@ une estimation de proximité, non une preuve d'intervention ou un itinéraire.
 `Discover_DateTime` et `Control_DateTime` sont conservés ;
 `ControlDurationMinutes` et `ControlDurationHours` mesurent leur écart lorsque
 les deux dates sont valides et chronologiques.
+La durée est arrondie à la minute et renseignée uniquement si cette valeur est
+strictement positive. Sinon les deux champs restent vides, sans supprimer la
+liaison. Le fuseau source n'étant pas documenté, aucune correction de changement
+d'heure n'est affirmée.
 
 ## `districts.geojson`
 

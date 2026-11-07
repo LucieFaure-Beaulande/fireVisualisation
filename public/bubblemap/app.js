@@ -237,7 +237,7 @@ function showLinkTooltip(event, link) {
 }
 
 function formatControlDuration(minutes) {
-  if (!Number.isFinite(minutes)) return "indisponible";
+  if (!Number.isFinite(minutes) || minutes <= 0) return "indisponible";
 
   const days = Math.floor(minutes / 1440);
   const hours = Math.floor((minutes % 1440) / 60);
@@ -332,7 +332,7 @@ async function initialise() {
         StationLongitude: Number(d.StationLongitude),
         StationLatitude: Number(d.StationLatitude),
         DistanceKm: Number(d.DistanceKm),
-        ControlDurationMinutes: d.ControlDurationMinutes === "" ? Number.NaN : Number(d.ControlDurationMinutes)
+        ControlDurationMinutes: Number(d.ControlDurationMinutes) > 0 ? Number(d.ControlDurationMinutes) : Number.NaN
       })),
       d3.json("/data/districts.geojson")
     ]);

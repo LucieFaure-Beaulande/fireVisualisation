@@ -38,6 +38,7 @@ exports, le contrôleur du fisheye et la gestion des préférences d'accessibili
 
 ```
 server.js                     serveur express
+admin/                        console d'administration des données (voir « Console d'administration »)
 public/
   index.html                  page d'accueil : un lien vers chaque visualisation
   data/fire-occurence.csv     dataset brut, à ne pas modifier (23 490 feux, 38 colonnes)
@@ -85,7 +86,7 @@ Pour que les réglages s'appliquent aux graphiques :
 ## Première transformation
 
 (`js/fireData.js`)
-`loadFires(url)` charge un fichier csv et renvoie un tableau de feux. Sans paramètre, le dataset complet `/data/fire-occurence.csv` est chargé. La Bubble Map demande explicitement `/data/fires-bubble-map.csv`
+`loadFires(url)` charge un fichier csv et renvoie un tableau de feux. Sans paramètre, il charge `/data/fires-current.csv` avec `/data/fire-occurence.csv` comme source de secours. La Bubble Map demande explicitement `/data/fires-bubble-map.csv`.
 
 
 Les colonnes gardent le nom qu'elles ont dans le csv
@@ -107,8 +108,6 @@ Il ne faut donc pas le modifier directement (pas de `fires.sort()`, pas d'ajout 
 sinon les autres visualisations sont affectées.
 
 Utiliser `filter`, `map`, `d3.group` ou `fires.slice().sort()`, qui travaillent sur une copie.
-
-
 
 ## Préparer le dataset de la bubble map
 
@@ -162,3 +161,63 @@ kilomètres. Ces liaisons visualisent une proximité estimée, et non le trajet 
 l'intervention historique d'une caserne.
 
 Le fonctionnement de la carte et les conventions de données sont documentés dans [`docs/guide-technique.md`](docs/guide-technique.md).
+
+## Console d'administration
+
+Une page pour ajouter des données (par exemple les feux de 2023) sans toucher au dépôt git :
+**http://localhost:3000/admin/** (adresse affichée au démarrage du serveur, aucune page n'y renvoie ;
+une autre adresse avec la variable d'environnement `ADMIN_PATH`).
+
+Pour chaque dataset : son état (lignes, années), ses fichiers, l'ajout d'un fichier CSV avec une vérification avant
+(colonnes obligatoires, nouvelles années, lignes déjà présentes), le retrait d'un fichier ajouté et le retour aux données d'origine.
+
+### Fonctionnement
+
+```
+public/data/fire-occurence.csv   fichier d'origine, jamais modifié
+data/additions/fires/            fichiers ajoutés depuis la console (pas dans git)
+public/data/fires-current.csv    construit par le serveur : origine + ajouts, sans doublons (pas dans git)
+```
+
+- Une ligne est identifiée par `Serial` : si un fichier ajouté contient un `Serial` déjà présent, la version la plus récente
+  (`ModifiedDate`) est gardée.
+- `loadFires()` lit `fires-current.csv` (ou le fichier d'origine s'il n'existe pas encore) : les visualisations qui l'utilisent
+  (sunburst, bullet graph) affichent les données ajoutées après un rechargement de la page, sans rien changer à leur code.
+- Les visualisations qui préparent leurs données avec un script (Python, Node) doivent relancer ce script après un ajout :
+  voir ci-dessous.
+
+### Brancher sa visualisation (`admin/datasets.js`)
+
+**Relancer un script après chaque changement des feux** : ajouter une commande dans `afterChange` du dataset `fires`.
+La console affiche son résultat et ce qu'elle a écrit. La commande est un programme et ses arguments, lancés dans `folder` :
+
+```js
+afterChange: [
+    { label: 'Bubble map data', command: 'node', args: ['scripts/prepare-data.mjs'], folder: '.' },
+    { label: 'Heatmap pipeline', command: 'python', args: ['pipeline.py'], folder: 'public/heatmap/pipeline' }
+]
+```
+
+Le script doit lire `public/data/fires-current.csv` pour utiliser les données ajoutées.
+
+**Gérer un autre dataset depuis la console** (par exemple des données externes, pour ajouter les coûts de 2023) :
+ajouter une entrée à la liste de `admin/datasets.js`. La console affiche alors une carte de plus pour ce dataset,
+avec les mêmes boutons (ajouter un fichier, retirer, revenir à l'origine). Exemple pour les coûts de la heatmap :
+
+```js
+{
+    id: 'costs',
+    label: 'Fire suppression costs (heatmap)',
+    original: 'public/heatmap/pipeline/oregon_fire_costs_by_county_month.csv', // le fichier d'aujourd'hui, jamais modifié
+    additions: 'data/additions/costs',                                        // les fichiers ajoutés (pas dans git)
+    current: 'public/heatmap/pipeline/costs-current.csv',                     // origine + ajouts, construit par le serveur
+    key: ['year', 'month', 'county'],   // ce qui identifie une ligne : une colonne, ou plusieurs
+    year: 'year',                       // la colonne des années (pour résumer le contenu des fichiers)
+    required: ['year', 'month', 'county', 'suppression_cost_usd'], // un fichier sans ces colonnes est refusé
+    usedBy: [{ label: 'Heatmap', url: '/heatmap/' }],
+    afterChange: []                     // les commandes à relancer après un ajout
+}
+```
+
+Si une ligne ajoutée a la même clé qu'une ligne existante, elle la remplace. Avec une colonne de date de mise à jour
+(`newest` et `dateFormat`, comme pour les feux), c'est la version la plus récente qui est gardée.

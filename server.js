@@ -16,8 +16,13 @@ app.get('/data/districts.geojson', (req, res) => {
   res.sendFile(path.join(__dirname, 'data', 'Congressional_Districts.geojson'))
 })
 
+// La console d'administration des données (dossier admin/), à une adresse qui n'est affichée dans aucune page
+const adminPath = process.env.ADMIN_PATH || '/admin'
+require('./admin/routes')(app, adminPath)
+
 const server = app.listen(port, () => {
   console.log(`app listening at http://localhost:${port}`)
+  console.log(`admin console at http://localhost:${port}${adminPath}/`)
 })
 
 server.on('error', error => {

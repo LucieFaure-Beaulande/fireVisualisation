@@ -44,7 +44,7 @@
 }
 
 #sunburst text.arc-label {
-    font-size: 11px;
+    font-size: 0.6875rem;
     font-weight: 500;
     pointer-events: none;
     user-select: none;
@@ -64,21 +64,21 @@
 }
 
 #sunburst text.center-name {
-    font-size: 14px;
+    font-size: min(0.875rem, 19px);
     font-weight: 600;
     fill: var(--text);
     pointer-events: none;
 }
 
 #sunburst text.center-value {
-    font-size: 22px;
+    font-size: min(1.375rem, 30px);
     font-weight: 700;
     fill: var(--text);
     pointer-events: none;
 }
 
 #sunburst text.center-hint {
-    font-size: 11px;
+    font-size: min(0.6875rem, 15px);
     fill: var(--text-secondary);
     pointer-events: none;
 }
@@ -91,19 +91,19 @@
 
 /* the active filters, under the breadcrumb */
 #scope {
-    font-size: 12px;
+    font-size: 0.75rem;
     color: var(--text-secondary);
     min-height: 16px;
 }
 
 /* the shares under a value: the share of the circle, and in small the share of all the fires */
 .main-share {
-    font-size: 13px;
+    font-size: 0.8125rem;
     font-weight: 500;
 }
 
 .total-share {
-    font-size: 11px;
+    font-size: 0.6875rem;
     color: var(--text-muted);
 }
 
@@ -138,18 +138,18 @@ th.has-info::after {
 
 #legend th[data-sort="ascending"]::before {
     content: '▲ ';
-    font-size: 9px;
+    font-size: 0.5625rem;
 }
 
 #legend th[data-sort="descending"]::before {
     content: '▼ ';
-    font-size: 9px;
+    font-size: 0.5625rem;
 }
 
 /* the columns that are not sorted show that they can be */
 #legend th.sortable:not([data-sort])::before {
     content: '↕ ';
-    font-size: 10px;
+    font-size: 0.625rem;
     color: var(--text-muted);
 }
 
@@ -184,7 +184,7 @@ th.has-info::after {
 
 #dots text.year-label,
 #dots text.month-label {
-    font-size: 10px;
+    font-size: 0.625rem;
     fill: var(--text-muted);
     pointer-events: none;
     /* a white outline keeps the labels readable above the cells and the fires */
@@ -194,7 +194,29 @@ th.has-info::after {
 }
 
 #dots-hint {
-    font-size: 12px;
+    font-size: 0.75rem;
     color: var(--text-secondary);
     max-width: 640px;
+}
+
+/* high contrast (accessibility panel): black outlines */
+html.accessibility-contrast #sunburst path.arc {
+    stroke: #000000;
+    stroke-width: 1.5px;
+}
+
+html.accessibility-contrast #dots path.cell {
+    stroke: #000000;
+}
+
+html.accessibility-contrast #dots circle.fire {
+    stroke: #000000;
+    fill-opacity: 0.8;
+}
+
+/* high contrast: the selected size of the arcs stays visible when the background of the buttons is white */
+html.accessibility-contrast #filters .segmented input:checked + span {
+    outline: 2px solid #000000;
+    outline-offset: -2px;
+    font-weight: 700;
 }

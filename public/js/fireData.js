@@ -1,8 +1,10 @@
 // First transformation of the fire occurrence dataset, shared by all the visualizations
 // raw data (csv file, where all values are strings) → data table (array of fire objects)
 
-// the dataset loaded by default, it can be replaced by any csv file with the same columns
-let defaultDataset = '/data/fire-occurence.csv'
+// the dataset loaded by default: the file built by the server from the original file and the files added
+// in the admin console (see admin/), or the original file when the built file does not exist
+let currentDataset = '/data/fires-current.csv',
+    defaultDataset = '/data/fire-occurence.csv'
 
 // the format of the dates in the csv file, e.g. "07/19/2000 01:15:00 PM"
 let parseDateTime = d3.timeParse('%m/%d/%Y %I:%M:%S %p')
@@ -53,7 +55,9 @@ let loadedDatasets = {}
 
 // load a csv file of fires, returns a promise of an array of fire objects
 function loadFires(url) {
-    url = url || defaultDataset
-    if (!loadedDatasets[url]) loadedDatasets[url] = d3.csv(url, parseFire)
-    return loadedDatasets[url]
+    let name = url || currentDataset
+    if (!loadedDatasets[name]) loadedDatasets[name] = url
+        ? d3.csv(url, parseFire)
+        : d3.csv(currentDataset, parseFire).catch(() => d3.csv(defaultDataset, parseFire))
+    return loadedDatasets[name]
 }

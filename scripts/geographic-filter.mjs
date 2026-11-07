@@ -21,7 +21,7 @@ export function partitionFiresByTerritory(fires, districts) {
             geometry.coordinates.length > 0 && geometry.coordinates.every(validPolygon)
         );
       })) {
-    throw new Error("Fond de carte invalide : des districts Polygon ou MultiPolygon sont requis.");
+    throw new Error("Invalid basemap. Polygon or MultiPolygon districts are required.");
   }
 
   const retained = [];

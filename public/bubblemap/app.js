@@ -24,7 +24,7 @@ const svg = d3.select("#map")
   .attr("viewBox", `0 0 ${width} ${height}`)
   .attr("preserveAspectRatio", "xMidYMid meet");
 
-svg.append("title").text("Incendies annuels de l'Oregon");
+svg.append("title").text("Oregon wildfires by year");
 const defs = svg.append("defs");
 const focusGradient = defs.append("radialGradient")
   .attr("id", "fisheye-opacity")
@@ -139,7 +139,7 @@ function drawLegend(colorScale) {
 
   legend.append("text")
     .attr("class", "legend-title")
-    .text("Classe de taille");
+    .text("Fire size class");
 
 
   const colorLegend = legend.append("g");
@@ -159,7 +159,7 @@ function drawLegend(colorScale) {
   stationLegend.append("text")
     .attr("x", 11)
     .attr("dy", "0.35em")
-    .text("Caserne pertinente");
+    .text("Fire station");
 
   return function layout() {
     const cssWidth = svg.node().getBoundingClientRect().width;
@@ -207,13 +207,13 @@ function positionTooltip(event) {
 }
 
 function showTooltip(event, fire) {
-  const name = fire.FireName || "Feu sans nom";
+  const name = fire.FireName || "Unnamed fire";
   const stationDescription = fire.stationLink
-    ? `<br>Caserne associée : ${fire.stationLink.Station}`
-    : "<br>Caserne associée : aucune liaison disponible";
+    ? `<br>Linked fire station: ${fire.stationLink.Station}`
+    : "<br>No linked fire station";
 
   tooltip
-    .html(`<strong>${name}</strong><br>Classe ${fire.Size_class} · ${d3.format(",.2~f")(fire.EstTotalAcres)} acres${stationDescription}`)
+    .html(`<strong>${name}</strong><br>Size class ${fire.Size_class} · ${d3.format(",.2~f")(fire.EstTotalAcres)} acres${stationDescription}`)
     .attr("hidden", null);
   positionTooltip(event);
 }
@@ -224,25 +224,25 @@ function hideTooltip() {
 
 function showStationTooltip(event, station) {
   tooltip
-    .html(`<strong>${station.Station}</strong><br>${station.Agency}<br>${station.County} · ${station.FacilityType}<br>Unité : ${station.UnitNames}`)
+    .html(`<strong>${station.Station}</strong><br>${station.Agency}<br>${station.County} · ${station.FacilityType}<br>Unit: ${station.UnitNames}`)
     .attr("hidden", null);
   positionTooltip(event);
 }
 
 function showLinkTooltip(event, link) {
   tooltip
-    .html(`<strong>${link.Station}</strong><br>→ ${link.FireName || "Feu sans nom"}<br>Distance estimée : ${d3.format(",.2~f")(link.DistanceKm)} km<br>Temps avant maîtrise : ${formatControlDuration(link.ControlDurationMinutes)}`)
+    .html(`<strong>${link.Station}</strong><br>→ ${link.FireName || "Unnamed fire"}<br>Estimated distance: ${d3.format(",.2~f")(link.DistanceKm)} km<br>Time to control: ${formatControlDuration(link.ControlDurationMinutes)}`)
     .attr("hidden", null);
   positionTooltip(event);
 }
 
 function formatControlDuration(minutes) {
-  if (!Number.isFinite(minutes) || minutes <= 0) return "indisponible";
+  if (!Number.isFinite(minutes) || minutes <= 0) return "Unavailable";
 
   const days = Math.floor(minutes / 1440);
   const hours = Math.floor((minutes % 1440) / 60);
   const remainingMinutes = minutes % 60;
-  const parts = days > 0 ? [`${days} j`] : [];
+  const parts = days > 0 ? [`${days} d`] : [];
   parts.push(`${hours} h`);
   if (remainingMinutes > 0) parts.push(`${remainingMinutes} min`);
   return parts.join(" ");
@@ -423,11 +423,11 @@ async function initialise() {
         .attr("x", d => view.k * d.point.x + view.x + 12)
         .attr("y", d => view.k * d.point.y + view.y - 12)
         .text(d => {
-          const station = d.fire.stationLink?.Station ?? "Aucune caserne associée";
+          const station = d.fire.stationLink?.Station ?? "No linked fire station";
           const duration = d.fire.stationLink
             ? ` · ${formatControlDuration(d.fire.stationLink.ControlDurationMinutes)}`
             : "";
-          return `${d.fire.FireName || "Feu sans nom"} · ${station}${duration}`;
+          return `${d.fire.FireName || "Unnamed fire"} · ${station}${duration}`;
         });
     }
 
@@ -442,10 +442,10 @@ async function initialise() {
         fisheyeToggle.node().focus();
       }
       returnButton.property("hidden", !showReturn);
-      const stateLabel = !fisheyeEnabled ? "Fisheye désactivé"
-        : frame.phase === "attente-rapprochement" ? "Patientez pour ouvrir une vue rapprochée…"
-          : ["rapprochement", "vue-rapprochée"].includes(frame.phase) ? "Vue rapprochée ×3 — Échap pour revenir"
-            : frame.phase === "retour-carte" ? "Retour à la carte…" : "Fisheye activé";
+      const stateLabel = !fisheyeEnabled ? "Fisheye disabled"
+        : frame.phase === "attente-rapprochement" ? "Hold still to open a close-up…"
+          : ["rapprochement", "vue-rapprochée"].includes(frame.phase) ? "3× close-up. Press Esc to return."
+            : frame.phase === "retour-carte" ? "Returning to the map…" : "Fisheye enabled";
       if (fisheyeState.text() !== stateLabel) fisheyeState.text(stateLabel);
       renderWaitIndicator(focus, frame);
       const geometryKey = `${focus?.x},${focus?.y},${intensity},${closeupProgress}`;
@@ -509,7 +509,7 @@ async function initialise() {
     const waitArc = waitIndicator.append("circle")
       .attr("class", "fisheye-progress-fill").attr("r", ringRadius)
       .attr("stroke-dasharray", ringLength).attr("transform", "rotate(-90)");
-    waitIndicator.append("text").attr("y", 32).attr("text-anchor", "middle").text("Vue rapprochée…");
+    waitIndicator.append("text").attr("y", 32).attr("text-anchor", "middle").text("Opening close-up…");
 
     function renderWaitIndicator(focus, frame) {
       const waiting = focus && frame.phase === "attente-rapprochement";
@@ -558,8 +558,8 @@ async function initialise() {
       fisheyeEnabled = !fisheyeEnabled;
       fisheyeToggle
         .attr("aria-pressed", String(fisheyeEnabled))
-        .text(fisheyeEnabled ? "Désactiver le fisheye" : "Activer le fisheye");
-      fisheyeState.text(fisheyeEnabled ? "Fisheye activé" : "Fisheye désactivé");
+        .text(fisheyeEnabled ? "Disable fisheye" : "Enable fisheye");
+      fisheyeState.text(fisheyeEnabled ? "Fisheye enabled" : "Fisheye disabled");
       svg.classed("fisheye-enabled", fisheyeEnabled);
       fisheyeController.setEnabled(fisheyeEnabled);
       hideTooltip();
@@ -600,8 +600,8 @@ async function initialise() {
       rulerSvg.attr("aria-valuemin", years[0])
         .attr("aria-valuemax", years[years.length - 1])
         .attr("aria-valuenow", currentYear)
-        .attr("aria-valuetext", `Année ${currentYear}`);
-      status.text(`${firesForYear.length} incendies, ${linksForYear.length} liaisons estimées et ${stations.length} casernes pertinentes affichés pour ${currentYear}.`);
+        .attr("aria-valuetext", `Year ${currentYear}`);
+      status.text(`Showing ${d3.format(",d")(firesForYear.length)} wildfires, ${d3.format(",d")(linksForYear.length)} estimated links, and ${d3.format(",d")(stations.length)} fire stations for ${currentYear}.`);
     }
 
     svg.on("pointerenter.fisheye", trackPointer)
@@ -637,7 +637,7 @@ async function initialise() {
     fisheyeToggle.property("disabled", false);
   } catch (error) {
     console.error(error);
-    status.text("La carte n'a pas pu charger les données.");
+    status.text("The map could not load the data.");
   }
 }
 

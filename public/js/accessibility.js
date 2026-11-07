@@ -85,7 +85,7 @@
       toggle.id = "accessibility-toggle";
       toggle.type = "button";
       toggle.className = "accessibility-toggle";
-      toggle.textContent = "Accessibilité";
+      toggle.textContent = "Accessibility";
       toggle.setAttribute("aria-expanded", "false");
       toggle.setAttribute("aria-controls", "accessibility-panel");
       toggle.setAttribute("aria-haspopup", "dialog");
@@ -99,25 +99,25 @@
       panel.setAttribute("aria-labelledby", "accessibility-title");
       panel.innerHTML = `
         <div class="accessibility-header">
-          <h2 id="accessibility-title">Accessibilité</h2>
-          <button type="button" class="accessibility-close" aria-label="Fermer les réglages d’accessibilité">✕</button>
+          <h2 id="accessibility-title">Accessibility</h2>
+          <button type="button" class="accessibility-close" aria-label="Close accessibility settings">✕</button>
         </div>
         <div class="accessibility-body">
-          <fieldset><legend>Taille du texte</legend><div class="accessibility-segmented">
-            ${TEXT_SCALES.map(scale => `<label><input type="radio" name="accessibility-text-scale" data-key="textScale" value="${scale}"><span>${scale * 100} %</span></label>`).join("")}
+          <fieldset><legend>Text size</legend><div class="accessibility-segmented">
+            ${TEXT_SCALES.map(scale => `<label><input type="radio" name="accessibility-text-scale" data-key="textScale" value="${scale}"><span>${scale * 100}%</span></label>`).join("")}
           </div></fieldset>
-          <fieldset><legend>Couleurs</legend>
-            <label class="accessibility-option"><input type="radio" name="accessibility-palette" data-key="palette" value="standard"><span>Palette standard</span></label>
-            <label class="accessibility-option"><input type="radio" name="accessibility-palette" data-key="palette" value="cvd"><span>Adaptée au daltonisme<span class="accessibility-hint">Les catégories changent de couleur ; les dégradés gardent leur teinte.</span></span></label>
-            <label class="accessibility-option"><input type="checkbox" data-key="contrast"><span>Contraste renforcé</span></label>
+          <fieldset><legend>Colors</legend>
+            <label class="accessibility-option"><input type="radio" name="accessibility-palette" data-key="palette" value="standard"><span>Standard palette</span></label>
+            <label class="accessibility-option"><input type="radio" name="accessibility-palette" data-key="palette" value="cvd"><span>Colorblind-friendly palette<span class="accessibility-hint">Category colors change while gradients keep their hues.</span></span></label>
+            <label class="accessibility-option"><input type="checkbox" data-key="contrast"><span>High contrast</span></label>
           </fieldset>
-          <fieldset><legend>Souris</legend>
-            <label class="accessibility-option"><input type="checkbox" data-key="bigCursor"><span>Grand curseur<span class="accessibility-hint">Flèche bleue sur les commandes interactives.</span></span></label>
+          <fieldset><legend>Mouse</legend>
+            <label class="accessibility-option"><input type="checkbox" data-key="bigCursor"><span>Large pointer<span class="accessibility-hint">Show a blue arrow over interactive controls.</span></span></label>
           </fieldset>
         </div>
         <div class="accessibility-footer">
-          <span class="accessibility-hint">Raccourci : Alt + A</span>
-          <button type="button" class="accessibility-reset">Réinitialiser</button>
+          <span class="accessibility-hint">Shortcut (Alt + A)</span>
+          <button type="button" class="accessibility-reset">Reset settings</button>
           <span class="sr-only accessibility-feedback" role="status"></span>
         </div>`;
       doc.body.prepend(toggle);
@@ -137,7 +137,7 @@
       panel.querySelector(".accessibility-reset").addEventListener("click", () => {
         preferences.reset();
         apply("reset");
-        panel.querySelector(".accessibility-feedback").textContent = "Réglages réinitialisés.";
+        panel.querySelector(".accessibility-feedback").textContent = "Settings reset.";
       });
       doc.addEventListener("click", event => {
         if (!panel.hidden && !panel.contains(event.target) && !toggle.contains(event.target)) setOpen(false);

@@ -5,3 +5,7 @@ node_modules/
 public/heatmap/data/S_USA.TrailNFS_Publish.gdb/
 public/heatmap/data/oregon_results/
 public/heatmap/pipeline/counties/
+
+# data of the admin console: the files added from the console and the files built by the server
+data/additions/
+public/data/fires-current.csv

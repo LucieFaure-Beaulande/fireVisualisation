@@ -1,0 +1,115 @@
+/* Styles of the admin console, the common styles are in /css/theme.css */
+
+.dataset {
+    margin-bottom: 1.5rem;
+}
+
+.dataset h2 {
+    margin-top: 0;
+    font-size: 1.125rem;
+}
+
+.dataset h3 {
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin: 1.25rem 0 0.5rem;
+}
+
+.dataset .current {
+    font-weight: 500;
+}
+
+.dataset .used-by a + a::before {
+    content: ', ';
+    color: var(--text);
+}
+
+.dataset table.files tr.original td {
+    color: var(--text-secondary);
+}
+
+.dataset td.action {
+    text-align: right;
+}
+
+.file-field {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+/* the check of the chosen file */
+.preview {
+    margin-top: 0.75rem;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-small);
+    background: var(--surface-hover);
+}
+
+.preview-title {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.preview ul,
+.after-change ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 0.75rem;
+}
+
+.preview li,
+.after-change li {
+    padding: 0.15rem 0;
+}
+
+/* a symbol before each line, so that the type of a line is not given by its color only */
+.preview li.error::before { content: '✕ '; }
+.preview li.warning::before { content: '! '; }
+.preview li.info::before { content: '• '; }
+
+.preview li.error,
+.message.error,
+.step.error {
+    color: var(--color-danger);
+}
+
+.preview li.warning {
+    color: var(--text-secondary);
+}
+
+.preview .buttons {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.after-change pre {
+    max-height: 12rem;
+    overflow: auto;
+    font-size: 0.75rem;
+    white-space: pre-wrap;
+}
+
+.card-footer {
+    margin-top: 1.25rem;
+}
+
+.message {
+    margin: 0.75rem 0 0;
+    min-height: 1.25rem;
+}
+
+.message.success,
+.step.ok {
+    color: var(--color-text);
+    font-weight: 600;
+}
+
+.message.success::before,
+.step.ok::before { content: '✓ '; }
+
+button[disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+}

@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Oregon wildfires</title>
+    <link rel="stylesheet" href="/css/theme.css" />
+    <link rel="stylesheet" href="/bubblemap/style.css" />
+    <link rel="stylesheet" href="/css/accessibility.css" />
+    <script src="/js/accessibility.js"></script>
+  </head>
+  <body class="bubblemap">
+    <main class="app-shell page">
+      <header class="app-header page-header">
+        <a class="back-link" href="/">← All visualizations</a>
+        <h1>Oregon wildfires</h1>
+        <p>Hold the pointer still to activate the fisheye lens. Wait another second to open a close-up view.</p>
+      </header>
+
+      <section class="controls card" aria-label="Map filters">
+        <p id="year-instruction">Click or drag the slider to select a year, or use the left and right arrow keys.</p>
+        <svg id="year-ruler" role="slider" tabindex="0" aria-label="Select a year" aria-describedby="year-instruction"></svg>
+      </section>
+
+      <section class="visualisation card" aria-label="Interactive map">
+        <div class="map-toolbar toolbar">
+          <button id="fisheye-toggle" class="btn" type="button" aria-pressed="true" aria-controls="map" disabled>Disable fisheye</button>
+          <button id="return-overview" class="btn" type="button" aria-controls="map" hidden>Return to map</button>
+          <span id="fisheye-state" role="status">Fisheye enabled</span>
+        </div>
+        <svg id="map" role="img" aria-label="Map of Oregon wildfires"></svg>
+        <p id="status" class="status" aria-live="polite">Loading the map…</p>
+      </section>
+
+      <aside id="tooltip" class="fire-tooltip" aria-live="polite" hidden></aside>
+    </main>
+
+    <script src="/lib/d3.min.js"></script>
+    <script src="/js/palette.js"></script>
+    <script src="/js/fireData.js"></script>
+    <script src="/bubblemap/fisheye-controller.js"></script>
+    <script src="/bubblemap/app.js"></script>
+  </body>
+</html>

@@ -61,7 +61,7 @@ test("refuse un fond absent, vide ou mal formé au lieu d'exclure silencieusemen
   const { partitionFiresByTerritory } = await filterModule;
   for (const invalid of [undefined, {}, collection(), collection(null), collection(polygon([])),
     collection(polygon([[[0, 0]]])), collection(polygon([[[0, 0], [0, 10], [10, 10], [10, 0]]]))]) {
-    assert.throws(() => partitionFiresByTerritory([], invalid), /Fond de carte invalide/);
+    assert.throws(() => partitionFiresByTerritory([], invalid), /Invalid basemap/);
   }
 });
 
@@ -88,7 +88,7 @@ test("un fond absent, illisible ou invalide arrête la préparation avant toute 
   for (const content of [undefined, "{invalid JSON", JSON.stringify(collection())]) {
     if (content !== undefined) await writeFile(path.join(fixture, "data/Congressional_Districts.geojson"), content);
     await assert.rejects(run(process.execPath, [path.join(fixture, "scripts/prepare-data.mjs")]), error => {
-      assert.match(error.stderr, content === undefined ? /ENOENT/ : content.startsWith("{invalid") ? /SyntaxError/ : /Fond de carte invalide/);
+      assert.match(error.stderr, content === undefined ? /ENOENT/ : content.startsWith("{invalid") ? /SyntaxError/ : /Invalid basemap/);
       return true;
     });
     for (const output of outputs) {

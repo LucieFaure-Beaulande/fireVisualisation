@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="fr">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Incendies de l'Oregon</title>
+    <title>Oregon wildfires</title>
     <link rel="stylesheet" href="/css/theme.css" />
     <link rel="stylesheet" href="/bubblemap/style.css" />
     <link rel="stylesheet" href="/css/accessibility.css" />
@@ -12,24 +12,24 @@
   <body class="bubblemap">
     <main class="app-shell page">
       <header class="app-header page-header">
-        <a class="back-link" href="/">← Toutes les visualisations</a>
-        <h1>Incendies de l'Oregon</h1>
-        <p>Immobilisez le curseur pour explorer avec le fisheye. Patientez encore une seconde pour ouvrir une vue rapprochée.</p>
+        <a class="back-link" href="/">← All visualizations</a>
+        <h1>Oregon wildfires</h1>
+        <p>Hold the pointer still to activate the fisheye lens. Wait another second to open a close-up view.</p>
       </header>
 
-      <section class="controls card" aria-label="Filtres de la carte">
-        <p id="year-instruction">Choisir une année : cliquer ou faire glisser le curseur. Utiliser les flèches gauche et droite au clavier.</p>
-        <svg id="year-ruler" role="slider" tabindex="0" aria-label="Choisir l'année" aria-describedby="year-instruction"></svg>
+      <section class="controls card" aria-label="Map filters">
+        <p id="year-instruction">Click or drag the slider to select a year, or use the left and right arrow keys.</p>
+        <svg id="year-ruler" role="slider" tabindex="0" aria-label="Select a year" aria-describedby="year-instruction"></svg>
       </section>
 
-      <section class="visualisation card" aria-label="Carte interactive">
+      <section class="visualisation card" aria-label="Interactive map">
         <div class="map-toolbar toolbar">
-          <button id="fisheye-toggle" class="btn" type="button" aria-pressed="true" aria-controls="map" disabled>Désactiver le fisheye</button>
-          <button id="return-overview" class="btn" type="button" aria-controls="map" hidden>Revenir à la carte</button>
-          <span id="fisheye-state" role="status">Fisheye activé</span>
+          <button id="fisheye-toggle" class="btn" type="button" aria-pressed="true" aria-controls="map" disabled>Disable fisheye</button>
+          <button id="return-overview" class="btn" type="button" aria-controls="map" hidden>Return to map</button>
+          <span id="fisheye-state" role="status">Fisheye enabled</span>
         </div>
-        <svg id="map" role="img" aria-label="Carte des incendies de l'Oregon"></svg>
-        <p id="status" class="status" aria-live="polite">Chargement de la carte…</p>
+        <svg id="map" role="img" aria-label="Map of Oregon wildfires"></svg>
+        <p id="status" class="status" aria-live="polite">Loading the map…</p>
       </section>
 
       <aside id="tooltip" class="fire-tooltip" aria-live="polite" hidden></aside>

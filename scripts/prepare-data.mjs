@@ -156,14 +156,14 @@ function unzipXlsxEntries(file) {
     }
   }
 
-  if (endOfCentralDirectory === -1) throw new Error("Archive XLSX invalide : répertoire central introuvable.");
+  if (endOfCentralDirectory === -1) throw new Error("Invalid XLSX archive (central directory not found).");
 
   const entryCount = file.readUInt16LE(endOfCentralDirectory + 10);
   let offset = file.readUInt32LE(endOfCentralDirectory + 16);
   const entries = new Map();
 
   for (let entryIndex = 0; entryIndex < entryCount; entryIndex += 1) {
-    if (file.readUInt32LE(offset) !== 0x02014b50) throw new Error("Archive XLSX invalide : entrée ZIP inattendue.");
+    if (file.readUInt32LE(offset) !== 0x02014b50) throw new Error("Invalid XLSX archive (unexpected ZIP entry).");
 
     const compression = file.readUInt16LE(offset + 10);
     const compressedSize = file.readUInt32LE(offset + 20);
@@ -173,7 +173,7 @@ function unzipXlsxEntries(file) {
     const localHeaderOffset = file.readUInt32LE(offset + 42);
     const name = file.subarray(offset + 46, offset + 46 + fileNameLength).toString("utf8");
 
-    if (file.readUInt32LE(localHeaderOffset) !== 0x04034b50) throw new Error(`Archive XLSX invalide : ${name}.`);
+    if (file.readUInt32LE(localHeaderOffset) !== 0x04034b50) throw new Error(`Invalid XLSX archive entry (${name}).`);
 
     const localNameLength = file.readUInt16LE(localHeaderOffset + 26);
     const localExtraLength = file.readUInt16LE(localHeaderOffset + 28);
@@ -182,7 +182,7 @@ function unzipXlsxEntries(file) {
 
     if (compression === 0) entries.set(name, compressed);
     else if (compression === 8) entries.set(name, inflateRawSync(compressed));
-    else throw new Error(`Compression XLSX non prise en charge pour ${name}.`);
+    else throw new Error(`Unsupported XLSX compression for ${name}.`);
 
     offset += 46 + fileNameLength + extraLength + commentLength;
   }
@@ -218,7 +218,7 @@ function parseXlsxRows(file) {
   const worksheetEntry = [...entries.keys()].find(name => name.startsWith("xl/worksheets/") && name.endsWith(".xml"));
   const worksheet = worksheetEntry ? removeXmlNamespaces(entries.get(worksheetEntry).toString("utf8")) : "";
 
-  if (!worksheet) throw new Error("La première feuille du fichier des casernes est introuvable.");
+  if (!worksheet) throw new Error("The first worksheet in the fire station workbook could not be found.");
 
   const sharedStringsXml = removeXmlNamespaces(entries.get("xl/sharedStrings.xml")?.toString("utf8") ?? "");
   const sharedStrings = [...sharedStringsXml.matchAll(/<si\b[^>]*>([\s\S]*?)<\/si>/g)]
@@ -436,10 +436,10 @@ await Promise.all([
   writeFile(linkOutputPath, `${toCsv(linkOutputColumns, fireStationLinks)}\n`, "utf8")
 ]);
 
-console.log(`Filtrage géographique : ${validFires.length} feux valides examinés sur ${fires.length} lignes source, ${bubbleFires.length} retenus, ${excludedFires.length} exclus.`);
-console.log(`Créé ${path.relative(projectDirectory, fireOutputPath)} : ${bubbleFires.length} feux retenus.`);
-console.log(`Créé ${path.relative(projectDirectory, excludedOutputPath)} : ${excludedFires.length} feux hors du territoire.`);
-console.log(`Créé ${path.relative(projectDirectory, stationOutputPath)} : ${stations.length} casernes opérationnelles retenues.`);
-console.log(`Créé ${path.relative(projectDirectory, candidateOutputPath)} : ${stationCandidates.length} lignes de correspondance examinées.`);
-console.log(`Créé ${path.relative(projectDirectory, mappingOutputPath)} : ${validatedStationMappings.length} correspondances validées.`);
-console.log(`Créé ${path.relative(projectDirectory, linkOutputPath)} : ${fireStationLinks.length} liaisons estimées.`);
+console.log(`Geographic filter checked ${validFires.length} valid fires from ${fires.length} source rows (${bubbleFires.length} retained, ${excludedFires.length} excluded).`);
+console.log(`Wrote ${path.relative(projectDirectory, fireOutputPath)} (${bubbleFires.length} fires retained).`);
+console.log(`Wrote ${path.relative(projectDirectory, excludedOutputPath)} (${excludedFires.length} fires outside the mapped area).`);
+console.log(`Wrote ${path.relative(projectDirectory, stationOutputPath)} (${stations.length} operational fire stations retained).`);
+console.log(`Wrote ${path.relative(projectDirectory, candidateOutputPath)} (${stationCandidates.length} candidate matches reviewed).`);
+console.log(`Wrote ${path.relative(projectDirectory, mappingOutputPath)} (${validatedStationMappings.length} matches validated).`);
+console.log(`Wrote ${path.relative(projectDirectory, linkOutputPath)} (${fireStationLinks.length} estimated links).`);

@@ -27,7 +27,7 @@ const server = app.listen(port, () => {
 
 server.on('error', error => {
   if (error.code === 'EADDRINUSE') {
-    console.error(`Le port ${port} est déjà utilisé. Fermez le serveur existant ou choisissez un autre port, par exemple : $env:PORT=3001; npm start`)
+    console.error(`Port ${port} is already in use. Stop the existing server or set PORT to a different value before running npm start.`)
   } else {
     console.error(error)
   }

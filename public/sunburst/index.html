@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Sunburst - Causes des incendies</title>
+	<title>Sunburst — Wildfire causes</title>
 
 	<!-- import the d3 library -->
     <script type='text/javascript' src='/lib/d3.min.js'></script>
@@ -31,26 +31,26 @@
 <body>
     <!-- the header leaves room for the accessibility button, at the top right -->
     <header class="page-header">
-        <a class="back-link" href="/">← Toutes les visualisations</a>
-        <h1>Causes des incendies en Oregon</h1>
-        <p class="subtitle">Du centre vers l'extérieur : origine, cause générale, cause spécifique. Cliquer sur un arc pour zoomer, jusqu'aux feux d'une cause spécifique ; cliquer sur le centre pour revenir.</p>
+        <a class="back-link" href="/">← All visualizations</a>
+        <h1>Oregon wildfire causes</h1>
+        <p class="subtitle">From the center outward, the rings show the origin, general cause, and specific cause. Click an arc to zoom in and see the fires for a specific cause. Click the center to go back.</p>
     </header>
 
     <div id="filters" class="card toolbar">
-        <span class="group">Taille des arcs
+        <span class="group">Arc size
             <span class="segmented">
-                <label><input type="radio" name="measure" value="count" checked><span>Nombre de feux</span></label>
-                <label><input type="radio" name="measure" value="acres"><span>Surface brûlée</span></label>
+                <label><input type="radio" name="measure" value="count" checked><span>Number of fires</span></label>
+                <label><input type="radio" name="measure" value="acres"><span>Area burned</span></label>
             </span>
         </span>
-        <label>Comté <select id="county"></select></label>
+        <label>County <select id="county"></select></label>
         <span class="group">
-            <label>Années <select id="year-min"></select></label>
-            <label>à <select id="year-max"></select></label>
+            <label>Years <select id="year-min" aria-label="Start year"></select></label>
+            <label>to <select id="year-max" aria-label="End year"></select></label>
         </span>
-        <label>Mois <select id="month"></select></label>
-        <label>Propriétaire du terrain <select id="owner"></select></label>
-        <button id="reset" type="button">Réinitialiser</button>
+        <label>Month <select id="month"></select></label>
+        <label>Land ownership <select id="owner"></select></label>
+        <button id="reset" type="button">Reset filters</button>
     </div>
 
     <div id="content">
@@ -68,7 +68,7 @@
                     <g id="center"></g>
                 </g>
             </svg>
-            <p id="empty" class="empty">Aucun feu ne correspond aux filtres.</p>
+            <p id="empty" class="empty">No fires match the filters.</p>
         </div>
 
         <!-- details: the causes of the circle and the largest fires of the selected cause -->
@@ -76,7 +76,7 @@
             <h2 id="legend-title"></h2>
             <table id="legend" class="clickable">
                 <thead>
-                    <tr><th>Cause</th><th class="number">Feux</th><th class="number share">% des feux</th><th class="number">Surface (acres)</th><th class="number share">% de la surface</th></tr>
+                    <tr><th>Cause</th><th class="number">Fires</th><th class="number share">% of fires</th><th class="number">Acres burned</th><th class="number share">% of area burned</th></tr>
                 </thead>
                 <tbody></tbody>
             </table>
@@ -84,7 +84,7 @@
             <h2 id="fires-title"></h2>
             <table id="fires">
                 <thead>
-                    <tr><th>Feu</th><th>Année</th><th>Comté</th><th>Cause spécifique</th><th class="number">Surface (acres)</th></tr>
+                    <tr><th>Fire</th><th>Year</th><th>County</th><th>Specific cause</th><th class="number">Acres burned</th></tr>
                 </thead>
                 <tbody></tbody>
             </table>
@@ -106,10 +106,8 @@
             chartGroup = svg.select('#chart')
                 .attr('transform', `translate(${margin.left + width / 2}, ${margin.top + height / 2})`)
 
-        // numbers written in French: 23 490 and 20,3 %
-        let locale = d3.formatLocale({ decimal: ',', thousands: '\u202f', grouping: [3], currency: ['', '\u00a0€'], percent: '\u00a0%' }),
-            formatNumber = locale.format(',.0f'),
-            formatPercent = locale.format('.1%'),
+        let formatNumber = d3.format(',.0f'),
+            formatPercent = d3.format('.1%'),
             duration = theme.duration // the duration of the transitions in milliseconds
 
         // the colors come from the common theme: one color per general cause,
@@ -119,16 +117,16 @@
 
         // the two measures of a cause, with the words used to describe a share of each measure
         let measures = {
-            count: { label: 'feux', of: 'des feux', total: 'de tous les feux' },
-            acres: { label: 'acres brûlés', of: 'de la surface brûlée', total: 'de toute la surface brûlée' }
+            count: { label: 'fires', of: 'of fires', total: 'of all fires' },
+            acres: { label: 'acres burned', of: 'of the area burned', total: 'of all area burned' }
         }
 
         // the value used to sort each column of the table of the causes
         // the columns of percentages are not sortable: they have the same order as the column on their left
         let sortColumns = ['name', 'count', null, 'acres', null]
 
-        let monthNames = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre',
-            'Octobre', 'Novembre', 'Décembre']
+        let monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September',
+            'October', 'November', 'December']
 
         // the state of the visualization
         let allFires = [], // the complete dataset
@@ -150,25 +148,25 @@
 
         let share = (value, total) => total ? formatPercent(value / total) : '-'
 
-        // e.g. "17,4 % des feux de « Equipment Use »", or "20,3 % de tous les feux" when all the fires are at the center
+        // e.g. '17.4% of fires for "Equipment Use"', or '20.3% of all fires' at the root
         function shareOfCircle(value, name) {
             return zoom === root
                 ? `${share(value, root.data[name])} ${measures[name].total}`
-                : `${share(value, zoom.data[name])} ${measures[name].of} de « ${zoom.data.name} »`
+                : `${share(value, zoom.data[name])} ${measures[name].of} for "${zoom.data.name}"`
         }
 
-        // e.g. "3,5 % de tous les feux"
+        // e.g. "3.5% of all fires"
         let shareOfTotal = (value, name) => `${share(value, root.data[name])} ${measures[name].total}`
 
-        // the active filters, e.g. ['comté de Jackson', '2015 à 2022']
+        // the active filters, e.g. ['Jackson County', '2015 to 2022']
         function describeFilters() {
             let years = d3.extent(allFires, d => d.FireYear),
                 description = []
-            if (filters.county) description.push(`comté de ${filters.county}`)
+            if (filters.county) description.push(`County: ${filters.county}`)
             if (filters.years && (filters.years[0] !== years[0] || filters.years[1] !== years[1]))
-                description.push(filters.years[0] === filters.years[1] ? `${filters.years[0]}` : `${filters.years[0]} à ${filters.years[1]}`)
-            if (filters.month !== null) description.push(monthNames[filters.month].toLowerCase())
-            if (filters.owner) description.push(`terrain : ${filters.owner}`)
+                description.push(filters.years[0] === filters.years[1] ? `${filters.years[0]}` : `${filters.years[0]} to ${filters.years[1]}`)
+            if (filters.month !== null) description.push(monthNames[filters.month])
+            if (filters.owner) description.push(`Land ownership: ${filters.owner}`)
             return description
         }
 
@@ -356,7 +354,7 @@
                 { class: 'center-value', y: -4, text: formatNumber(zoom.value) },
                 { class: 'center-hint', y: 14, text: measures[measure].label },
                 { class: 'center-hint', y: 32, text: zoom === root ? '' : shareOfTotal(zoom.value, measure) },
-                { class: 'center-hint', y: 52, text: back ? '← retour' : '' }
+                { class: 'center-hint', y: 52, text: back ? '← Back' : '' }
             ].map(line => Object.assign(line, { y: line.y * step }))
 
             center.selectAll('text')
@@ -390,7 +388,7 @@
         function drawScope() {
             let description = describeFilters()
             d3.select('#scope')
-                .text(description.length ? 'Filtres : ' + description.join(' · ') : '')
+                .text(description.length ? 'Filters: ' + description.join(' · ') : '')
         }
 
         // the details: the causes of the circle and the largest fires of the selected cause
@@ -416,12 +414,12 @@
                 isDuplicated = d => names.indexOf(d.data.name) !== names.lastIndexOf(d.data.name)
 
             d3.select('#legend-title')
-                .text(circle === root ? 'Causes générales'
-                    : (circle.depth === 1 ? 'Causes générales de « ' : 'Causes spécifiques de « ') + circle.data.name + ' »')
+                .text(circle === root ? 'General causes'
+                    : `${circle.depth === 1 ? 'General causes' : 'Specific causes'} for "${circle.data.name}"`)
 
             // the explanation of the percentages, shown when the mouse is over their column headers
-            let shareInfo = `Les pourcentages sont calculés sur le total du cercle : ${formatNumber(circle.data.count)} feux `
-                + `et ${formatNumber(circle.data.acres)} acres brûlés.`
+            let shareInfo = `Percentages are based on the totals for this circle (${formatNumber(circle.data.count)} fires `
+                + `and ${formatNumber(circle.data.acres)} acres burned).`
 
             // the headers of the table: a click sorts the table, an arrow shows the sorted column
             d3.selectAll('#legend th')
@@ -471,7 +469,8 @@
                 .slice(0, 5)
 
             d3.select('#fires-title')
-                .text(largest.length ? `Les ${largest.length} plus grands feux` + (focus === root ? '' : ` de « ${focus.data.name} »`) : '')
+                .text(largest.length ? `${largest.length} largest ${largest.length === 1 ? 'fire' : 'fires'}`
+                    + (focus === root ? '' : ` for "${focus.data.name}"`) : '')
 
             d3.select('#fires tbody')
                 .selectAll('tr')
@@ -518,7 +517,7 @@
             let tooltip = d3.select('div.tooltip')
             tooltip.select('.path').text(d.path.slice(0, -1).join(separator))
             tooltip.select('.title').text(d.data.name)
-            tooltip.select('.values').text(`${formatNumber(d.data.count)} feux · ${formatNumber(d.data.acres)} acres brûlés`)
+            tooltip.select('.values').text(`${formatNumber(d.data.count)} ${d.data.count === 1 ? 'fire' : 'fires'} · ${formatNumber(d.data.acres)} acres burned`)
             // the share of the circle, then in addition the share of all the fires
             tooltip.select('.main-share').text(shareOfCircle(d.value, measure))
             tooltip.select('.total-share').text(zoom === root ? '' : shareOfTotal(d.value, measure))
@@ -555,9 +554,9 @@
                 owners = Array.from(new Set(allFires.map(d => d.FO_LandOwnType))).sort(),
                 years = d3.range(d3.min(allFires, d => d.FireYear), d3.max(allFires, d => d.FireYear) + 1)
 
-            fillList('#county', counties, 'Tous les comtés')
-            fillList('#month', d3.range(12), "Toute l'année", d => monthNames[d])
-            fillList('#owner', owners, 'Tous les terrains')
+            fillList('#county', counties, 'All counties')
+            fillList('#month', d3.range(12), 'All months', d => monthNames[d])
+            fillList('#owner', owners, 'All ownership types')
 
             d3.selectAll('#year-min, #year-max')
                 .each(function() {

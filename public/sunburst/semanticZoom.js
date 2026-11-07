@@ -1,4 +1,4 @@
-let shortMonthNames = ['janv.', 'févr.', 'mars', 'avr.', 'mai', 'juin', 'juil.', 'août', 'sept.', 'oct.', 'nov.', 'déc.']
+let shortMonthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 
 let detailScale = 2, // from this zoom, the individual fires replace the cells
     dotsTransform = d3.zoomIdentity, // the current zoom on the fires
@@ -168,10 +168,10 @@ function placeDots(transform) {
     d3.select('#dots-hint')
         .text(!dotsVisible() ? ''
             : detail
-                ? 'Chaque point est un feu : autour du cercle, sa date dans l\'année ; du centre vers le bord, son année ; '
-                    + 'taille : surface brûlée. Dézoomer avec la molette pour revenir aux cases.'
-                : `Chaque case compte les feux d'un mois (autour du cercle) et d'une année (du centre, ${dotsYears[0]}, `
-                    + `vers le bord, ${dotsYears[1]}). Zoomer avec la molette pour voir chaque feu, glisser pour se déplacer.`)
+                ? 'Each dot is a fire. Its position around the circle shows the date within the year, and its distance from the center '
+                    + 'shows the year. Its size shows the area burned. Scroll to zoom out and return to the cells.'
+                : `Each cell shows the number of fires in a month and year. Months run around the circle, and years run from ${dotsYears[0]} `
+                    + `at the center to ${dotsYears[1]} at the edge. Scroll to zoom in and see individual fires. Drag to pan.`)
 }
 
 // the details of one fire
@@ -186,11 +186,11 @@ function showFireTooltip(event, d) {
             + '<div class="secondary comments"></div>')
 
     let tooltip = d3.select('div.tooltip')
-    tooltip.select('.title').text(d.FireName || 'Feu sans nom')
-    tooltip.select('.date').text(date.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }))
-    tooltip.select('.place').text(`Comté de ${d.County} · terrain : ${d.FO_LandOwnType}`)
-    tooltip.select('.size').text(d.EstTotalAcres === null ? 'Surface inconnue'
-        : `${locale.format(',.1f')(d.EstTotalAcres)} acres brûlés (classe ${d.Size_class})`)
+    tooltip.select('.title').text(d.FireName || 'Unnamed fire')
+    tooltip.select('.date').text(date.toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' }))
+    tooltip.select('.place').text(`County: ${d.County} · Land ownership: ${d.FO_LandOwnType}`)
+    tooltip.select('.size').text(d.EstTotalAcres === null ? 'Area burned unknown'
+        : `${d3.format(',.1f')(d.EstTotalAcres)} acres burned (size class ${d.Size_class})`)
     tooltip.select('.comments').text(d.Cause_Comments || '')
 }
 

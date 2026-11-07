@@ -22,7 +22,7 @@ function buildCauseHierarchy(fires) {
         return node
     })
 
-    let root = summarize('Tous les feux', fires)
+    let root = summarize('All fires', fires)
     root.children = nest(fires, 0)
     return root
 }

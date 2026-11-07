@@ -35,6 +35,7 @@ test("le dataset complet garde ses causes et son cache, la carte peut charger so
       timeParse: d3.timeParse,
       csv(url, parseRow) {
         requests.push(url);
+        if (url === "/data/fires-current.csv") return Promise.reject(new Error("404 Not Found"));
         return readFile(path.join(projectDirectory, "public", url), "utf8").then(csv => d3.csvParse(csv, parseRow));
       }
     }
@@ -51,11 +52,11 @@ test("le dataset complet garde ses causes et son cache, la carte peut charger so
     assert.ok(!map.columns.includes(field));
   }
   assert.equal(typeof complete[0].FireYear, "number");
-  assert.deepEqual(requests, ["/data/fire-occurence.csv", "/data/fires-bubble-map.csv"]);
+  assert.deepEqual(requests, ["/data/fires-current.csv", "/data/fires-bubble-map.csv", "/data/fire-occurence.csv"]);
   const invalid = context.parseFire({ County: "ERROR: #N/A", FO_LandOwnType: "ERROR: #N/A" });
   assert.equal(invalid.County, "Unspecified");
   assert.equal(invalid.FO_LandOwnType, "Unspecified");
   assert.equal(await context.loadFires(), complete);
   assert.equal(await context.loadFires("/data/fires-bubble-map.csv"), map);
-  assert.equal(requests.length, 2);
+  assert.equal(requests.length, 3);
 });

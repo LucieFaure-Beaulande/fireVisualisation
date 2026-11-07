@@ -38,8 +38,9 @@ module.exports = [
             { label: 'Bullet graph', url: '/bulletgraph/' }
         ],
 
-        // the commands run after each change, in this order, e.g. to recompute the data of a visualization:
-        // { label: 'Bubble map data', command: 'node', args: ['scripts/prepare-data.mjs'], folder: '.' }
-        afterChange: []
+        // the commands run after each change, in this order
+        afterChange: [
+            { label: 'Bubble map data', command: 'node', args: ['scripts/prepare-data.mjs'], folder: '.' }
+        ]
     }
 ]

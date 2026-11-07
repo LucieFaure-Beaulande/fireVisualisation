@@ -6,7 +6,8 @@ import { partitionFiresByTerritory } from "./geographic-filter.mjs";
 
 const scriptDirectory = path.dirname(fileURLToPath(import.meta.url));
 const projectDirectory = path.resolve(scriptDirectory, "..");
-const fireInputPath = path.join(projectDirectory, "public", "data", "fire-occurence.csv");
+const currentFireInputPath = path.join(projectDirectory, "public", "data", "fires-current.csv");
+const originalFireInputPath = path.join(projectDirectory, "public", "data", "fire-occurence.csv");
 const fireOutputPath = path.join(projectDirectory, "public", "data", "fires-bubble-map.csv");
 const stationInputPath = path.join(projectDirectory, "data", "OR_Fire_Stations_2532669185716841308.xlsx");
 const stationOutputPath = path.join(projectDirectory, "public", "data", "fire-stations.csv");
@@ -405,7 +406,10 @@ function createFireStationLinks(fires, stations, mappings) {
   });
 }
 
-const fireSource = await readFile(fireInputPath, "utf8");
+const fireSource = await readFile(currentFireInputPath, "utf8").catch(error => {
+  if (error.code !== "ENOENT") throw error;
+  return readFile(originalFireInputPath, "utf8");
+});
 const stationSource = await readFile(stationInputPath);
 const districts = JSON.parse(await readFile(districtInputPath, "utf8"));
 const fires = parseCsv(fireSource);

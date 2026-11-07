@@ -64,7 +64,7 @@ function drawFireDots(fires) {
             endAngle: angle(d.month + 1)
         }))
         .attr('fill', d => cellColor(d.count))
-        .on('mousemove', (event, d) => showInfo(event, `${monthNames[d.month]} ${d.year} : ${formatNumber(d.count)} feu${d.count > 1 ? 'x' : ''}`))
+        .on('mousemove', (event, d) => showInfo(event, `${monthNames[d.month]} ${d.year}: ${formatNumber(d.count)} ${d.count > 1 ? 'fires' : 'fire'}`))
         .on('mouseout', hideTooltip)
 
     // the guides: one circle every 5 years and one line per month

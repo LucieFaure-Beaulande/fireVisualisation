@@ -126,3 +126,22 @@ test("applique les préférences avant le montage du panneau, même si localStor
   assert.equal(events[0].type, "fire:accessibilitychange");
   assert.equal(events[1], "DOMContentLoaded");
 });
+
+test("applique dans une iframe le réglage changé sur la page d'accueil", () => {
+  const storage = memoryStorage();
+  const handlers = {};
+  const html = { classList: { toggle() {} }, dataset: {}, style: { setProperty() {} } };
+  const win = {
+    document: { readyState: "loading", documentElement: html, addEventListener() {} },
+    localStorage: storage,
+    CustomEvent: class { constructor(type, options) { this.type = type; this.detail = options.detail; } },
+    dispatchEvent() {},
+    addEventListener(name, handler) { handlers[name] = handler; }
+  };
+  initialise(win);
+  assert.equal(html.dataset.palette, "standard");
+  // the home page saves the colorblind palette: the browser sends a "storage" event to the iframe
+  createPreferences(storage).update({ palette: "cvd" });
+  handlers.storage({ key: STORAGE_KEY });
+  assert.equal(html.dataset.palette, "cvd");
+});

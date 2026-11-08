@@ -57,3 +57,11 @@
 .legend .legend-line { display: flex; align-items: center; width: 100%; }
 .legend .legend-line.clickable { cursor: pointer; border-radius: 4px; }
 .legend .legend-line.clickable:hover { background: var(--color-surface-alt); }
+
+/* embedded: the ruler and the play button are replaced by the ruler of the home page */
+html.embed #ruler,
+html.embed #playButton { display: none; }
+
+/* miniature: only the map remains */
+html.embed:not(.interactive) .side { display: none; }
+html.embed:not(.interactive) .choropleth-layout { grid-template-columns: minmax(0, 1fr); }

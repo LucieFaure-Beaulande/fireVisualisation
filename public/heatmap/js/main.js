@@ -54,3 +54,13 @@ window.addEventListener("resize", () => {
 });
 
 heatmap.render();
+
+// Embedded on the home page: the year comes from the shared ruler
+if (document.documentElement.classList.contains('embed')) {
+    FireEmbed.onYear(year => {
+        if (!data.years.includes(year)) return
+        yearSelect.property('value', year)
+        updateTrailsOption(year)
+        heatmap.render({ year, layer: layerSelect.property('value') })
+    })
+}

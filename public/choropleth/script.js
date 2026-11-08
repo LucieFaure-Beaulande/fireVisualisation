@@ -1,4 +1,4 @@
-/* global d3, topojson, FireAccessibility, FirePalette, FireTooltip, loadFires */
+/* global d3, topojson, FireAccessibility, FirePalette, FireTooltip, FireEmbed, loadFires */
 
 // Choropleth of the land cover of Oregon, with the fires of the selected year on top of it
 
@@ -43,6 +43,48 @@ let currentYear = years[0]
 let currentCause = 'all'
 let playTimer = null
 
+// ---------- year requests ----------
+
+// year changes requested in the same frame (dragging the ruler, messages of the home page) are merged:
+// only the last one is drawn
+let pendingYear = null
+
+function requestYear(year) {
+    const idle = pendingYear === null
+    pendingYear = year
+    if (idle) requestAnimationFrame(() => {
+        const next = pendingYear
+        pendingYear = null
+        if (next !== currentYear) update(next)
+    })
+}
+
+// embedded on the home page: the year comes from the shared ruler (see js/embed.js)
+const embedded = document.documentElement.classList.contains('embed')
+let embeddedYear = null   // last year received from the home page
+let started = false       // true once the first drawing is done
+
+if (embedded) {
+    FireEmbed.onYear(year => {
+        if (!years.includes(year)) return
+        embeddedYear = year
+        if (started) requestYear(year)
+    })
+}
+
+// load the land cover maps one at a time, when the browser is idle
+const whenIdle = callback => 'requestIdleCallback' in window
+    ? requestIdleCallback(callback, { timeout: 3000 })
+    : setTimeout(callback, 300)
+
+function preloadLand(queue) {
+    if (!queue.length) return
+    whenIdle(async () => {
+        try { await loadLand(queue[0]) } catch (_) { /* it is retried when the year is selected */ }
+        preloadLand(queue.slice(1))
+    })
+}
+
 // ---------- the land cover year used for a fire year ----------
 
 // the last land cover map before (or at) the year: 2003 → 2000, 2022 → 2020
@@ -65,7 +107,8 @@ const fireLayer = svg.append('g')
 
 let projection, path, boundary
 
-// the land cover files, loaded once: year → { features, lookup, areaShare }
+// the land cover files, loaded once: year → { features, classAt, areaShare }
+// each feature also holds its svg path (pathData), computed once when the file is loaded
 const landCache = new Map()
 
 function loadLand(landYear) {
@@ -75,7 +118,14 @@ function loadLand(landYear) {
             let features = topojson.feature(topo, object).features
                 .map(f => ({ feature: f, cls: landClasses.find(c => c.dn === f.properties.DN) }))
                 .filter(d => d.cls)
+
+            // the svg path of each class is computed once here, so that drawing a year is only an attribute change
+            features.forEach(d => { d.pathData = path(d.feature) })
+
             return Object.assign({ features }, rasterize(features))
+        }).catch(error => {
+            landCache.delete(landYear)   // the next call tries again
+            throw error
         })
         landCache.set(landYear, promise)
     }
@@ -142,7 +192,7 @@ function drawLand(land) {
         .join('path')
         .attr('class', d => `land land-${d.cls.key}`)
         .style('fill', d => `var(--land-${d.cls.key})`)   // CSS variable: follows the palette chosen
-        .attr('d', d => path(d.feature))
+        .attr('d', d => d.pathData)                        // computed once in loadLand
         .on('mouseenter mousemove', (event, d) => showLandTooltip(event, d.cls))
         .on('mouseleave', () => FireTooltip.hide())
 }
@@ -453,11 +503,11 @@ function drawRuler() {
             // event.x is expressed in the coordinates of the ruler group
             let closest = d3.least(years, year => Math.abs(year - yearScale.invert(event.x)))
             stop()
-            if (closest !== currentYear) update(closest)
+            requestYear(closest)
         }))
 
     ruler.on('keydown', event => {
-        let i = years.indexOf(currentYear)
+        let i = years.indexOf(pendingYear ?? currentYear)
         let next = null
         if (event.key === 'ArrowLeft' || event.key === 'ArrowDown') next = years[Math.max(0, i - 1)]
         if (event.key === 'ArrowRight' || event.key === 'ArrowUp') next = years[Math.min(years.length - 1, i + 1)]
@@ -466,7 +516,7 @@ function drawRuler() {
         if (next === null) return
         event.preventDefault()
         stop()
-        if (next !== currentYear) update(next)
+        requestYear(next)
     })
 
     // handle: circle on the axis + selected year above it
@@ -527,7 +577,7 @@ async function update(year) {
 
     let landYear = landYearOf(year)
     let land = await loadLand(landYear)
-    if (landYearOf(currentYear) !== landYear) return   // another year was chosen while loading
+    if (currentYear !== year) return   // another year was chosen while loading
     if (land !== currentLand) {
         currentLand = land
         drawLand(land)
@@ -575,10 +625,20 @@ async function init() {
     drawPatterns()
 
     drawState()
+
+    // embedded: start directly on the year of the home page ruler, instead of loading another year for nothing
+    if (embeddedYear !== null) currentYear = embeddedYear
     await update(currentYear)
 
-    // load the other land cover maps in the background, so that the changes of year are immediate
-    landYears.forEach(y => loadLand(y))
+    // from now on, the year changes of the home page are drawn as they come
+    started = true
+    if (embeddedYear !== null && embeddedYear !== currentYear) requestYear(embeddedYear)
+
+    // load the other land cover maps one at a time, when the browser is idle, the nearest years first
+    const current = landYearOf(currentYear)
+    preloadLand(landYears
+        .filter(y => y !== current)
+        .sort((a, b) => Math.abs(a - current) - Math.abs(b - current)))
 }
 
 // redraw when the palette changes (the colors of the fires are read when drawing)

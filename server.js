@@ -1,9 +1,11 @@
-
+const compression = require('compression')
 const express = require('express')
 const path = require('path')
 const app = express()
 const port = Number(process.env.PORT) || 3000
 
+// gzip for the text files (js, css, csv, json): d3.min.js goes from about 273 KB to about 90 KB
+app.use(compression())
 // Cette ligne indique le répertoire qui contient
 // les fichiers statiques: html, css, js, images etc.
 app.use(express.static(path.join(__dirname, 'public')))

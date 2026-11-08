@@ -70,7 +70,9 @@ function fitCard(card) {
 
 // the chart is drawn after the load of the page (csv files): follow its size inside the iframe
 function watchChart(card, frame) {
-    if (frame.dataset.watched) return
+    // a frame without a loaded page yet (lazy tab, blank document) is ignored: its real load event comes later
+    if (frame.dataset.watched || !frame.getAttribute('src')
+        || frame.contentWindow.location.href === 'about:blank') return
     frame.dataset.watched = 'true'
 
     const target = frame.contentDocument.querySelector(frame.dataset.target)
@@ -236,6 +238,11 @@ cards.forEach(card => {
 
 // ---------- tabs ----------
 
+// an iframe with a data-src is only loaded when its tab is shown for the first time
+function loadFrame(frame) {
+    if (frame.dataset.src && !frame.getAttribute('src')) frame.src = frame.dataset.src
+}
+
 // show the frame of a tab: title, link and visibility follow it (the layout is not redrawn here)
 function applyTab(card, tab) {
     card.dataset.activeTab = tab
@@ -249,13 +256,15 @@ function applyTab(card, tab) {
     framesOf(card).forEach(frame => frame.classList.toggle('is-inactive', frame.dataset.tab !== tab))
 
     const frame = activeFrame(card)
+    loadFrame(frame)
     card.querySelector('.viz-title').textContent = frame.dataset.title
     card.querySelector('.viz-link').dataset.href = frame.dataset.href
 }
 
 function selectTab(card, tab) {
     applyTab(card, tab)
-    applyLayout()   // the interactive state and the labels follow the active frame
+    applyLayout()                  // the interactive state and the labels follow the active frame
+    sendYear(activeFrame(card))    // the frame that was hidden missed the year changes
     saveTabs()
 }
 
@@ -293,9 +302,10 @@ cards.forEach(card => {
 applyLayout()
 
 // ---------- shared year ruler ----------
-// the year is sent to the iframes marked with data-sync-year (see js/embed.js)
+// the year is sent to the visible iframes marked with data-sync-year (see js/embed.js)
 const rulerYears = d3.range(2000, 2023)
 const syncedFrames = Array.from(document.querySelectorAll('iframe[data-sync-year]'))
+const isShown = frame => !frame.classList.contains('is-inactive')
 let selectedYear = 2022
 
 function sendYear(frame) {
@@ -311,7 +321,8 @@ function drawYearRuler() {
         year: selectedYear,   // the selected year is kept when the ruler is redrawn
         onChange: year => {
             selectedYear = year
-            syncedFrames.forEach(sendYear)
+            // the hidden tab of a card gets the year when it is shown (see selectTab)
+            syncedFrames.filter(isShown).forEach(sendYear)
         }
     })
 }

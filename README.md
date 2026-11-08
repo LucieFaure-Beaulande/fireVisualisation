@@ -47,6 +47,7 @@ public/
   bubblemap/                  carte annuelle, casernes, liens estimés et fisheye
   heatmap/                    heatmap des feux par comté et par mois
   sunburst/                   sunburst des causes des incendies
+  choropleth/                 carte de l'occupation du sol (NLCD 2000-2020) avec les feux de chaque année
   bulletgraph/                bullet graph des totaux de feux et de surface brûlées sur toutes les années, avec causes et médianes
 ```
 

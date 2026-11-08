@@ -1,0 +1,59 @@
+/* Choropleth of the land cover — colors of the land cover classes
+   (light tints, so that the hatching of the burned area stays visible on top of them) */
+
+:root,
+[data-palette="standard"] {
+    --land-forest: #a9d18e;        /* green  */
+    --land-agriculture: #f3d98b;   /* yellow */
+    --land-urban: #8e8e99;         /* grey   */
+    --land-other: #eef0f3;         /* rest of the state (shrub, grassland, water...) */
+    --land-map: #40623b;           /* for the indication on the ruler */
+}
+
+[data-palette="cvd"] {
+    --land-forest: #8fd3bd;        /* tint of Okabe & Ito bluish green */
+    --land-agriculture: #f6ef9a;   /* tint of Okabe & Ito yellow */
+    --land-urban: #7a7a7a;
+    --land-other: #eef0f3;
+    --land-map: #7fc575;  
+}
+
+.ruler { width: 100%; }
+.ruler svg { display: block; width: 100%; height: auto; overflow: visible; }
+.ruler .axis text { font-size: 0.75rem; fill: var(--color-text-muted); }
+.ruler .handle text { font-size: 0.9375rem; font-weight: 700; fill: var(--color-text); }
+.ruler .handle circle { fill: var(--color-text); stroke: var(--color-surface); stroke-width: 2px; }
+.ruler .snapshot { fill: var(--land-map); stroke: var(--color-text-muted); }
+.ruler-g:focus-visible .handle circle { stroke: var(--color-focus); stroke-width: 3px; }
+
+.choropleth-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 3fr) minmax(16rem, 1fr);
+    gap: 1.5rem;
+    align-items: start;
+}
+@media (max-width: 900px) {
+    .choropleth-layout { grid-template-columns: minmax(0, 1fr); }
+}
+
+.map svg { display: block; width: 100%; height: auto; }
+.map .state { fill: var(--land-other); stroke: var(--color-text-muted); stroke-width: 1; }
+.map .land { stroke: none; }
+.map .land.dimmed, .map .fire.dimmed { opacity: 0.2; }
+.map .fire { stroke: #ffffff; stroke-width: 0.6; fill-opacity: 0.9; }
+.map .hex { stroke: var(--data-hatch); stroke-opacity: 0.35; stroke-width: 0.6; }
+.map .hex.hover { stroke-opacity: 1; stroke-width: 2; }
+.accessibility-contrast .map .hex { stroke-opacity: 0.8; stroke-width: 1; }
+.legend .hatch-swatch { flex: none; margin-right: 0.4em; }
+.legend .hatch-swatch rect { stroke: var(--color-border); }
+.accessibility-contrast .map .fire { stroke: #000000; stroke-width: 1; fill-opacity: 1; }
+.accessibility-contrast .map .state { stroke: #000000; stroke-width: 2; }
+
+.side h2 { margin-top: 1rem; }
+.side .stats { margin-bottom: 0.5rem; }
+.side .legend { flex-direction: column; gap: 0.25rem; }
+.side .legend-row { cursor: default; }
+.legend .legend-value { color: var(--color-text-muted); font-variant-numeric: tabular-nums; margin-left: auto; padding-left: 0.75rem; }
+.legend .legend-line { display: flex; align-items: center; width: 100%; }
+.legend .legend-line.clickable { cursor: pointer; border-radius: 4px; }
+.legend .legend-line.clickable:hover { background: var(--color-surface-alt); }

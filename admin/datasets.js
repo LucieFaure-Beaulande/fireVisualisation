@@ -35,12 +35,34 @@ module.exports = [
         // the visualizations that read this dataset, linked from the console
         usedBy: [
             { label: 'Sunburst of the causes', url: '/sunburst/' },
-            { label: 'Bullet graph', url: '/bulletgraph/' }
+            { label: 'Bullet graph', url: '/bulletgraph/' },
+            { label: 'Heatmap', url: '/heatmap/' }
         ],
 
         // the commands run after each change, in this order
         afterChange: [
-            { label: 'Bubble map data', command: 'node', args: ['scripts/prepare-data.mjs'], folder: '.' }
+            { label: 'Bubble map data', command: 'node', args: ['scripts/prepare-data.mjs'], folder: '.' },
+            { label: 'Heatmap data', command: 'node', args: ['scripts/prepare-heatmap.mjs'], folder: '.' }
+        ]
+    },
+    {
+        id: 'costs',
+        label: 'Fire suppression costs (heatmap)',
+
+        // the costs per year, month and county, built by scripts/heatmap/fire_costs.py (WFIGS, from 2014)
+        original: 'data/heatmap/fire-costs.csv',
+        additions: 'data/additions/costs',
+        // the file read by scripts/prepare-heatmap.mjs
+        current: 'data/heatmap/costs-current.csv',
+
+        // a row is the cost of a county in a month: an added row replaces the row with the same key
+        key: ['year', 'month', 'county'],
+        year: 'year',
+        required: ['year', 'month', 'county', 'suppression_cost_usd'],
+
+        usedBy: [{ label: 'Heatmap', url: '/heatmap/' }],
+        afterChange: [
+            { label: 'Heatmap data', command: 'node', args: ['scripts/prepare-heatmap.mjs'], folder: '.' }
         ]
     }
 ]

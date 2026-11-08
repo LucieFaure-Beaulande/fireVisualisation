@@ -303,10 +303,12 @@ applyLayout()
 
 // ---------- shared year ruler ----------
 // the year is sent to the visible iframes marked with data-sync-year (see js/embed.js)
-const rulerYears = d3.range(2000, 2023)
+// the years of the original dataset until the data is read, then the years of the data (see loadRulerYears)
+let rulerYears = d3.range(2000, 2023)
 const syncedFrames = Array.from(document.querySelectorAll('iframe[data-sync-year]'))
 const isShown = frame => !frame.classList.contains('is-inactive')
 let selectedYear = 2022
+let yearChosen = false   // true once the visitor selected a year on the ruler
 
 function sendYear(frame) {
     if (frame.contentWindow) frame.contentWindow.postMessage({ type: 'setYear', year: selectedYear }, location.origin)
@@ -321,6 +323,7 @@ function drawYearRuler() {
         year: selectedYear,   // the selected year is kept when the ruler is redrawn
         onChange: year => {
             selectedYear = year
+            yearChosen = true
             // the hidden tab of a card gets the year when it is shown (see selectTab)
             syncedFrames.filter(isShown).forEach(sendYear)
         }
@@ -328,6 +331,23 @@ function drawYearRuler() {
 }
 
 drawYearRuler()
+
+// the years of the data, with the files added in the admin console (same files as loadFires in js/fireData.js);
+// only the year column is kept, the visualizations read the whole file themselves
+async function loadRulerYears() {
+    const yearOf = row => +row.FireYear || null
+    const rows = await d3.csv('/data/fires-current.csv', yearOf).catch(() => d3.csv('/data/fire-occurence.csv', yearOf))
+    const years = Array.from(new Set(rows)).sort(d3.ascending)
+    if (!years.length) return
+    rulerYears = years
+    // the last year is selected, unless the visitor already chose a year
+    if (!yearChosen || !years.includes(selectedYear)) selectedYear = years[years.length - 1]
+    d3.select('#yearRange').text(`(${years[0]}-${years[years.length - 1]})`)
+    drawYearRuler()
+    syncedFrames.filter(isShown).forEach(sendYear)
+}
+
+loadRulerYears().catch(() => { /* keep the default years */ })
 
 // redraw the ruler when the text size changes: the labels written depend on it
 FireAccessibility.onChange((settings, key) => {

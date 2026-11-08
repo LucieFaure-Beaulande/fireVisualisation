@@ -6,7 +6,8 @@
   "scripts": {
     "test": "node --test tests/*.test.cjs",
     "start": "node server.js",
-    "prepare-data": "node scripts/prepare-data.mjs"
+    "prepare-data": "node scripts/prepare-data.mjs",
+    "prepare-heatmap": "node scripts/prepare-heatmap.mjs"
   },
   "license": "ISC",
   "dependencies": {

@@ -1,18 +1,17 @@
 #!/usr/bin/env python3
 """
-CSV simple (année, mois, county) du coût de lutte contre les incendies en Oregon.
-Source unique : NIFC / WFIGS "Wildland Fire Incident Locations" (données IRWIN, ~2014 -> aujourd'hui),
-champ EstimatedCostToDate (coût de suppression déclaré, USD nominaux). Aucune estimation : somme des
-valeurs déclarées.
+Fire suppression costs in Oregon per year, month and county (data/heatmap/fire-costs.csv).
+Single source: NIFC / WFIGS "Wildland Fire Incident Locations" (IRWIN data, ~2014 -> today),
+field EstimatedCostToDate (declared suppression cost, nominal USD). No estimation: sum of the declared values.
 https://services3.arcgis.com/T4QMspbfLg3qTGWY/arcgis/rest/services/WFIGS_Incident_Locations/FeatureServer/0
 
-Colonnes : year, month, county, state, suppression_cost_usd, n_incidents, n_incidents_with_cost
+Columns: year, month, county, state, suppression_cost_usd, n_incidents, n_incidents_with_cost
 
 USAGE
-  pip install requests pandas
-  python fire_costs_oregon.py                     # 2014 -> année courante
-  python fire_costs_oregon.py --years 2018-2022 --out couts.csv
-  python fire_costs_oregon.py --exclude-cpx-children
+  pip install -r requirements.txt
+  python fire_costs.py                     # 2014 -> current year
+  python fire_costs.py --years 2018-2022 --out costs.csv
+  python fire_costs.py --exclude-cpx-children
 """
 import argparse
 import datetime as dt
@@ -25,7 +24,7 @@ WFIGS_URL = ("https://services3.arcgis.com/T4QMspbfLg3qTGWY/arcgis/rest/services
              "WFIGS_Incident_Locations/FeatureServer/0/query")
 FIELDS = ["IrwinID", "IncidentTypeCategory", "FireDiscoveryDateTime", "POOState",
           "POOCounty", "EstimatedCostToDate", "IsCpxChild"]
-PAGE = 2000  # MaxRecordCount du service
+PAGE = 2000  # MaxRecordCount of the service
 
 
 def parse_years(s):
@@ -49,10 +48,10 @@ def fetch_wfigs():
         r.raise_for_status()
         js = r.json()
         if "error" in js:
-            sys.exit(f"Erreur API WFIGS : {js['error']}")
+            sys.exit(f"WFIGS API error: {js['error']}")
         feats = js.get("features", [])
         rows.extend(f["attributes"] for f in feats)
-        print(f"  {len(rows)} incidents récupérés", end="\r")
+        print(f"  {len(rows)} incidents fetched", end="\r")
         if len(feats) < PAGE and not js.get("exceededTransferLimit"):
             break
         offset += len(feats)
@@ -76,8 +75,8 @@ def build(df, y0, y1, exclude_cpx_children):
     if exclude_cpx_children:
         df = df[df["IsCpxChild"] != 1]
     else:
-        print(f"  ATTENTION : {n_child} sous-incidents de complexes ont un coût > 0 ; "
-              "risque de double comptage avec le complexe parent (voir --exclude-cpx-children).")
+        print(f"  WARNING: {n_child} child incidents of complexes have a cost > 0; "
+              "they may be counted twice with the parent complex (see --exclude-cpx-children).")
 
     df["has_cost"] = df["EstimatedCostToDate"].notna() & (df["EstimatedCostToDate"] > 0)
     g = df.groupby(["year", "month", "county"], as_index=False).agg(
@@ -92,14 +91,14 @@ def build(df, y0, y1, exclude_cpx_children):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--years", help="ex: 2020 ou 2018-2022 (défaut: 2014 -> année courante)")
-    ap.add_argument("--out", default="../pipeline/oregon_fire_costs_by_county_month.csv")
+    ap.add_argument("--years", help="e.g. 2020 or 2018-2022 (default: 2014 -> current year)")
+    ap.add_argument("--out", default="../../data/heatmap/fire-costs.csv")
     ap.add_argument("--exclude-cpx-children", action="store_true")
     a = ap.parse_args()
     y0, y1 = parse_years(a.years)
     out = build(fetch_wfigs(), y0, y1, a.exclude_cpx_children)
     out.to_csv(a.out, index=False)
-    print(f"{len(out)} lignes écrites dans {a.out}")
+    print(f"{len(out)} rows written to {a.out}")
 
 
 if __name__ == "__main__":

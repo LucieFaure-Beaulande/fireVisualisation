@@ -9,7 +9,7 @@ FireAccessibility.init()
 const width = 960            // size of the map (viewBox), the svg is then scaled to the card
 const height = 680
 
-const years = d3.range(2000, 2023)               // years of the fire dataset
+let years = d3.range(2000, 2023)                 // years of the fire dataset, read from the data when it is loaded
 const landYears = [2000, 2005, 2010, 2015, 2020]  // years of the land cover files (resources/)
 
 // land cover classes of the files (property DN), in the order of the legend
@@ -460,7 +460,7 @@ function drawRuler() {
     let rulerWidth = width, margin = { left: 30, right: 30 }
     let innerWidth = rulerWidth - margin.left - margin.right
 
-    let rulerSvg = d3.select('#ruler').append('svg').attr('viewBox', `0 0 ${rulerWidth} 76`)
+    let rulerSvg = d3.select('#ruler').html('').append('svg').attr('viewBox', `0 0 ${rulerWidth} 76`)
     let ruler = rulerSvg.append('g')
         .attr('class', 'ruler-g')
         .attr('transform', `translate(${margin.left}, 40)`)
@@ -604,6 +604,13 @@ async function init() {
         loadFires()
     ])
     boundary = boundaryData
+
+    // the years of the data (they follow the files added in the admin console): ruler and title drawn again
+    years = Array.from(new Set(fireData.map(fire => fire.FireYear).filter(year => year > 0))).sort(d3.ascending)
+    if (!years.includes(currentYear)) currentYear = years[0]
+    rulerControl = drawRuler()
+    rulerControl.move(currentYear)
+    d3.select('#yearRange').text(`(${years[0]}-${years[years.length - 1]})`)
 
     // Lambert conformal conic projection of Oregon (the projection of the state's own maps)
     projection = d3.geoConicConformal()

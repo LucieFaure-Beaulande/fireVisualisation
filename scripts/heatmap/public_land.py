@@ -1,3 +1,10 @@
+# Public land area per Oregon county (data/heatmap/public-land.csv)
+# Source: USGS PAD-US 4.1 (Fee layer) and the Census TIGER counties
+#
+# USAGE
+#   pip install -r requirements.txt
+#   python public_land.py
+
 from pathlib import Path
 import io
 import zipfile
@@ -11,29 +18,27 @@ import requests
 # CONFIGURATION
 # --------------------------------------------------
 
-OUTPUT_DIR = Path("../pipeline")
-OUTPUT_DIR.mkdir(exist_ok=True)
-
-OUTPUT_CSV = OUTPUT_DIR / "oregon_public_land_by_county.csv"
+OUTPUT_DIR = Path("../../data/heatmap")
+OUTPUT_CSV = OUTPUT_DIR / "public-land.csv"
 
 YEAR = 2025
 
-# USGS PAD-US 4.1 : couche Fee (propriété foncière)
+# USGS PAD-US 4.1 : Fee layer (land ownership)
 PADUS_URL = (
     "https://edits.nationalmap.gov/arcgis/rest/services/"
     "PAD-US/PAD_US_4_1/MapServer/0/query"
 )
 
-# Projection métrique adaptée aux calculs de superficie
+# metric projection for the areas
 AREA_CRS = "EPSG:5070"
 
 ACRES_PER_KM2 = 247.105381
 
 
 def download_counties():
-    """Télécharge et charge les limites des comtés de l'Oregon."""
+    """Download and read the boundaries of the counties of Oregon."""
 
-    print("Téléchargement des comtés...")
+    print("Downloading the counties...")
 
     urls = [
         "https://www2.census.gov/geo/tiger/TIGER2025/"
@@ -42,47 +47,47 @@ def download_counties():
         "COUNTY/tl_2024_us_county.zip",
     ]
 
-    extract_dir = OUTPUT_DIR / "counties"
+    extract_dir = OUTPUT_DIR / "raw" / "counties"
     extract_dir.mkdir(parents=True, exist_ok=True)
 
     counties = None
 
     for url in urls:
         try:
-            print(f"Essai : {url}")
+            print(f"Trying: {url}")
 
             response = requests.get(url, timeout=180)
             response.raise_for_status()
 
-            # Extraire l'archive ZIP sur le disque.
+            # extract the zip archive
             with zipfile.ZipFile(
                 io.BytesIO(response.content)
             ) as archive:
                 archive.extractall(extract_dir)
 
-            # Trouver le Shapefile extrait.
+            # the extracted shapefile
             shp_files = list(extract_dir.rglob("*.shp"))
 
             if not shp_files:
                 raise RuntimeError(
-                    "Aucun fichier .shp trouvé dans l'archive."
+                    "No .shp file in the archive."
                 )
 
-            # Lire le fichier local avec GeoPandas.
+            
             counties = gpd.read_file(shp_files[0])
-            print("Fichier géographique chargé.")
+            print("Geographic file loaded.")
             break
 
         except Exception as e:
-            print(f"Échec : {e}")
+            print(f"Failed: {e}")
             counties = None
 
     if counties is None:
         raise RuntimeError(
-            "Impossible de télécharger ou lire les comtés."
+            "Cannot download or read the counties."
         )
 
-    # Oregon : code FIPS 41
+    # Oregon: FIPS code 41
     counties = counties[
         counties["STATEFP"].astype(str) == "41"
     ].copy()
@@ -93,16 +98,16 @@ def download_counties():
 
     if len(counties) != 36:
         raise RuntimeError(
-            f"36 comtés attendus, {len(counties)} trouvés."
+            f"36 counties expected, {len(counties)} found."
         )
 
-    print(f"{len(counties)} comtés téléchargés.")
+    print(f"{len(counties)} counties downloaded.")
     return counties
 
 
 def download_padus():
-    """Récupère les parcelles PAD-US par pagination."""
-    print("Téléchargement des terrains PAD-US...")
+    """Fetch the PAD-US parcels, page by page."""
+    print("Downloading the PAD-US land...")
 
     session = requests.Session()
     features = []
@@ -133,7 +138,7 @@ def download_padus():
 
         if "error" in data:
             raise RuntimeError(
-                f"Erreur du service PAD-US : {data['error']}"
+                f"PAD-US service error: {data['error']}"
             )
 
         page = data.get("features", [])
@@ -143,15 +148,15 @@ def download_padus():
         features.extend(page)
         offset += len(page)
 
-        print(f"  {len(features)} parcelles récupérées...")
+        print(f"  {len(features)} parcels fetched...")
 
         if len(page) < page_size:
             break
 
     if not features:
         raise RuntimeError(
-            "Aucune parcelle reçue. Vérifie le filtre State_Nm "
-            "et la disponibilité du service USGS."
+            "No parcel received. Check the State_Nm filter "
+            "and the availability of the USGS service."
         )
 
     lands = gpd.GeoDataFrame.from_features(
@@ -161,7 +166,7 @@ def download_padus():
     lands = lands[lands.geometry.notna()].copy()
     lands = lands[~lands.geometry.is_empty].copy()
 
-    # Conserver les polygones et corriger les géométries invalides.
+    # keep the polygons only
     lands = lands[
         lands.geometry.geom_type.isin(
             ["Polygon", "MultiPolygon"]
@@ -170,26 +175,25 @@ def download_padus():
 
     lands = lands.to_crs(AREA_CRS)
 
-    print(f"{len(lands)} géométries exploitables.")
+    print(f"{len(lands)} usable geometries.")
     return lands
 
 
 def calculate_areas(counties, lands):
-    """Calcule les superficies publiques par comté."""
+    """Public land area per county."""
 
-    # Sélection des catégories de propriétaires publics.
-    # Les terrains tribaux sont exclus par défaut, car leur
-    # statut foncier et juridique est particulier.
+    # public owner types
+    # tribal land is excluded: its legal status is specific
     public_types = {
-        "FED",   # Gouvernement fédéral
-        "STAT",  # État
-        "CNTY",  # Comté
-        "CITY",  # Municipalité
-        "REG",   # Organisme régional
-        "RWD",   # District d'eau
-        "SDC",   # Autre organisme d'État
-        "OTHS",  # Autre organisme d'État
-        "SDNR",  # Terrains de trust de l'État
+        "FED",   # federal government
+        "STAT",  # state
+        "CNTY",  # county
+        "CITY",  # city
+        "REG",   # regional agency
+        "RWD",   # water district
+        "SDC",   # other state agency
+        "OTHS",  # other state agency
+        "SDNR",  # state trust land
         "SDOL",
         "SLB",
     }
@@ -200,21 +204,20 @@ def calculate_areas(counties, lands):
         ].copy()
     else:
         raise RuntimeError(
-            "Le champ Own_Type est absent du service PAD-US."
+            "The Own_Type field is missing from the PAD-US service."
         )
 
     if public_lands.empty:
         raise RuntimeError(
-            "Aucun terrain ne correspond aux types publics."
+            "No land matches the public types."
         )
 
-    # Nettoyer les géométries avant les intersections.
+    # fix the invalid geometries before the intersections
     public_lands["geometry"] = (
         public_lands.geometry.make_valid()
     )
 
-    # Un même terrain peut traverser plusieurs comtés :
-    # on calcule uniquement la partie située dans chaque comté.
+    # a parcel can cross several counties: only the part inside each county is counted
     results = []
 
     for _, county in counties.iterrows():
@@ -222,7 +225,7 @@ def calculate_areas(counties, lands):
         county_fips = county["GEOID"]
         county_geom = county.geometry
 
-        print(f"Calcul : {county_name} County...")
+        print(f"Computing: {county_name} County...")
 
         candidates = public_lands[
             public_lands.intersects(county_geom)
@@ -236,8 +239,7 @@ def calculate_areas(counties, lands):
             if not intersection.is_empty:
                 clipped.append(intersection)
 
-        # L'union empêche de compter deux fois les zones
-        # qui se chevauchent entre plusieurs enregistrements.
+        # the union avoids counting twice the overlapping parcels
         if clipped:
             county_public_geom = (
                 gpd.GeoSeries(
@@ -285,8 +287,8 @@ def main():
         encoding="utf-8-sig",
     )
 
-    print("\nRésultat enregistré :", OUTPUT_CSV)
-    print("\nLes 10 comtés ayant le plus de terrains publics :")
+    print("\nResult written:", OUTPUT_CSV)
+    print("\nThe 10 counties with the most public land:")
     print(results.head(10).to_string(index=False))
 
 

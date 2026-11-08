@@ -129,6 +129,44 @@
     color: var(--color-text-muted);
 }
 
+/* ---------- Tabs of a card that holds several visualizations ---------- */
+
+.viz-tabs {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 2;                 /* above the button that covers the cell */
+    display: flex;
+    gap: 2px;
+    padding: 0.25rem 0.5rem 0;
+    background: var(--color-surface);
+    border-bottom: 1px solid var(--color-border-soft);
+}
+
+.viz-tab {
+    padding: 0.35rem 0.75rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+    background: none;
+    border: 0;
+    border-bottom: 3px solid transparent;
+    border-radius: 0;
+}
+.viz-tab:hover { background: var(--color-surface-alt); }
+.viz-tab[aria-selected="true"] {
+    color: var(--color-accent);
+    border-bottom-color: var(--color-accent);
+}
+.viz-tab:focus-visible { outline-offset: -3px; }
+
+/* the inactive iframe stays loaded and sized (so that switching is instant) but is invisible */
+.viz-card iframe.is-inactive {
+    visibility: hidden !important;
+    pointer-events: none !important;
+}
+
 /* ---------- Small screens: one column, the cells follow each other ---------- */
 /* keep this block last: it overrides the rules above */
 

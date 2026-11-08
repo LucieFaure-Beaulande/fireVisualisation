@@ -23,29 +23,40 @@
             <!-- Main area (3fr, spans the 3 rows): empty for now -->
             <section class="home-main card" aria-label="Main area"></section>
 
-            <div class="viz-card card" data-interactive>
+            <div class="viz-card card" data-id="heatmap" data-interactive>
                 <iframe src="/heatmap/?embed" data-target="#heatmap" data-sync-year title="" tabindex="-1" aria-hidden="true"></iframe>
                 <button type="button" class="viz-link" data-href="/heatmap/">
                     <span class="viz-title">Heatmap counties × months</span>
                 </button>
             </div>
             
-            <div class="viz-card card" data-interactive>
+            <div class="viz-card card" data-id="sunburst" data-interactive>
                 <iframe src="/sunburst/?embed" data-target="#sunburst" data-sync-year title="" tabindex="-1" aria-hidden="true"></iframe>
                 <button type="button" class="viz-link" data-href="/sunburst/">
                     <span class="viz-title">Sunburst of the causes</span>
                 </button>
             </div>
 
-            <div class="viz-card card" data-interactive>
+            <div class="viz-card card" data-id="bullet" data-interactive>
                 <iframe src="/bulletgraph/?embed" data-target="#bullet" data-sync-year title="" tabindex="-1" aria-hidden="true"></iframe>
                 <button type="button" class="viz-link" data-href="/bulletgraph/">
                     <span class="viz-title">Bullet Graph</span>
                 </button>
             </div>
 
-            <div class="viz-card card" data-main data-interactive>
-                <iframe src="/bubblemap/?embed" data-target="#map" data-sync-year title="" tabindex="-1" aria-hidden="true"></iframe>
+            <div class="viz-card card" data-id="map" data-main data-interactive>
+                <div class="viz-tabs" role="tablist" aria-label="Type of map">
+                    <button type="button" class="viz-tab" role="tab" data-tab="bubble" aria-selected="true">Bubble map</button>
+                    <button type="button" class="viz-tab" role="tab" data-tab="landcover" aria-selected="false" tabindex="-1">Land cover</button>
+                </div>
+
+                <iframe src="/bubblemap/?embed" data-tab="bubble" data-target="#map" data-sync-year
+                        data-href="/bubblemap/" data-title="Wildfire bubble map"
+                        title="" tabindex="-1" aria-hidden="true"></iframe>
+                <iframe src="/choropleth/?embed" data-tab="landcover" data-target="#map" data-sync-year
+                        data-href="/choropleth/" data-title="Land cover and fires"
+                        title="" tabindex="-1" aria-hidden="true"></iframe>
+
                 <button type="button" class="viz-link" data-href="/bubblemap/">
                     <span class="viz-title">Wildfire bubble map</span>
                 </button>

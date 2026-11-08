@@ -577,6 +577,13 @@ async function init() {
     drawState()
     await update(currentYear)
 
+    // embedded on the home page: the year comes from the shared ruler
+    if (document.documentElement.classList.contains('embed')) {
+        FireEmbed.onYear(year => {
+            if (years.includes(year) && year !== currentYear) update(year)
+        })
+    }
+
     // load the other land cover maps in the background, so that the changes of year are immediate
     landYears.forEach(y => loadLand(y))
 }

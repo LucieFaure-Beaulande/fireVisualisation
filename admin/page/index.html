@@ -19,15 +19,16 @@
 
 <body>
     <main class="page">
-        <header class="page-header">
+        <header class="page-header admin-header">
             <a class="back-link" href="/">← All the visualizations</a>
             <h1>Data administration</h1>
-            <p>Add data to the datasets used by the visualizations. The original files are never modified:
-                an added file can always be removed.</p>
+            <p>Add data to the datasets used by the visualizations, or replace their original data.</p>
         </header>
 
         <!-- one card per dataset, see admin.js -->
-        <div id="datasets"><p id="loading" class="hint">Loading the datasets…</p></div>
+        <div id="datasets">
+            <p id="loading" class="loading"><span class="spinner" aria-hidden="true"></span>Loading the datasets…</p>
+        </div>
     </main>
 
     <script type='text/javascript' src='admin.js'></script>

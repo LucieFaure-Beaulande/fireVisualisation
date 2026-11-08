@@ -8,7 +8,7 @@
 module.exports = [
     {
         id: 'fires',
-        label: 'Fires in Oregon (Oregon Department of Forestry)',
+        label: 'Fires in Oregon',
 
         // the original file, never modified
         original: 'public/data/fire-occurence.csv',

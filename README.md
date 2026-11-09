@@ -39,6 +39,8 @@ exports, le contrôleur du fisheye et la gestion des préférences d'accessibili
 ```
 server.js                     serveur express
 admin/                        console d'administration des données (voir « Console d'administration »)
+scripts/                      préparation des données (bubble map, heatmap)
+data/heatmap/                 sources de la heatmap : coûts, sentiers, terres publiques (voir « Préparer les données de la heatmap »)
 public/
   index.html                  page d'accueil : un lien vers chaque visualisation
   data/fire-occurence.csv     dataset brut, à ne pas modifier (23 490 feux, 38 colonnes)
@@ -47,6 +49,7 @@ public/
   bubblemap/                  carte annuelle, casernes, liens estimés et fisheye
   heatmap/                    heatmap des feux par comté et par mois
   sunburst/                   sunburst des causes des incendies
+  choropleth/                 carte de l'occupation du sol (NLCD 2000-2020) avec les feux de chaque année
   bulletgraph/                bullet graph des totaux de feux et de surface brûlées sur toutes les années, avec causes et médianes
 ```
 
@@ -168,6 +171,46 @@ La durée est affichée dans les détails, sans encodage par la largeur des lien
 
 Le fonctionnement de la carte et les conventions de données sont documentés dans [`docs/guide-technique.md`](docs/guide-technique.md).
 
+## Préparer les données de la heatmap
+
+```bash
+npm run prepare-heatmap
+```
+
+Le script `scripts/prepare-heatmap.mjs` (Node, sans dépendance en plus de d3) est relancé par la console d'administration
+après chaque changement des feux ou des coûts. Il lit les données de la console, ou les fichiers d'origine s'ils n'existent pas :
+
+```
+public/data/fires-current.csv   (ou fire-occurence.csv)  ─┐
+data/heatmap/costs-current.csv  (ou fire-costs.csv)      ─┼──► public/heatmap/data/heatmap.csv       une ligne par (année, mois, comté)
+data/heatmap/hiking-trails.csv                           ─┤    public/heatmap/data/fires/<année>.json les feux d'une année (vue de détail)
+data/heatmap/public-land.csv                             ─┘    public/heatmap/data/hiking-trails.csv, public-land.csv (copiés)
+```
+
+- Mêmes conventions que `loadFires()` : `ERROR: #N/A` est une cellule vide, une cellule vide devient `Unspecified`.
+  Un feu sans date de découverte ou sans comté n'est pas placé dans la heatmap.
+- Terrain public : `FO_LandOwnType` fédéral, état, comté, municipal ou autre organisme public (comme PAD-US) ;
+  les terres tribales et les propriétaires inconnus sont comptés avec le privé.
+- Les feux d'une année sont dans leur propre fichier : la page ne télécharge que l'année ouverte, même avec beaucoup d'années ajoutées.
+- Les années affichées viennent des données : une année ajoutée dans la console apparaît sans changer le code.
+
+Limites des sources :
+
+- **Coûts** (NIFC / WFIGS, `scripts/heatmap/fire_costs.py`) : connus à partir de 2014 seulement, la page l'indique pour les années d'avant.
+- **Sentiers** (USFS, `scripts/heatmap/hiking_trails.py`) : inventaire actuel sans année, affiché seulement pour la dernière année.
+- **Terres publiques** (USGS PAD-US, `scripts/heatmap/public_land.py`).
+
+Ces trois sources se reconstruisent avec les scripts Python de `scripts/heatmap/`, à lancer à la main quand une source change
+(les fichiers géographiques bruts, plus de 100 Mo, vont dans `data/heatmap/raw/`, hors de git) :
+
+```bash
+pip install -r scripts/heatmap/requirements.txt
+```
+
+Les scripts se lancent depuis leur dossier (`cd scripts/heatmap`, puis `python fire_costs.py`, par exemple).
+
+Les coûts d'une nouvelle année peuvent aussi être ajoutés depuis la console (dataset « Fire suppression costs »).
+
 ## Console d'administration
 
 Une page pour changer les données des visualisations sans toucher au dépôt git :
@@ -206,7 +249,7 @@ La console affiche son résultat et ce qu'elle a écrit. La commande est un prog
 ```js
 afterChange: [
     { label: 'Bubble map data', command: 'node', args: ['scripts/prepare-data.mjs'], folder: '.' },
-    { label: 'Heatmap pipeline', command: 'python', args: ['pipeline.py'], folder: 'public/heatmap/pipeline' }
+    { label: 'Heatmap data', command: 'node', args: ['scripts/prepare-heatmap.mjs'], folder: '.' }
 ]
 ```
 
@@ -214,20 +257,22 @@ Le script doit lire `public/data/fires-current.csv` pour utiliser les données a
 
 **Gérer un autre dataset depuis la console** (par exemple des données externes, pour ajouter les coûts de 2023) :
 ajouter une entrée à la liste de `admin/datasets.js`. La console affiche alors une carte de plus pour ce dataset,
-avec les mêmes boutons (ajouter un fichier, retirer, revenir à l'origine). Exemple pour les coûts de la heatmap :
+avec les mêmes boutons (ajouter un fichier, retirer, revenir à l'origine). Exemple, les coûts de la heatmap :
 
 ```js
 {
     id: 'costs',
     label: 'Fire suppression costs (heatmap)',
-    original: 'public/heatmap/pipeline/oregon_fire_costs_by_county_month.csv', // le fichier d'aujourd'hui, jamais modifié
-    additions: 'data/additions/costs',                                        // les fichiers ajoutés (pas dans git)
-    current: 'public/heatmap/pipeline/costs-current.csv',                     // origine + ajouts, construit par le serveur
+    original: 'data/heatmap/fire-costs.csv',      // le fichier d'aujourd'hui, jamais modifié
+    additions: 'data/additions/costs',           // les fichiers ajoutés (pas dans git)
+    current: 'data/heatmap/costs-current.csv',   // origine + ajouts, construit par le serveur (pas dans git)
     key: ['year', 'month', 'county'],   // ce qui identifie une ligne : une colonne, ou plusieurs
     year: 'year',                       // la colonne des années (pour résumer le contenu des fichiers)
     required: ['year', 'month', 'county', 'suppression_cost_usd'], // un fichier sans ces colonnes est refusé
     usedBy: [{ label: 'Heatmap', url: '/heatmap/' }],
-    afterChange: []                     // les commandes à relancer après un ajout
+    afterChange: [                      // les commandes à relancer après un ajout
+        { label: 'Heatmap data', command: 'node', args: ['scripts/prepare-heatmap.mjs'], folder: '.' }
+    ]
 }
 ```
 

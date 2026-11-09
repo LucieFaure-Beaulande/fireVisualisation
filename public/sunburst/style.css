@@ -199,24 +199,14 @@ th.has-info::after {
     max-width: 640px;
 }
 
-/* high contrast (accessibility panel): black outlines */
-html.accessibility-contrast #sunburst path.arc {
-    stroke: #000000;
-    stroke-width: 1.5px;
-}
+/* embedded mode: only the sunburst remains (the details tables are never shown) */
+html.embed #details { display: none; }
+html.embed #content { margin-top: 0; justify-content: center; }
 
-html.accessibility-contrast #dots path.cell {
-    stroke: #000000;
-}
+/* miniature: no breadcrumb, filters or explanation */
+html.embed:not(.interactive) #breadcrumb,
+html.embed:not(.interactive) #scope,
+html.embed:not(.interactive) #dots-hint { display: none; }
 
-html.accessibility-contrast #dots circle.fire {
-    stroke: #000000;
-    fill-opacity: 0.8;
-}
-
-/* high contrast: the selected size of the arcs stays visible when the background of the buttons is white */
-html.accessibility-contrast #filters .segmented input:checked + span {
-    outline: 2px solid #000000;
-    outline-offset: -2px;
-    font-weight: 700;
-}
+/* interactive main area: the year comes from the ruler of the home page */
+html.embed.interactive .year-field { display: none; }

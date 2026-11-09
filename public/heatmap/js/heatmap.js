@@ -202,7 +202,7 @@ export function createHeatmap(data, { container, legend, live, onOpen }) {
                 body = cost > 0
                     ? `<div class="tt-big" style="color:${color("cost")}">${fmtUsd(cost)}</div>` +
                       `<div class="tt-line">suppression cost${s.totalAcres > 0 ? ` · ≈ ${fmtUsd(cost / s.totalAcres)} per burned acre` : ""}</div>`
-                    : none("no reported cost this month");
+                    : none(data.costYears.has(year) ? "no reported cost this month" : "no cost data for this year (costs are known from 2014)");
             }
             else if (layer === "trails") {
                 const t = trailsOf(d);

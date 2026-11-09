@@ -1,6 +1,6 @@
 // Parallel coordinates of the fires of a cell (county × month), in a dialog
 
-import { cellKey, PUBLIC, PRIVATE } from "./data.js";
+import { PUBLIC, PRIVATE } from "./data.js";
 import { monthLong, fmt, fmtPct, pctOf, plural, truncate, remToPx } from "./format.js";
 
 const DIMS = [
@@ -16,7 +16,7 @@ const color = name => FirePalette.token(`--data-${name}`);
 const landColors = () => ({ [PUBLIC]: color("public"), [PRIVATE]: color("private") });
 
 export function createParallel(data, { onClose }) {
-    const { firesByCell, publicLand } = data;
+    const { firesOfCell, publicLand } = data;
     const el = {
         dialog: d3.select("#pcDialog"),
         backdrop: d3.select("#pcBackdrop"),
@@ -35,8 +35,8 @@ export function createParallel(data, { onClose }) {
         el.info.select(".info-close").on("click", hideInfo);
     };
 
-    function open(county, year, month) {
-        const fires = (firesByCell.get(cellKey(county, year, month)) || []).filter(f => f.acres > 0);
+    async function open(county, year, month) {
+        const fires = (await firesOfCell(county, year, month)).filter(f => f.acres > 0);
         current = { county, year, month, fires };
         el.dialog.attr("hidden", null);
         el.backdrop.attr("hidden", null);

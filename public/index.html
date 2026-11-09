@@ -6,60 +6,68 @@
     <title>Fires in Oregon — visualizations</title>
     <link rel="stylesheet" href="/css/theme.css">
     <link rel="stylesheet" href="/css/accessibility.css">
-    <style>
-        .viz-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr)); gap: 1rem; padding: 0; list-style: none; }
-        .viz-card { display: block; height: 100%; box-sizing: border-box; color: inherit; text-decoration: none; }
-        .viz-card:hover { border-color: var(--color-accent); box-shadow: 0 4px 16px var(--color-shadow); }
-        .viz-card h2 { margin: 0 0 0.35rem; font-size: 1.1rem; color: var(--color-accent); }
-        .viz-card p { margin: 0; color: var(--color-text-muted); font-size: 0.9375rem; }
-    </style>
+    <link rel="stylesheet" href="index.css">
 </head>
-<body>
+<body class="index-body">
     <main class="page">
         <header class="page-header">
-            <h1>Fires in Oregon (2000-2022)</h1>
+            <h1>Fires in Oregon <span id="yearRange">(2000-2022)</span></h1>
             <p>Visualizations of the <a href="https://www.kaggle.com/datasets/mattop/fire-occurrence-and-cause-data-2000-2022">Fire Occurrence and Cause Data</a> dataset.</p>
         </header>
+        <!-- after </header>, before <div class="home-grid"> -->
+        <section class="year-ruler card" aria-label="Year of the visualizations">
+            <div id="yearRuler"></div>
+        </section>
 
-        <!-- One card per visualization: each page is in its own folder of public/ -->
-        <ul class="viz-list">
-            <li>
-                <a class="viz-card card" href="/bubblemap/">
-                    <h2>Wildfire bubble map</h2>
-                    <p>Explore wildfires, fire stations, and their estimated links by year with a fisheye lens.</p>
-                </a>
-            </li>
-            <li>
-                <a class="viz-card card" href="/heatmap/">
-                    <h2>Heatmap counties × months</h2>
-                    <p>Number of fires per county and month, costs, trails and public share of the burned area;
-                        causes of each month in parallel coordinates.</p>
-                </a>
-            </li>
-            <li>
-                <a class="viz-card card" href="/sunburst/">
-                    <h2>Sunburst of the causes</h2>
-                    <p>Hierarchy of the causes of the fires: origin, general cause, specific cause.</p>
-                </a>
-            </li>
-          <li>
-                <a class="viz-card card" href="/bulletgraph/">
-                    <h2>Bullet Graph</h2>
-                    <p>Desc.</p>
-                </a>
-            </li>
-            <!--
-            <li>
-                <a class="viz-card card" href="/folder-name/">
-                    <h2>Title of the visualization</h2>
-                    <p>One sentence of description.</p>
-                </a>
-            </li>
-            -->
-        </ul>
+        <div class="home-grid">
+            <!-- Main area (3fr, spans the 3 rows): empty for now -->
+            <section class="home-main card" aria-label="Main area"></section>
+
+            <div class="viz-card card" data-id="heatmap" data-interactive>
+                <iframe src="/heatmap/?embed" data-target="#heatmap" data-sync-year title="" tabindex="-1" aria-hidden="true"></iframe>
+                <button type="button" class="viz-link" data-href="/heatmap/">
+                    <span class="viz-title">Heatmap counties × months</span>
+                </button>
+            </div>
+            
+            <div class="viz-card card" data-id="sunburst" data-interactive>
+                <iframe src="/sunburst/?embed" data-target="#sunburst" data-sync-year title="" tabindex="-1" aria-hidden="true"></iframe>
+                <button type="button" class="viz-link" data-href="/sunburst/">
+                    <span class="viz-title">Sunburst of the causes</span>
+                </button>
+            </div>
+
+            <div class="viz-card card" data-id="bullet" data-interactive>
+                <iframe src="/bulletgraph/?embed" data-target="#bullet" data-sync-year title="" tabindex="-1" aria-hidden="true"></iframe>
+                <button type="button" class="viz-link" data-href="/bulletgraph/">
+                    <span class="viz-title">Bullet Graph</span>
+                </button>
+            </div>
+
+            <div class="viz-card card" data-id="map" data-main data-interactive>
+                <div class="viz-tabs" role="tablist" aria-label="Type of map">
+                    <button type="button" class="viz-tab" role="tab" data-tab="bubble" aria-selected="true">Bubble map</button>
+                    <button type="button" class="viz-tab" role="tab" data-tab="landcover" aria-selected="false" tabindex="-1">Land cover</button>
+                </div>
+
+                <iframe src="/bubblemap/?embed" data-tab="bubble" data-target="#map" data-sync-year
+                        data-href="/bubblemap/" data-title="Wildfire bubble map"
+                        title="" tabindex="-1" aria-hidden="true"></iframe>
+                <iframe data-src="/choropleth/?embed" data-tab="landcover" data-target="#map" data-sync-year
+                        data-href="/choropleth/" data-title="Land cover and fires"
+                        title="" tabindex="-1" aria-hidden="true"></iframe>
+
+                <button type="button" class="viz-link" data-href="/bubblemap/">
+                    <span class="viz-title">Wildfire bubble map</span>
+                </button>
+            </div>
+        </div>
     </main>
 
+    <script src="/lib/d3.min.js"></script>
     <script src="/js/accessibility.js"></script>
     <script>FireAccessibility.init()</script>
+    <script src="/js/yearRuler.js"></script>
+    <script src="index.js"></script>
 </body>
 </html>

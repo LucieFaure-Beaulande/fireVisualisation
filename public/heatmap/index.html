@@ -7,17 +7,19 @@
     <link rel="stylesheet" href="/css/theme.css">
     <link rel="stylesheet" href="/css/accessibility.css">
     <link rel="stylesheet" href="css/heatmap.css">
+    <script src="/js/embed.js"></script>
+    <script src="/js/accessibility.js"></script>
 </head>
 <body>
     <main class="page">
         <header class="page-header">
-            <a class="back-link" href="/">← All the visualizations</a>
-            <h1>Fires in Oregon by county and month (2000-2022)</h1>
+            <a class="back-link" href="/">← All visualizations</a>
+            <h1>Fires in Oregon by county and month <span id="yearRange"></span></h1>
             <p>Cell color: number of fires. Choose a second layer, then click a cell for the details of its fires.</p>
         </header>
 
         <section class="toolbar" aria-label="Heatmap filters">
-            <label class="field"><span class="field-label">Year</span>
+            <label class="field year-field"><span class="field-label">Year</span>
                 <select id="yearSelect" class="select"></select>
             </label>
             <label class="field"><span class="field-label">Second layer</span>
@@ -69,7 +71,6 @@
     <script src="/lib/d3.min.js"></script>
     <script src="/js/palette.js"></script>
     <script src="/js/tooltip.js"></script>
-    <script src="/js/accessibility.js"></script>
     <script type="module" src="js/main.js"></script>
 </body>
 </html>

@@ -46,3 +46,10 @@ body.bubblemap { padding: 16px 12px; }
 .bubblemap .map-toolbar { padding: 0.75rem; }
 .bubblemap #fisheye-state { flex-basis: 100%; }
 }
+/* embedded: the internal ruler is never shown (the home page ruler is used) */
+html.embed .bubblemap .controls { display: none; }
+
+/* miniature: only the map and its legend remain */
+html.embed:not(.interactive) .bubblemap .map-toolbar,
+html.embed:not(.interactive) .bubblemap .status,
+html.embed:not(.interactive) .bubblemap .fire-tooltip { display: none; }

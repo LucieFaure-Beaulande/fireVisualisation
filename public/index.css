@@ -1,0 +1,228 @@
+/* ---------- Page: body → .page → grid, everything fills the window ---------- */
+
+/* requires <body class="index-body"> in index.html */
+.index-body {
+    padding: 0;                 /* replaces the 24px / 28px of theme.css, the spacing is in .page */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.page {
+    flex: 1;                    /* takes all the height of the body */
+    width: 100%;                /* a flex child with margin auto would otherwise shrink */
+    padding: 1rem;              /* also replaces the padding-bottom of 5rem of theme.css */
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ---------- Grid: a wide main area on the left, the other cells of the same height on the right ---------- */
+
+.home-grid {
+    flex: 1;                    /* takes the height left under the header */
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    grid-template-rows: repeat(3, minmax(12rem, 1fr));
+    gap: 0.5rem;
+}
+
+.home-main {
+    grid-column: 1;
+    grid-row: 1 / -1;           /* spans all the rows */
+}
+
+/* the empty area is only a placeholder before the first click */
+.home-grid.has-main .home-main { display: none; }
+
+/* ---------- Cell of a visualization: the miniature fills it, the button covers it ---------- */
+
+.viz-card {
+    grid-column: 2;
+    position: relative;
+    overflow: hidden;
+    padding: 0;
+}
+.viz-card:hover {
+    border-color: var(--color-accent);
+    box-shadow: 0 4px 16px var(--color-shadow);
+}
+
+/* the visualization shown in the main area */
+.viz-card.is-main {
+    grid-column: 1;
+    grid-row: 1 / -1;
+}
+
+/* the empty cell left in the right column when a card moves to the main area */
+.viz-empty {
+    grid-column: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.875rem;
+    color: var(--color-text-faint);
+    background: transparent;
+    border: 2px dashed var(--color-border);
+    box-shadow: none;
+}
+
+/* the page is rendered at a desktop width, then shrunk by index.js (size and scale set there) */
+.viz-card iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    border: 0;
+    background: var(--color-surface);
+    transform-origin: top left;
+    pointer-events: none;       /* the click goes to the button */
+    visibility: hidden;         /* shown by index.js once the chart is placed */
+}
+
+/* interactive main card: the iframe receives the pointer */
+.viz-card.is-interactive iframe { pointer-events: auto; }
+
+/* the link is only a strip at the bottom, so that it does not block the clicks on the chart */
+.viz-card.is-interactive .viz-link {
+    inset: auto 0 0 0;
+    height: auto;
+}
+
+/* the button covers the whole cell: it moves the card to the main area, or opens the full page */
+.viz-link {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    display: flex;
+    align-items: flex-end;
+    color: inherit;
+    text-align: left;
+    background: none;
+    border: 0;
+    border-radius: 0;
+    cursor: pointer;
+}
+.viz-link:hover { background: none; }
+.viz-link:focus-visible { outline-offset: -3px; }
+
+.viz-title {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--color-accent);
+    background: var(--color-surface);
+    border-top: 1px solid var(--color-border-soft);
+}
+
+/* the action of a click is written in the title */
+.viz-card:not(.is-main) .viz-title::after {
+    content: ' · show larger';
+    font-weight: 400;
+    color: var(--color-text-muted);
+}
+.viz-card.is-main .viz-title::after {
+    content: ' · open the full page →';
+    font-weight: 400;
+    color: var(--color-text-muted);
+}
+
+/* ---------- Tabs of a card that holds several visualizations ---------- */
+
+.viz-tabs {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 2;                 /* above the button that covers the cell */
+    display: flex;
+    gap: 2px;
+    padding: 0.25rem 0.5rem 0;
+    background: var(--color-surface);
+    border-bottom: 1px solid var(--color-border-soft);
+}
+
+.viz-tab {
+    padding: 0.35rem 0.75rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+    background: none;
+    border: 0;
+    border-bottom: 3px solid transparent;
+    border-radius: 0;
+}
+.viz-tab:hover { background: var(--color-surface-alt); }
+.viz-tab[aria-selected="true"] {
+    color: var(--color-accent);
+    border-bottom-color: var(--color-accent);
+}
+.viz-tab:focus-visible { outline-offset: -3px; }
+
+/* the inactive iframe stays loaded and sized (so that switching is instant) but is invisible */
+.viz-card iframe.is-inactive {
+    visibility: hidden !important;
+    pointer-events: none !important;
+}
+
+/* ---------- Small screens: one column, the cells follow each other ---------- */
+/* keep this block last: it overrides the rules above */
+
+@media (max-width: 800px) {
+    .home-grid {
+        flex: none;             /* the cells keep exactly 12rem */
+        grid-template-columns: 1fr;
+        grid-template-rows: none;
+        grid-auto-rows: 12rem;
+        .viz-empty { display: none; }
+    }
+    .home-main {
+        grid-row: auto;
+        min-height: 6rem;
+    }
+    .viz-card { grid-column: 1; }
+
+    /* the main visualization comes first and is twice as high */
+    .viz-card.is-main {
+        grid-row: span 2;
+    }
+}
+
+/* ---------- Year ruler shared by the visualizations ---------- */
+
+.year-ruler {
+    margin-bottom: 0.5rem;
+    padding: 0.25rem 1rem;
+}
+.year-ruler svg:focus-visible {
+    outline: 3px solid var(--color-focus);
+    outline-offset: 2px;
+}
+
+/* ---------- Large text: main area on top, the 3 miniatures below ---------- */
+/* only on wide screens: small screens already have one column */
+
+@media (min-width: 801px) {
+    /* the page scrolls instead of squeezing the cells */
+    .page:has(.home-grid.is-stacked) { overflow: visible; }
+
+    .home-grid.is-stacked {
+        flex: none;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: minmax(24rem, 60vh) 14rem;
+    }
+
+    .home-grid.is-stacked .home-main,
+    .home-grid.is-stacked .viz-card.is-main {
+        grid-column: 1 / -1;
+        grid-row: 1;
+    }
+
+    .home-grid.is-stacked .viz-card,
+    .home-grid.is-stacked .viz-empty {
+        grid-column: auto;
+        grid-row: 2;
+    }
+}

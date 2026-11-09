@@ -14,6 +14,7 @@
 const bulletDefaults = {
     referenceStat: 'median',   // 'median' (robust to extreme years) or 'mean'
     year: null,                // initial year, null = most recent year
+    showRuler: true,
     width: 1100,
     margin: { top: 30, right: 270, bottom: 20, left: 150 },   // right margin holds the legend
     rowHeight: 60,
@@ -104,9 +105,10 @@ function createFireBulletGraph(containerSelector, data, userOptions = {}) {
     // layout
     const chartHeight = rows.length * rowHeight + (rows.length - 1) * rowGap
     const rulerY = margin.top + chartHeight + 60
-    const legendCausesY = 140                                   // top of the causes block in the legend
+    const legendCausesY = 140
     const legendHeight = legendCausesY + 20 + causes.length * 20
-    const totalHeight = Math.max(rulerY + 50, margin.top + legendHeight) + margin.bottom
+    const bottomOfChart = options.showRuler ? rulerY + 50 : margin.top + chartHeight + 40
+    const totalHeight = Math.max(bottomOfChart, margin.top + legendHeight) + margin.bottom
 
     // interaction state
     const pinned = new Set()   // keys of the rows displaying the causes permanently (click)
@@ -150,7 +152,7 @@ function createFireBulletGraph(containerSelector, data, userOptions = {}) {
         markerEntry: legendMarker,
         causesG: legendCauses
     } = drawLegend()
-    const handle = drawRuler()
+    const handle = options.showRuler ? drawRuler() : { move() {} }
 
     // legend on the side, every entry has a tooltip (hover) explaining what it means
     // - selected year / largest fire / median: visible while a matching bar is displayed in black

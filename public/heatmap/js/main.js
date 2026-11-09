@@ -8,6 +8,9 @@ FireAccessibility.init();
 
 const data = await loadData();
 
+// the years come from the data: they follow the files added in the admin console
+d3.select("#yearRange").text(`(${data.years[0]}-${data.years[data.years.length - 1]})`);
+
 const heatmap = createHeatmap(data, {
     container: d3.select("#heatmap"),
     legend: d3.select("#heatmapLegend"),
@@ -54,3 +57,13 @@ window.addEventListener("resize", () => {
 });
 
 heatmap.render();
+
+// Embedded on the home page: the year comes from the shared ruler
+if (document.documentElement.classList.contains('embed')) {
+    FireEmbed.onYear(year => {
+        if (!data.years.includes(year)) return
+        yearSelect.property('value', year)
+        updateTrailsOption(year)
+        heatmap.render({ year, layer: layerSelect.property('value') })
+    })
+}

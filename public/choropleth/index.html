@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Land cover and fires — Oregon</title>
+    <script src="/js/embed.js"></script>
+    <link rel="stylesheet" href="/css/theme.css">
+    <link rel="stylesheet" href="/css/accessibility.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main class="page">
+        <header class="page-header">
+            <a class="back-link" href="/">← All visualizations</a>
+            <h1>Land cover and fires in Oregon <span id="yearRange">(2000-2022)</span></h1>
+            <p>Map colored by land cover (NLCD, one map every 5 years). The hatching shows the area burned during
+                the selected year in each hexagonal cell: the denser the lines, the larger the burned area.</p>
+        </header>
+
+        <section class="toolbar" aria-label="Map filters">
+            <button type="button" id="playButton" class="btn" aria-pressed="false">▶ Play</button>
+            <div class="group">
+                <span class="field-label">Fires</span>
+                <span class="segmented" role="radiogroup" aria-label="Cause of the fires">
+                    <label><input type="radio" name="cause" value="all" checked><span>All</span></label>
+                    <label><input type="radio" name="cause" value="Human"><span>Human</span></label>
+                    <label><input type="radio" name="cause" value="Lightning"><span>Lightning</span></label>
+                    <label><input type="radio" name="cause" value="none"><span>Hidden</span></label>
+                </span>
+            </div>
+            <label class="checkbox"><input type="checkbox" id="dotsToggle"> Show each fire as a dot</label>
+        </section>
+
+        <section class="card">
+            <div id="ruler" class="ruler" aria-label="Year"></div>
+            <div class="choropleth-layout">
+                <div>
+                    <div id="map" class="map"></div>
+                    <p class="hint">Hover a hatched cell for its burned area and its largest fires, or the map for its land cover.
+                        Year: click or drag the ruler, or focus it (Tab) and use the left / right arrows.</p>
+                </div>
+                <aside class="side">
+                    <div id="stats" class="stats"></div>
+                    <div id="legend" class="legend"></div>
+                    <div id="fireLegend" class="legend"></div>
+                </aside>
+            </div>
+        </section>
+        <div id="srLive" class="sr-only" aria-live="polite"></div>
+    </main>
+
+    <script src="/lib/d3.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/topojson-client@3.1.0/dist/topojson-client.min.js"></script>
+    <script src="/js/palette.js"></script>
+    <script src="/js/tooltip.js"></script>
+    <script src="/js/accessibility.js"></script>
+    <script src="/js/fireData.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

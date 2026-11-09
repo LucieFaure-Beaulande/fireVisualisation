@@ -28,7 +28,10 @@
 
   function createPreferences(storage) {
     let state = { ...DEFAULTS };
-    try { state = normalise(JSON.parse(storage?.getItem(STORAGE_KEY) ?? "null")); } catch (_) { /* Use defaults. */ }
+    function load() {
+      try { state = normalise(JSON.parse(storage?.getItem(STORAGE_KEY) ?? "null")); } catch (_) { /* Use defaults. */ }
+    }
+    load();
     function save(next) {
       state = normalise(next);
       try { storage?.setItem(STORAGE_KEY, JSON.stringify(state)); } catch (_) { /* Keep session settings. */ }
@@ -36,6 +39,8 @@
     }
     return {
       get: () => ({ ...state }),
+      // read again the settings saved by another page (e.g. the home page around the embedded charts)
+      reload: () => { load(); return { ...state }; },
       update: patch => save({ ...state, ...patch }),
       reset: () => save(DEFAULTS)
     };
@@ -155,6 +160,14 @@
         }
       }, true);
     }
+
+    // a setting changed in another page of the site (or the page around this iframe): apply it here too
+    win.addEventListener?.("storage", event => {
+      if (event.key !== STORAGE_KEY) return;
+      const before = preferences.get(), after = preferences.reload();
+      const changed = Object.keys(DEFAULTS).filter(key => before[key] !== after[key]);
+      if (changed.length) apply(changed.length === 1 ? changed[0] : "reset");
+    });
 
     active = { preferences, apply, mount };
     sessions.set(win, active);

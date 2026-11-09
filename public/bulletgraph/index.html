@@ -5,12 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Fire visualisation - Bullet Graph</title>
     <link rel="stylesheet" type="text/css" href="../css/theme.css">
+    <script src="/js/embed.js"></script>
     <link rel="stylesheet" href="/css/accessibility.css">
     <script src="/js/accessibility.js"></script>
 </head>
 <body>
     <header class="page-header">
-    <a class="back-link" href="/">← All the visualizations</a>
+    <a class="back-link" href="/">← All visualizations</a>
     <h1>Fire visualisation - Bullet Graph</h1>
     <p class="subtitle">One year of fires compared to all the other years</p>
     </header>
@@ -27,15 +28,15 @@
 
     <script>
         loadFireStats().then(({ fires, yearlyStats, causePerYear, causePerYearWide }) => {
-            // check the results in the browser console (F12)
-            console.table(yearlyStats)
-            console.table(causePerYear)
-            console.log('wide format', causePerYearWide)
+            const embedded = document.documentElement.classList.contains('embed')
 
-            createFireBulletGraph('#bullet', { fires, yearlyStats, causePerYearWide }, {
-                referenceStat: 'median',   // or 'mean'
-                year: 2000                 // optional, default = latest year
+            const bullet = createFireBulletGraph('#bullet', { fires, yearlyStats, causePerYearWide }, {
+                referenceStat: 'median',
+                year: embedded ? 2022 : 2000,   // embedded: the home page sends the year
+                showRuler: !embedded            // embedded: the ruler of the home page is used
             })
+
+            if (embedded) FireEmbed.onYear(year => bullet.update(year))
         })
     </script>
 </body>

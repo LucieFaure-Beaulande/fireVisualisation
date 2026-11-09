@@ -213,23 +213,29 @@ Les coûts d'une nouvelle année peuvent aussi être ajoutés depuis la console 
 
 ## Console d'administration
 
-Une page pour ajouter des données (par exemple les feux de 2023) sans toucher au dépôt git :
+Une page pour changer les données des visualisations sans toucher au dépôt git :
 **http://localhost:3000/admin/** (adresse affichée au démarrage du serveur, aucune page n'y renvoie ;
 une autre adresse avec la variable d'environnement `ADMIN_PATH`).
 
 Pour chaque dataset : son état (lignes, années), ses fichiers, l'ajout d'un fichier CSV avec une vérification avant
-(colonnes obligatoires, nouvelles années, lignes déjà présentes), le retrait d'un fichier ajouté et le retour aux données d'origine.
+(colonnes obligatoires, nouvelles années, lignes déjà présentes), le remplacement du fichier d'origine par un autre fichier
+de même structure (par exemple les feux d'une autre région), le retrait d'un fichier ajouté et le retour aux données d'origine.
 
 ### Fonctionnement
 
 ```
 public/data/fire-occurence.csv   fichier d'origine, jamais modifié
 data/additions/fires/            fichiers ajoutés depuis la console (pas dans git)
-public/data/fires-current.csv    construit par le serveur : origine + ajouts, sans doublons (pas dans git)
+data/additions/fires/base/       fichier qui remplace le fichier d'origine, s'il y en a un (pas dans git)
+public/data/fires-current.csv    construit par le serveur : base (origine ou remplacement) + ajouts, sans doublons (pas dans git)
 ```
 
 - Une ligne est identifiée par `Serial` : si un fichier ajouté contient un `Serial` déjà présent, la version la plus récente
   (`ModifiedDate`) est gardée.
+- **Ajouter** complète les données. **Remplacer** utilise le fichier envoyé à la place du fichier d'origine et retire les
+  fichiers ajoutés, qui complétaient les données précédentes. Dans les deux cas, le fichier doit avoir les colonnes obligatoires ;
+  le fichier construit garde toujours les colonnes du fichier d'origine (une colonne absente reste vide).
+- **Revenir aux données d'origine** retire le fichier de remplacement et les fichiers ajoutés.
 - `loadFires()` lit `fires-current.csv` (ou le fichier d'origine s'il n'existe pas encore) : les visualisations qui l'utilisent
   (sunburst, bullet graph) affichent les données ajoutées après un rechargement de la page, sans rien changer à leur code.
 - Les visualisations qui préparent leurs données avec un script (Python, Node) doivent relancer ce script après un ajout :

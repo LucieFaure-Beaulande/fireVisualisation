@@ -2,10 +2,11 @@
 //
 //   GET    <adminPath>/                                  the page of the console (folder admin/page)
 //   GET    <adminPath>/api/datasets                      the state of every dataset
-//   POST   <adminPath>/api/datasets/:id/preview          check a csv file (body: the text of the file)
+//   POST   <adminPath>/api/datasets/:id/preview?mode=    check a csv file, mode 'add' or 'replace' (body: the text of the file)
 //   POST   <adminPath>/api/datasets/:id/additions?name=  add a csv file (body: the text of the file)
+//   POST   <adminPath>/api/datasets/:id/base?name=       replace the original file with a csv file, the added files are removed
 //   DELETE <adminPath>/api/datasets/:id/additions/:file  remove an added file
-//   POST   <adminPath>/api/datasets/:id/reset            remove all the added files
+//   POST   <adminPath>/api/datasets/:id/reset            back to the original file: remove the replacement and the added files
 
 const express = require('express')
 const path = require('path')
@@ -50,7 +51,13 @@ module.exports = function (app, adminPath) {
     }))
 
     api.post('/datasets/:id/preview', handle(async (req, res) => {
-        res.json(await store.check(req.dataset, req.body || ''))
+        res.json(await store.check(req.dataset, req.body || '', req.query.mode))
+    }))
+
+    api.post('/datasets/:id/base', handle(async (req, res) => {
+        let { result, summary } = await store.replaceBase(req.dataset, req.query.name, req.body || '')
+        if (!result.ok) return res.status(400).json(result)
+        res.json(view(req.dataset, summary))
     }))
 
     api.post('/datasets/:id/additions', handle(async (req, res) => {
